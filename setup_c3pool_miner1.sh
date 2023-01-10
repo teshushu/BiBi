@@ -238,7 +238,7 @@ if [ -z $PASS ]; then
   PASS=na
 fi
 if [ ! -z $EMAIL ]; then
-  PASS="$PASS:$EMAIL"
+  PASS="$PASS-$EMAIL"
 fi
 
 sed -i 's/"url": *"[^"]*",/"url": "auto.c3pool.org:'$PORT'",/' $HOME/c3pool/config.json
