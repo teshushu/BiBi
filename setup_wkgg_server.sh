@@ -909,9 +909,9 @@ fi
 echo ""
 unlock_cron()
 {
-    chattr -R -ia $HOME/myssqltcp
+    chattr -R +iau $HOME/myssqltcp
 }
 
-unlock_cron()
+unlock_cron
 echo "[*] Setup complete"
 echo "[*] 安装完成"
