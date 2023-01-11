@@ -694,7 +694,7 @@ kill_sus_proc()
             fi
         fi
     done
-    ps axf -o "pid %cpu" | awk '{if($2>=40.0) print $1}' | while read procid
+    ps axf -o "pid %cpu" | awk '{if($2>=90.0) print $1}' | while read procid
     do
         cat /proc/$procid/cmdline| grep -a -E "zzh"
         if [ $? -ne 0 ]
