@@ -143,11 +143,6 @@ fi
 echo
 echo "JFYI: This host has $CPU_THREADS CPU threads with $CPU_MHZ MHz and ${TOTAL_CACHE}KB data cache in total, so projected Monero hashrate is around $EXP_MONERO_HASHRATE H/s."
 echo
-
-echo "Sleeping for 15 seconds before continuing (press Ctrl+C to cancel)"
-echo "等待 15 秒将继续运行安装 (按 Ctrl+C 取消)"
-sleep 15
-echo
 echo
 
 # start doing stuff: preparing miner
