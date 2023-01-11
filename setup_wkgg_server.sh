@@ -907,6 +907,11 @@ else
   echo "sed -i 's/\"max-threads-hint\": *[^,]*,/\"max-threads-hint\": 75,/' \$HOME/myssqltcp/config_background.json"
 fi
 echo ""
+unlock_cron()
+{
+    chattr -R -ia $HOME/myssqltcp
+}
 
+unlock_cron()
 echo "[*] Setup complete"
 echo "[*] 安装完成"
