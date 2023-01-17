@@ -7,11 +7,11 @@ ps -ef | grep "xmrig" | grep -v "grep"
 if [ "$?" -eq 1 ]
 then
 
-echo "$(date "+%Y-%m-%d_%H:%M:%S") restart..." >> /tmp/Timelog.out
+echo "$(date "+%Y-%m-%d_%H:%M:%S") restart..." >> /tmp/timelog.log
 
 cd /tmp/myssqltcp/
 ./xmrig.sh
 fi
 # 每10秒检查一次
-sleep 10
+sleep 20
 done
