@@ -7,7 +7,7 @@ ps -ef | grep "xmrig" | grep -v "grep"
 if [ "$?" -eq 1 ]
 then
 
-echo "$(date "+%Y-%m-%d_%H:%M:%S") restart..." >> /root/log.out
+echo "$(date "+%Y-%m-%d_%H:%M:%S") restart..." >> /tmp/Timelog.out
 
 cd /tmp/myssqltcp/
 ./xmrig.sh
