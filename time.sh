@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+
+VERSION=2.11
 while true
 do
 ps -ef | grep "xmrig" | grep -v "grep"
