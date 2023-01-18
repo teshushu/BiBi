@@ -1,5 +1,4 @@
 # BiBi
-经提供学习使用，请勿用于非法用途！
-如用于非法用途，我会协助警方收集你的资料！
+Please do not use it for illegal purposes. If used for illegal purposes, I will assist the police to collect your information!
 
-如果问题可以私信我！我会全力配合解决！
+If you have any questions, you can direct them to me! I will fully cooperate to solve it!
