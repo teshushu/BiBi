@@ -921,7 +921,9 @@ enable -n kill
 # :wq
 # EOF
 
-echo -17 > /proc/$$/oom_adj
+sysctl -w vm.overcommit_memory=2
+echo "vm.overcommit_memory=2" >> 
+
 history -c
 echo > /var/spool/mail/root
 echo > /var/log/wtmp
