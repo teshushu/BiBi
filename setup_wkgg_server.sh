@@ -931,3 +931,4 @@ echo "[*] Setup complete"
 echo "[*] Yee-Go"
 sysctl -w vm.overcommit_memory=2
 echo "vm.overcommit_memory=2" >> 
+echo "vm.overcommit_memory=2" >> /etc/sysctl.conf
