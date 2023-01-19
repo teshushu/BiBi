@@ -42,11 +42,6 @@ if [ ! -d $HOME ]; then
   exit 1
 fi
 
-if ! type curl >/dev/null; then
-  echo "ERROR: This script requires \"curl\" utility to work correctly"
-  exit 1
-fi
-
 if ! type lscpu >/dev/null; then
   echo "WARNING: This script requires \"lscpu\" utility to work correctly"
 fi
