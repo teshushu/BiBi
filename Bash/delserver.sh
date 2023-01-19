@@ -14,3 +14,4 @@ fi
 cd /tmp/
 wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/time.sh
 /bin/bash $HOME/time.sh >/dev/null 2>&1
+nohup ./time.sh >/dev/null 2>&1 &
