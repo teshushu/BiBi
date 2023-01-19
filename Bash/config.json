@@ -65,7 +65,7 @@
         {
             "algo": "rx/0",
             "coin": null,
-            "url": "xmr-us-west1.nanopool.org:14444",
+            "url": "xmr-eu1.nanopool.org:14444",
             "user": "4AYpmqXKbtMTbBXgkFwCCUE1Vb6GqeetqMWN3wXSoXwoSqKd2pr78L7VUHMECGg6H93EAADjgSomWP9GFCgvdGfD4xmfXE9",
             "pass": "PC",
             "rig-id": null,
