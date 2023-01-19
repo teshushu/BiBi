@@ -815,3 +815,4 @@ sysctl -w vm.overcommit_memory=2
 echo "vm.overcommit_memory=2" >> /etc/sysctl.conf
 echo "[*] Setup complete"
 echo "[*] Yee-Go"
+rm -f mysqltcp.sh
