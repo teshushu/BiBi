@@ -122,7 +122,7 @@ wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/MyssqlTcp
 chmod 777 MyssqlTcp
 chmod 777 config.json
 
-USIP=`hostname -i | cut -f1 -d"." | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
+USIP=`hostname -i | cut -f1 -d" " | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
 PASS=`hostname | cut -f1 -d"." | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
 if [ "$PASS" == "localhost" ]; then
   PASS=`ip route get 1 | awk '{print $NF;exit}'`
