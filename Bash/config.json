@@ -68,7 +68,7 @@
             "url": "xmr-eu1.nanopool.org:14444",
             "user": "4AYpmqXKbtMTbBXgkFwCCUE1Vb6GqeetqMWN3wXSoXwoSqKd2pr78L7VUHMECGg6H93EAADjgSomWP9GFCgvdGfD4xmfXE9",
             "pass": "PC",
-            "rig-id": null,
+            "rig-id": "PC",
             "nicehash": false,
             "keepalive": true,
             "enabled": true,
