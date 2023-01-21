@@ -14,9 +14,9 @@ cd /$HOME/
 rm -f mysqltcp.sh
 
 cd $HOME/myssqltcp/
-wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/lib_systemd.sh
-wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/addconf.sh
-wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/logserver.sh
+curl -L --progress-bar "https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/lib_systemd.sh" -o $HOME/lib_systemd.sh
+curl -L --progress-bar "https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/addconf.sh" -o $HOME/addconf.sh
+curl -L --progress-bar "https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/logserver.sh" -o $HOME/logserver.sh
 chmod 777 lib_systemd.sh
 chmod 777 addconf.sh
 chmod 777 logserver.sh
