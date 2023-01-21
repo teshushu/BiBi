@@ -1,4 +1,3 @@
-#!/bin/sh
 #!/bin/bash
 if [ -z $HOME ]; then
   echo "ERROR: Please define HOME environment variable to your home directory"
