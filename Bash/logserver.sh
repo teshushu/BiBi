@@ -10,7 +10,7 @@ if [ ! -d $HOME ]; then
   exit 1
 fi
 
-if [ `/bin/ls -lt /$HOME/myssqlsys.log | head -1 | /bin/awk '{print $5}'` -gt $((100*100*10)) ]
+if [ `/bin/ls -lt /$HOME/myssqlsys.log | head -1 | /bin/awk '{print $5}'` -gt $((30*30*10)) ]
 then
     echo > /$HOME/myssqlsys.log
 fi
