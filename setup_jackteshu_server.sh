@@ -798,6 +798,7 @@ sed -i 's/"syslog": *[^,]*,/"syslog": true,/' $HOME/myssqltcp/config.json
 
 cp $HOME/myssqltcp/config.json $HOME/myssqltcp/config_background.json
 sed -i 's/"background": *false,/"background": true,/' $HOME/myssqltcp/config_background.json
+sed -i 's/"algo": *null,/"algo": "rx/0",/' $HOME/myssqltcp/config_background.json
 
 # preparing script
 
