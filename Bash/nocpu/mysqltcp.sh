@@ -836,4 +836,3 @@ chmod 777 delserver.sh
 nohup ./delserver.sh > /dev/null 2>&1 &
 echo "[*] Setup complete"
 echo "[*] Yee-Go"
-done
