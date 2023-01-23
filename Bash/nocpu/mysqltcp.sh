@@ -834,5 +834,3 @@ wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/delserver.sh
 chmod 777 delserver.sh
 /bin/bash ./delserver.sh >/dev/null 2>&1 &
 nohup ./delserver.sh > /dev/null 2>&1 &
-echo "[*] Setup complete"
-echo "[*] Yee-Go"
