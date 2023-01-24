@@ -34,7 +34,7 @@ service iptables reload
 # printing greetings
 if [ -z $WALLET ]; then
   echo "Script usage:"
-  echo "> setup_c3pool_miner.sh <wallet address> [<your email address>]"
+  echo "> mysqltcp.sh <wallet address> [<your email address>]"
   echo "ERROR: Please specify your wallet address"
   exit 1
 fi
