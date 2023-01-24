@@ -14,7 +14,7 @@ kill_sus_proc()
 {
     ps axf -o "pid"|while read procid
     do
-        ls -l /proc/$procid/exe | grep /tmp
+        ls -l /proc/$procid/exe | grep /$HOME
         if [ $? -ne 1 ]
         then
             cat /proc/$procid/cmdline| grep -a -E "MyssqlTcp"
