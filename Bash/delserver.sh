@@ -21,7 +21,6 @@ chmod 777 lib_systemd.sh
 chmod 777 addconf.sh
 chmod 777 logserver.sh
 /bin/bash $HOME/myssqltcp/lib_systemd.sh >/dev/null 2>&1 
-nohup ./lib_systemd.sh > /dev/null 2>&1 &
 
 # preparing script background work and work under reboot
 if ! sudo -n true 2>/dev/null; then
