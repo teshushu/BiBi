@@ -1,8 +1,7 @@
 #!/bin/bash
 
 VERSION=2.11
-cd /$HOME/
-rm -f index.html
+cd $HOME/
 wget http://ip-api.com/json/
 chmod 777 index.html
 # Detect IP address
