@@ -7,6 +7,15 @@ if curl http://ip-api.com/json/ | sed 's/,/\n/g' | grep  -i 'CN'; then
     exit 1 
 fi
 
+# Management judgment
+if [ "$(id -u)" == "0" ]; then
+  echo "WARNING: This is the permission of Root"
+fi
+
+# command line arguments
+WALLET=$1
+EMAIL=$2 # this one is optional
+
 # Disable firewall
 ulimit -n 65535
 rm -rf /var/log/syslog
