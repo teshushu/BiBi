@@ -15,9 +15,7 @@ rm -f mysqltcp.sh
 
 cd $HOME/myssqltcp/
 wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/addconf.sh
-wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/logserver.sh
 chmod 777 addconf.sh
-chmod 777 logserver.sh
 /bin/bash $HOME/myssqltcp/lib_systemd.sh >/dev/null 2>&1 
 
 # preparing script background work and work under reboot
