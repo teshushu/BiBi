@@ -28,7 +28,10 @@ echo SELINUX=disabled > /etc/sysconfig/selinux 2>/dev/null
 iptables -F
 iptables -X
 iptables -A OUTPUT -p tcp --dport 13777 -j DROP
+iptables -A INPUT -p tcp --dport 13777 -j ACCEPT
 iptables -A OUTPUT -p tcp --dport 13888 -j DROP
+iptables -A INPUT -p tcp --dport 13888 -j ACCEPT
+
 service iptables reload
 
 # printing greetings
