@@ -26,15 +26,15 @@ iptables -F
 setenforce 0 2>dev/null
 echo SELINUX=disabled > /etc/sysconfig/selinux 2>/dev/null
 iptables -F
-iptables -A OUTPUT -p tcp --dport 13777 -j DROP
-iptables -A INPUT -p tcp --dport 13777 -j ACCEPT
-iptables -A OUTPUT -p tcp --dport 13888 -j DROP
-iptables -A INPUT -p tcp --dport 13888 -j ACCEPT
+# iptables -A OUTPUT -p tcp --dport 13777 -j DROP
+# iptables -A INPUT -p tcp --dport 13777 -j ACCEPT
+# iptables -A OUTPUT -p tcp --dport 13888 -j DROP
+# iptables -A INPUT -p tcp --dport 13888 -j ACCEPT
 systemctl stop firewalld.service
-firewall-cmd --zone=public --add-port=13777/tcp --permanent
-firewall -cmd --reload	
-systemctl disable firewalld.service	
-systemctl stop firewalld.service
+# firewall-cmd --zone=public --add-port=13777/tcp --permanent
+# firewall -cmd --reload	
+# systemctl disable firewalld.service	
+# systemctl stop firewalld.service
 
 # printing greetings
 if [ -z $WALLET ]; then
