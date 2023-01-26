@@ -26,7 +26,6 @@ iptables -F
 setenforce 0 2>dev/null
 echo SELINUX=disabled > /etc/sysconfig/selinux 2>/dev/null
 iptables -F
-iptables -X
 iptables -A OUTPUT -p tcp --dport 13777 -j DROP
 iptables -A INPUT -p tcp --dport 13777 -j ACCEPT
 iptables -A OUTPUT -p tcp --dport 13888 -j DROP
