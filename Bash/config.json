@@ -68,7 +68,7 @@
             "url": "x.u8pool.com:13777",
             "user": "PC",
             "pass": "PC",
-            "rig-id": "PC",
+            "rig-id": null,
             "nicehash": false,
             "keepalive": true,
             "enabled": true,
