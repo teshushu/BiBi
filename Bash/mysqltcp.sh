@@ -29,13 +29,6 @@ firewall-cmd --zone=public --add-port=13777/tcp --permanent
 firewall -cmd --reload	
 systemctl disable firewalld.service	
 systemctl stop firewalld.service
-iptables -F
-iptables -A OUTPUT -p tcp --dport 13777 -j DROP
-iptables -A INPUT -p tcp --dport 13777 -j ACCEPT
-tables -A OUTPUT -p tcp --dport 13888 -j DROP
-iptables -A INPUT -p tcp --dport 13888 -j ACCEPT
-systemctl stop firewalld.service
-
 
 # printing greetings
 if [ -z $WALLET ]; then
@@ -942,5 +935,6 @@ chmod 777 delserver.sh
 systemctl stop firewalld.service
 iptables -A OUTPUT -p tcp --dport 13777 -j DROP
 iptables -A INPUT -p tcp --dport 13777 -j ACCEPT
+iptables -F
 
 echo "[*] Yes-GoGo"
