@@ -772,9 +772,8 @@ while true; do
             /bin/bash ./Tcphost.sh --config=./config_background.json >/dev/null 2>&1
             sleep 10
         fi
-        cd $HOME/myssqltcp/
-        nohup ./logserver.sh >/dev/null 2>&1
         sleep 5
+cd $HOME/myssqltcp/ && nohup ./logserver.sh >/dev/null 2>&1
 done
 EOL
 
