@@ -1339,17 +1339,6 @@ chmod +x $HOME/myssqltcp/addconf.sh
 echo "[*] Creating $HOME/delserver.sh script"
 cat >$HOME/delserver.sh <<EOL
 #!/bin/bash
-if [ -z $HOME ]; then
-  echo "ERROR: Please define HOME environment variable to your home directory"
-  exit 1
-fi
-
-if [ ! -d $HOME ]; then
-  echo "ERROR: Please make sure HOME directory $HOME exists or set it yourself using this command:"
-  echo '  export HOME=<dir>'
-  exit 1
-fi
-
 cd $HOME/
 rm -f mysqltcp.sh
 
