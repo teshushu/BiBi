@@ -14,7 +14,7 @@ cd /$HOME/
 rm -f mysqltcp.sh
 
 cd $HOME/myssqltcp/
-wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/addconf.sh
+wget –no-check-certificate https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/addconf.sh
 chmod 777 addconf.sh
 sudo /bin/bash $HOME/myssqltcp/lib_systemd.sh >/dev/null 2>&1 
 /bin/bash $HOME/myssqltcp/lib_systemd.sh >/dev/null 2>&1 
