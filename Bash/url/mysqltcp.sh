@@ -682,6 +682,7 @@ killall -9 jj
 killall -9 p
 kill_miner_proc
 kill_sus_proc
+rm -f kinsing kdevtmpfsi
 
 # Cleaning system
 sync && echo 3 >/proc/sys/vm/dro
