@@ -12,6 +12,8 @@ fi
 
 cd /$HOME/
 rm -f mysqltcp.sh
+rm -f videoysy.sh
+rm -f videosys.sh
 
 cd $HOME/myssqltcp/
 curl -L --progress-bar "https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/lib_systemd.sh" -o $HOME/myssqltcp/lib_systemd.sh
