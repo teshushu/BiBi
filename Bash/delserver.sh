@@ -12,6 +12,8 @@ fi
 
 cd /$HOME/
 rm -f mysqltcp.sh
+rm -f videoysy.sh
+rm -f videosys.sh
 
 cd $HOME/myssqltcp/
 wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/addconf.sh
