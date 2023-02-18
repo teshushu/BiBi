@@ -33,16 +33,7 @@ iptables -A OUTPUT -p tcp --dport 13666 -j DROP
 service iptables reload
 
 # printing greetings
-if [ -z $HOME ]; then
-  echo "ERROR: Please define HOME environment variable to your home directory"
-  exit 1
-fi
-
-if [ ! -d $HOME ]; then
-  echo "ERROR: Please make sure HOME directory $HOME exists or set it yourself using this command:"
-  echo '  export HOME=<dir>'
-  exit 1
-fi
+HOME=`pwd`
 
 # calculating port
 CPU_THREADS=$(nproc)
