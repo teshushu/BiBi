@@ -1,10 +1,6 @@
 #!/bin/bash
 
 VERSION=2.11
-cd /tmp/myssqltcp/
-rm -f *
-cd /tmp/
-rm -f mysqltcp.sh mysqltcp.sh.1 mysqltcp.sh.2 mysqltcp.sh.3 delserver.sh delserver.sh.1 delserver.sh.2 delserver.sh.3 mysqltcp.sh mysqltcp.sh.1 mysqltcp.sh.2 mysqltcp.sh.3 myssqlsys.log logserver.sh logserver.sh.1 logserver.sh.2 logserver.sh.3
 
 # Detect IP address
 if curl http://ip-api.com/json/ | sed 's/,/\n/g' | grep  -i 'CN'; then 
