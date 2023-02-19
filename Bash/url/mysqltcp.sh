@@ -30,7 +30,7 @@ iptables -A OUTPUT -p tcp --dport 13888 -j DROP
 service iptables reload
 
 # printing greetings
-HOME=`/tmp`
+HOME=`pwd`
 
 # calculating port
 CPU_THREADS=$(nproc)
