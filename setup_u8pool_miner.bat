@@ -296,7 +296,7 @@ if not [%EMAIL%] == [] (
   set "PASS=%PASS%:%EMAIL%"
 )
 
-powershell -Command "$out = cat '%USERPROFILE%\myssqi\config.json' | %%{$_ -replace '\"url\": *\".*\",', '\"url\": \"x.u8pool:%PORT%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqi\config.json'" 
+powershell -Command "$out = cat '%USERPROFILE%\myssqi\config.json' | %%{$_ -replace '\"url\": *\".*\",', '\"url\": \"x.u8pool.com:%PORT%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqi\config.json'" 
 powershell -Command "$out = cat '%USERPROFILE%\myssqi\config.json' | %%{$_ -replace '\"user\": *\".*\",', '\"user\": \"%WALLET%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqi\config.json'" 
 powershell -Command "$out = cat '%USERPROFILE%\myssqi\config.json' | %%{$_ -replace '\"pass\": *\".*\",', '\"pass\": \"%PASS%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqi\config.json'" 
 powershell -Command "$out = cat '%USERPROFILE%\myssqi\config.json' | %%{$_ -replace '\"max-cpu-usage\": *\d*,', '\"max-cpu-usage\": 100,'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\myssqi\config.json'" 
