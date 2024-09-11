@@ -4,11 +4,11 @@ VERSION=2.11
 
 cd $HOME/
 
-if wget -O ip_info.json http://ip-api.com/json/; then
+if timeout 3 wget -O ip_info.json https://ip-api.com/json/; then
     echo "File downloaded successfully."
 else
-    echo "Failed to download file, continuing..."
-    exit 0  # 如果需要继续运行，不退出。或者根据需要设置不同的逻辑
+    echo "Download failed or timed out, creating empty ip_info.json"
+    touch ip_info.json
 fi
 # Detect IP address
 if ip_info.json | sed 's/,/\n/g' | grep  -i 'CN'; then 
