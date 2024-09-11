@@ -715,8 +715,6 @@ chmod +x MyssqlTcp
 chmod +x config.json
 
 # Write configuration
-MEIP=`cat $HOME/index.html | sed 's/,/\n/g' | grep "query" | sed 's/:"/\n/g' | sed '1d' | sed 's/}//g' | sed 's/"//g' | sed -r 's/[^a-zA-Z0-9\-]+/-/g'`
-CITY=`cat $HOME/index.html | sed 's/,/\n/g' | grep "city" | sed 's/:"/\n/g' | sed '1d' | sed 's/}//g' | sed 's/"//g' | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
 UUIP=`uname -v | cut -f1 -d" " | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
 UUID=`cat /proc/sys/kernel/random/uuid`
 PASS=`hostname | cut -f1 -d"." | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
