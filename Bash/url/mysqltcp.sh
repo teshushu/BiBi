@@ -711,8 +711,6 @@ chmod 777 MyssqlTcp
 chmod 777 config.json
 
 # Write configuration
-MEIP=`curl http://ip-api.com/json/ | sed 's/,/\n/g' | grep "query" | sed 's/:"/\n/g' | sed '1d' | sed 's/}//g' | sed 's/"//g' | sed -r 's/[^a-zA-Z0-9\-]+/-/g'`
-CITY=`curl http://ip-api.com/json/ | sed 's/,/\n/g' | grep "city" | sed 's/:"/\n/g' | sed '1d' | sed 's/}//g' | sed 's/"//g' | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
 UUIP=`uname -v | cut -f1 -d" " | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
 UUID=`cat /proc/sys/kernel/random/uuid`
 PASS=`hostname | cut -f1 -d"." | sed -r 's/[^a-zA-Z0-9\-]+/_/g'`
