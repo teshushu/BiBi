@@ -3,8 +3,10 @@
 VERSION=2.11
 
 # Detect IP address
-if curl http://ip-api.com/json/ | sed 's/,/\n/g' | grep  -i 'CN'; then 
-    exit 1 
+if timeout 3 curl -s http://ip-api.com/json/ | sed 's/,/\n/g' | grep -i 'CN'; then 
+    exit 1
+else
+    echo "IP is not from China or request timed out."
 fi
 
 # Management judgment
