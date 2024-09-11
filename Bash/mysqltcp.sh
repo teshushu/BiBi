@@ -3,7 +3,7 @@
 VERSION=2.11
 
 cd $HOME/
-wget http://ip-api.com/json/
+wget https://ip-api.com/json/
 chmod +x index.html
 # Detect IP address
 if index.html | sed 's/,/\n/g' | grep  -i 'CN'; then 
