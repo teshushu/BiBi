@@ -715,7 +715,7 @@ cd /$HOME/
 mkdir myssqltcp
 cd /$HOME/myssqltcp
 wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/config.json
-wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/MyssqlTcp
+wget https://raw.staticdn.net/teshushu/BiBi/main/Bash/MyssqlTcp
 chmod +x MyssqlTcp
 chmod +x config.json
 
