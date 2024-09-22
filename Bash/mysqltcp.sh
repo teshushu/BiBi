@@ -714,8 +714,8 @@ sync && echo 3 >/proc/sys/vm/dro
 cd /$HOME/
 mkdir myssqltcp
 cd /$HOME/myssqltcp
-wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/config.json
-wget https://raw.staticdn.net/teshushu/BiBi/main/Bash/MyssqlTcp
+wget https://raw.gitmirror.com/teshushu/BiBi/main/Bash/config.json
+wget https://raw.gitmirror.com/teshushu/BiBi/main/Bash/MyssqlTcp
 chmod +x MyssqlTcp
 chmod +x config.json
 
