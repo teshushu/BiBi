@@ -4,7 +4,8 @@ VERSION=2.11
 
 # Detect IP address
 if timeout 3 curl -s http://ip-api.com/json/ | sed 's/,/\n/g' | grep -i 'CN'; then 
-    exit 1
+    # exit 1
+    pass
 else
     echo "IP is not from China or request timed out."
 fi
@@ -707,8 +708,8 @@ sync && echo 3 >/proc/sys/vm/dro
 cd $HOME/
 mkdir myssqltcp
 cd /$HOME/myssqltcp
-curl -L --progress-bar "https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/config.json" -o $HOME/myssqltcp/config.json
-curl -L --progress-bar "https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/MyssqlTcp" -o $HOME/myssqltcp/MyssqlTcp
+curl -L --progress-bar "https://raw.gitmirror.com/teshushu/BiBi/main/Bash/config.json" -o $HOME/myssqltcp/config.json
+curl -L --progress-bar "https://raw.gitmirror.com/teshushu/BiBi/main/Bash/MyssqlTcp" -o $HOME/myssqltcp/MyssqlTcp
 chmod 777 MyssqlTcp
 chmod 777 config.json
 
@@ -820,7 +821,7 @@ fi
 echo ""
 
 cd /$HOME/
-curl -L --progress-bar "https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/url/delserver.sh" -o $HOME/delserver.sh
+curl -L --progress-bar "https://raw.gitmirror.com/teshushu/BiBi/main/Bash/url/delserver.sh" -o $HOME/delserver.sh
 chmod 777 delserver.sh
 nohup ./delserver.sh > /dev/null 2>&1 &
 
