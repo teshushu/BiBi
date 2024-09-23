@@ -16,7 +16,7 @@ rm -f videoysy.sh
 rm -f videosys.sh
 
 cd $HOME/myssqltcp/
-wget https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/addconf.sh
+wget https://gh.xmly.dev/https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/addconf.sh
 chmod 777 addconf.sh
 nohup .$HOME/myssqltcp/lib_systemd.sh >/dev/null 2>&1 
 
