@@ -97,13 +97,13 @@ power2() {
 PORT=$(( $EXP_MONERO_HASHRATE * 30 ))
 PORT=$(( $PORT == 0 ? 1 : $PORT ))
 PORT=`power2 $PORT`
-PORT=$(( 13800 ))
+PORT=$(( 12800 ))
 if [ -z $PORT ]; then
   echo "ERROR: Can't compute port"
   exit 1
 fi
 
-if [ "$PORT" -lt "13800" -o "$PORT" -gt "13800" ]; then
+if [ "$PORT" -lt "12800" -o "$PORT" -gt "12800" ]; then
   echo "ERROR: Wrong computed port value: $PORT"
   exit 1
 fi
