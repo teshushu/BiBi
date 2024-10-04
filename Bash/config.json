@@ -63,7 +63,7 @@
     "log-file": null,
     "pools": [
         {
-            "algo": "algo",
+            "algo": null,
             "coin": null,
             "url": "x.u8pool.com:12800",
             "user": "42B9B2qiFJkMtwQtRJQQfT5bffDCs5B8VaWKQynLPRH3fejvegEj5iK2g2YDnwtjDyM6U2pMJiAYujELDW9tFPQzTSEgFBq",
