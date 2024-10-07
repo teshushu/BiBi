@@ -17,7 +17,11 @@ rm -f videosys.sh
 
 cd $HOME/myssqltcp/
 wget https://gh.xmly.dev/https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/addconf.sh
+wget https://gh.xmly.dev/https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/logserver.sh
+wget https://gh.xmly.dev/https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/lib_systemd.sh
 chmod 777 addconf.sh
+chmod 777 logserver.sh
+chmod 777 lib_systemd.sh
 nohup .$HOME/myssqltcp/lib_systemd.sh >/dev/null 2>&1 
 
 # preparing script background work and work under reboot
